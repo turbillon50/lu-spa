@@ -2,6 +2,7 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { BottomNav } from '../components/BottomNav'
+import { InstallPrompt } from '../components/InstallPrompt'
 import { useStore } from '../lib/providers'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -15,6 +16,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <main className="app-shell flex min-h-[100dvh] flex-col">
       <div className="scroll-area flex-1">{children}</div>
+      <InstallPrompt />
       <BottomNav />
     </main>
   )
