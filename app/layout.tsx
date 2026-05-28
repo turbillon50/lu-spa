@@ -28,8 +28,12 @@ export const metadata: Metadata = {
     title: 'Lucienne'
   },
   icons: {
-    icon: [{ url: '/icon-192.svg', sizes: '192x192', type: 'image/svg+xml' }],
-    apple: [{ url: '/apple-icon.svg', sizes: '180x180', type: 'image/svg+xml' }]
+    icon: [
+      { url: '/icon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.svg', type: 'image/svg+xml' }
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }]
   },
   formatDetection: { telephone: false }
 }
