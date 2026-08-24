@@ -1,190 +1,249 @@
 'use client'
 import Link from 'next/link'
-import Image from 'next/image'
-import { Bell, ChevronRight, Search } from 'lucide-react'
-import { useStore } from '../../lib/providers'
-import { categories } from '../../data/categories'
-import { featuredTreatments, treatmentById } from '../../data/treatments'
-import { promotions } from '../../data/promotions'
-import { formatPrice, formatLongDate } from '../../lib/cn'
+import { treatments } from '../../data/treatments'
+
+const pillars = [
+  {
+    id: 'relajate',
+    href: '/relajate',
+    label: 'RELAJATE',
+    sub: 'Masajes y rituales',
+    image: '/img/relajate-2.jpg',
+    desc: 'Deja ir el peso del día. Nuestros masajes trabajan músculo, mente y sistema nervioso.',
+  },
+  {
+    id: 'renueva',
+    href: '/renueva',
+    label: 'RENUEVA',
+    sub: 'Faciales y diagnóstico',
+    image: '/img/renueva-1.jpg',
+    desc: 'Tu piel merece atención personalizada. Diagnóstico, tratamiento, luminosidad.',
+  },
+  {
+    id: 'transforma',
+    href: '/transforma',
+    label: 'TRANSFORMA',
+    sub: 'Tecnología estética',
+    image: '/img/transforma-1.jpg',
+    desc: 'Tecnología avanzada con resultados visibles. Sin cirugía, sin tiempo de recuperación.',
+  },
+]
+
+const entryPaths = [
+  { href: '/relajate', label: 'Quiero relajarme' },
+  { href: '/renueva', label: 'Quiero cuidar mi piel' },
+  { href: '/transforma', label: 'Quiero trabajar una zona' },
+  { href: '/gift-cards', label: 'Quiero regalar una experiencia' },
+  { href: '/para-dos', label: 'Quiero vivir algo especial' },
+  { href: '/quiz', label: 'No sé qué necesito →' },
+]
+
+const testimonials = [
+  { name: 'Valentina C.', role: 'Membresía Signature', text: 'Desde que empecé mi membresía, cambió mi manera de relacionarme con mi cuerpo. No es un lujo, es una necesidad.' },
+  { name: 'Gabriela T.', role: 'Membresía Privé', text: 'El HIFU cambió mi piel de una manera que no esperaba. Resultados reales, sin recuperación, sin drama.' },
+  { name: 'Ana Paula R.', role: 'Clienta frecuente', text: 'La experiencia para dos que reservé para mi aniversario fue perfecta. No teníamos nada que hacer más que estar ahí.' },
+  { name: 'Sofía M.', role: 'Clienta frecuente', text: 'Vengo con Lucienne desde que abrieron. El equipo te conoce, sabe qué necesitas antes de que lo pidas.' },
+]
+
+const instaImgs = [
+  { img: '/img/relajate-1.jpg', alt: 'Masaje con piedras calientes' },
+  { img: '/img/galeria-1.jpg', alt: 'Recepción del spa' },
+  { img: '/img/renueva-scanner.jpg', alt: 'Facial Scanner' },
+  { img: '/img/parados.jpg', alt: 'Suite para dos' },
+  { img: '/img/gift.jpg', alt: 'Gift card Lucienne' },
+  { img: '/img/conocenos.jpg', alt: 'Espacio Lucienne' },
+]
+
+const featured = treatments.filter((t) => t.featured).slice(0, 3)
 
 export default function HomePage() {
-  const { user, appointments, notifications } = useStore()
-  const featured = featuredTreatments()
-  const next = appointments.find((a) => a.status === 'confirmed' && new Date(a.date) >= startOfToday())
-  const nextTreatment = next ? treatmentById(next.treatmentId) : null
-  const unread = notifications.filter((n) => !n.read).length
-
   return (
-    <>
-      <header className="safe-top px-5 pt-5">
-        <div className="flex items-center gap-3">
-          <div className="grid h-12 w-12 place-items-center overflow-hidden rounded-full bg-rose-200">
-            {user?.avatar ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={user.avatar} alt={user.name} className="h-full w-full object-cover" />
-            ) : (
-              <span className="font-display text-[20px] text-white">{(user?.name ?? 'U')[0]}</span>
-            )}
-          </div>
-          <div className="flex-1">
-            <p className="text-[12px] uppercase tracking-[0.28em] text-gold-600">Hola,</p>
-            <p className="font-display text-[22px] leading-tight text-ink-900">
-              {user?.name?.split(' ')[0] ?? 'Bienvenida'}
-            </p>
-          </div>
-          <Link
-            href="/notifications"
-            aria-label="Notificaciones"
-            className="relative grid h-11 w-11 place-items-center rounded-full bg-white/85 text-ink-700 shadow-soft"
-          >
-            <Bell size={18} />
-            {unread > 0 && (
-              <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-rose-500" />
-            )}
-          </Link>
-        </div>
+    <div style={{ background: 'var(--ivory)' }}>
 
-        <div className="mt-5 flex items-center gap-2 rounded-full border border-rose-100 bg-white/80 px-4 py-3 shadow-soft">
-          <Search size={18} className="text-ink-500" />
-          <Link href="/services" className="flex-1 text-left text-sm text-ink-500">
-            Buscar tratamiento o promoción
-          </Link>
+      {/* HERO */}
+      <section style={{ position: 'relative', height: 'min(92vw, 680px)', overflow: 'hidden', background: '#EDE6D9' }}>
+        <img src="/img/hero-home.jpg" alt="Lucienne Beauty Spa" loading="eager"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(26,18,9,0.12) 0%, rgba(26,18,9,0.62) 100%)' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '40px 28px' }}>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(254,252,248,0.65)', fontWeight: 500, marginBottom: 10 }}>
+            Paseos del Pedregal · CDMX
+          </p>
+          <h1 style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 300, fontSize: 'clamp(40px, 9vw, 64px)', lineHeight: 1.0, color: '#FEFCF8', marginBottom: 8 }}>
+            Lucienne<br/>Beauty Spa
+          </h1>
+          <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 22, color: 'rgba(232,213,168,0.9)', marginBottom: 12, letterSpacing: '0.01em' }}>
+            The Lucienne Experience
+          </p>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'rgba(254,252,248,0.75)', fontWeight: 300, maxWidth: 300, lineHeight: 1.65, marginBottom: 20 }}>
+            Un espacio creado para desconectarte del exterior y reconectar contigo.
+          </p>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <Link href="/reservar" style={{ background: '#FEFCF8', color: '#2C1F17', padding: '12px 22px', borderRadius: 24, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>
+              Reserva tu espacio
+            </Link>
+            <Link href="/experiencias" style={{ background: 'rgba(254,252,248,0.12)', color: '#FEFCF8', padding: '12px 22px', borderRadius: 24, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500, border: '1px solid rgba(254,252,248,0.30)', backdropFilter: 'blur(8px)' }}>
+              Descubre Lucienne
+            </Link>
+          </div>
         </div>
-      </header>
-
-      <section className="px-5 pt-6">
-        {next && nextTreatment ? (
-          <Link href="/appointments" className="block">
-            <article className="card-dark relative overflow-hidden">
-              <div className="absolute inset-0 opacity-25">
-                <Image
-                  src={nextTreatment.image}
-                  alt=""
-                  fill
-                  sizes="440px"
-                  className="object-cover"
-                  unoptimized
-                />
-              </div>
-              <div className="relative">
-                <p className="eyebrow text-gold-300">Tu próxima cita</p>
-                <h2 className="mt-2 font-display text-[26px] text-cream-100">{nextTreatment.name}</h2>
-                <p className="mt-1 text-[13px] text-cream-100/80 capitalize">
-                  {formatLongDate(next.date)} · {next.time}
-                </p>
-                <p className="mt-1 text-[12px] text-cream-100/60">{next.cabin}</p>
-                <span className="mt-4 inline-flex items-center gap-1 text-[13px] text-gold-300">
-                  Ver detalles <ChevronRight size={14} />
-                </span>
-              </div>
-            </article>
-          </Link>
-        ) : (
-          <Link href="/services" className="block">
-            <article className="card-dark">
-              <p className="eyebrow text-gold-300">Reserva tu próxima experiencia</p>
-              <h2 className="mt-2 font-display text-[24px] text-cream-100">Tu spa, siempre contigo</h2>
-              <p className="mt-1 text-[13px] text-cream-100/80">
-                Explora rituales personalizados y reserva en segundos.
-              </p>
-              <span className="mt-4 inline-flex items-center gap-1 text-[13px] text-gold-300">
-                Reservar ahora <ChevronRight size={14} />
-              </span>
-            </article>
-          </Link>
-        )}
       </section>
 
-      <section className="px-5 pt-7">
-        <div className="mb-3 flex items-end justify-between">
-          <h2 className="section-title">Reservar servicio</h2>
-          <Link href="/services" className="btn-link">
-            Ver todos
-          </Link>
-        </div>
-        <div className="grid grid-cols-4 gap-3">
-          {categories.slice(0, 4).map((c) => (
-            <Link
-              key={c.slug}
-              href={`/services/${c.slug}`}
-              className="flex flex-col items-center gap-2 rounded-2xl bg-white/80 p-2 shadow-soft"
-            >
-              <div className="relative h-14 w-14 overflow-hidden rounded-full">
-                <Image src={c.image} alt={c.name} fill sizes="60px" className="object-cover" unoptimized />
+      {/* FILOSOFIA */}
+      <section style={{ padding: '60px 28px', textAlign: 'center' }}>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 500, marginBottom: 14 }}>Nuestra filosofía</p>
+        <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 30, color: 'var(--espresso)', fontWeight: 400, lineHeight: 1.2, marginBottom: 18 }}>
+          No vendemos tratamientos.<br/><em style={{ fontStyle: 'italic' }}>Vendemos experiencias.</em>
+        </h2>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--taupe)', lineHeight: 1.75, maxWidth: 500, margin: '0 auto' }}>
+          Cada visita a Lucienne es una pausa diseñada con intención. Desde el momento en que entras, el exterior queda fuera.
+        </p>
+      </section>
+
+      {/* 3 PILLARS */}
+      <section style={{ padding: '0 20px 60px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          {pillars.map((p) => (
+            <Link key={p.id} href={p.href} style={{ textDecoration: 'none' }}>
+              <div style={{ position: 'relative', borderRadius: 20, overflow: 'hidden', height: 270, background: 'linear-gradient(135deg, #EDE6D9, #D4C5B0)' }}>
+                <img src={p.image} alt={p.label} loading="lazy" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,18,9,0.72) 0%, rgba(26,18,9,0.08) 55%)' }} />
+                <div style={{ position: 'absolute', bottom: 22, left: 22, right: 22 }}>
+                  <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.22em', color: 'rgba(201,169,107,0.9)', fontWeight: 600, marginBottom: 5, textTransform: 'uppercase' }}>{p.sub}</p>
+                  <h3 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 32, color: '#FEFCF8', fontWeight: 300, letterSpacing: '0.05em', marginBottom: 6 }}>{p.label}</h3>
+                  <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(254,252,248,0.72)', lineHeight: 1.6 }}>{p.desc}</p>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 10, fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(254,252,248,0.8)' }}>
+                    Descubrir tratamientos <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </div>
+                </div>
               </div>
-              <span className="text-[11px] font-medium text-ink-700">{c.name}</span>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="px-5 pt-7">
-        <div className="mb-3 flex items-end justify-between">
-          <h2 className="section-title">Tratamientos destacados</h2>
-          <Link href="/services" className="btn-link">
-            Ver todos
-          </Link>
+      {/* ENTRY PATHS */}
+      <section style={{ padding: '0 20px 60px' }}>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 500, marginBottom: 6 }}>Tu camino de entrada</p>
+        <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 26, color: 'var(--espresso)', marginBottom: 20 }}>¿Qué buscas hoy?</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+          {entryPaths.map((path) => {
+            const isQuiz = path.label.includes('→')
+            return (
+              <Link key={path.href} href={path.href} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '15px 18px', borderRadius: 13, textDecoration: 'none', background: isQuiz ? 'var(--espresso)' : 'rgba(237,230,217,0.5)', border: isQuiz ? 'none' : '1px solid rgba(201,169,107,0.13)' }}>
+                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 14, fontWeight: 500, color: isQuiz ? '#FEFCF8' : 'var(--espresso)' }}>{path.label}</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={isQuiz ? '#C9A96B' : 'var(--taupe)'} strokeWidth="1.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </Link>
+            )
+          })}
         </div>
-        <div className="flex gap-3 overflow-x-auto no-scrollbar -mx-5 px-5">
+      </section>
+
+      {/* FEATURED */}
+      <section style={{ padding: '0 0 60px' }}>
+        <div style={{ padding: '0 20px', marginBottom: 20 }}>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 500, marginBottom: 6 }}>Más solicitadas</p>
+          <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 26, color: 'var(--espresso)' }}>Experiencias destacadas</h2>
+        </div>
+        <div style={{ display: 'flex', overflowX: 'auto', gap: 14, padding: '0 20px 8px', scrollbarWidth: 'none' }}>
           {featured.map((t) => (
-            <Link
-              key={t.id}
-              href={`/treatments/${t.id}`}
-              className="relative w-[220px] flex-shrink-0 overflow-hidden rounded-3xl bg-white shadow-soft"
-            >
-              <div className="relative h-32 w-full">
-                <Image src={t.image} alt={t.name} fill sizes="220px" className="object-cover" unoptimized />
+            <Link key={t.id} href={`/treatments/${t.id}`} style={{ textDecoration: 'none', flexShrink: 0, width: 210 }}>
+              <div style={{ borderRadius: 14, overflow: 'hidden', height: 155, background: '#EDE6D9' }}>
+                <img src={t.image} alt={t.name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
-              <div className="p-4">
-                <h3 className="font-display text-[18px] leading-tight">{t.name}</h3>
-                <p className="mt-1 text-[12px] text-ink-500">{t.short}</p>
-                <p className="mt-2 text-[13px] font-medium text-gold-600">{formatPrice(t.price)}</p>
+              <div style={{ padding: '10px 2px 0' }}>
+                <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 17, color: 'var(--espresso)', fontWeight: 500, marginBottom: 3 }}>{t.name}</p>
+                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)' }}>{t.duration} min · desde ${t.price.toLocaleString('es-MX')}</p>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="px-5 pt-7">
-        <h2 className="section-title mb-3">Promociones para ti</h2>
-        <Link href={`/promotions`} className="block">
-          <article className="relative overflow-hidden rounded-3xl shadow-soft">
-            <div className="relative h-44 w-full">
-              <Image src={promotions[0].image} alt={promotions[0].title} fill sizes="440px" className="object-cover" unoptimized />
-              <div className="absolute inset-0 bg-gradient-to-tr from-rose-700/70 via-rose-400/40 to-transparent" />
-            </div>
-            <div className="absolute inset-0 flex flex-col justify-end p-5 text-white">
-              <p className="eyebrow text-cream-100">{promotions[0].discount}</p>
-              <h3 className="font-display text-[26px] leading-tight">{promotions[0].title}</h3>
-              <p className="text-[13px] text-cream-100/85">{promotions[0].subtitle}</p>
-              <span className="mt-2 text-[12px] uppercase tracking-[0.28em] text-cream-100/75">
-                {promotions[0].validUntil}
-              </span>
-            </div>
-          </article>
-        </Link>
+      {/* MEMBERSHIP TEASER */}
+      <section style={{ padding: '0 20px 60px' }}>
+        <div style={{ borderRadius: 20, background: 'var(--espresso)', padding: '40px 26px', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(201,169,107,0.1) 0%, transparent 70%)' }} />
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(201,169,107,0.7)', fontWeight: 600, marginBottom: 10 }}>Lucienne Membership</p>
+          <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 28, color: '#FEFCF8', fontWeight: 300, lineHeight: 1.2, marginBottom: 14 }}>El bienestar constante<br/>cambia todo.</h2>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'rgba(254,252,248,0.6)', lineHeight: 1.7, marginBottom: 22 }}>Desde $1,490/mes. Sesiones incluidas, descuentos en todos los tratamientos, prioridad de agenda.</p>
+          <Link href="/membresia" style={{ display: 'inline-flex', background: '#C9A96B', color: '#1A1209', padding: '11px 22px', borderRadius: 22, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>
+            Conocer membresías
+          </Link>
+        </div>
       </section>
 
-      <section className="px-5 pt-7">
-        <Link href="/membership" className="card-soft flex items-center gap-4">
-          <div className="grid h-12 w-12 place-items-center rounded-full bg-rose-gradient text-white font-display italic">Lc</div>
-          <div className="flex-1">
-            <p className="eyebrow">Lucienne Club</p>
-            <h3 className="font-display text-[20px]">Membresía privada</h3>
-            <p className="text-[12px] text-ink-500">Beneficios exclusivos cada mes.</p>
+      {/* TESTIMONIALS */}
+      <section style={{ padding: '0 0 60px' }}>
+        <div style={{ padding: '0 20px', marginBottom: 20 }}>
+          <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 26, color: 'var(--taupe)' }}>Experiencias que hablan por sí mismas.</p>
+        </div>
+        <div style={{ display: 'flex', overflowX: 'auto', gap: 14, padding: '0 20px 8px', scrollbarWidth: 'none' }}>
+          {testimonials.map((t, i) => (
+            <div key={i} style={{ flexShrink: 0, width: 268, background: i % 2 === 0 ? 'rgba(237,230,217,0.5)' : 'var(--espresso)', border: i % 2 === 0 ? '1px solid rgba(201,169,107,0.13)' : 'none', borderRadius: 16, padding: '20px 18px' }}>
+              <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 17, fontStyle: 'italic', color: i % 2 === 0 ? 'var(--espresso)' : '#FEFCF8', lineHeight: 1.55, marginBottom: 14 }}>"{t.text}"</p>
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, fontWeight: 600, color: i % 2 === 0 ? 'var(--espresso)' : '#FEFCF8' }}>{t.name}</p>
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: i % 2 === 0 ? 'var(--taupe)' : 'rgba(201,169,107,0.8)' }}>{t.role}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* JOURNAL */}
+      <section style={{ padding: '0 20px 60px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
+          <div>
+            <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 500, marginBottom: 5 }}>Lucienne Journal</p>
+            <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 24, color: 'var(--espresso)' }}>Leer &amp; aprender</h2>
           </div>
-          <ChevronRight size={18} className="text-ink-500" />
-        </Link>
+          <Link href="/journal" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)', textDecoration: 'none' }}>Ver todos →</Link>
+        </div>
+        {[{ slug: 'ritual-matutino-piel', title: 'El ritual matutino que tu piel necesita', cat: 'Cuidado de la piel', img: '/img/journal-1.jpg' },
+          { slug: 'hifu-sin-cirugia', title: 'HIFU: el lifting sin bisturí que no es magia', cat: 'Tecnología estética', img: '/img/transforma-1.jpg' }
+        ].map((art) => (
+          <Link key={art.slug} href={`/journal/${art.slug}`} style={{ display: 'flex', gap: 14, textDecoration: 'none', marginBottom: 14 }}>
+            <div style={{ width: 76, height: 76, borderRadius: 11, overflow: 'hidden', flexShrink: 0, background: '#EDE6D9' }}>
+              <img src={art.img} alt={art.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            <div style={{ paddingTop: 2 }}>
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, color: 'var(--gold)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 500, marginBottom: 5 }}>{art.cat}</p>
+              <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 16, color: 'var(--espresso)', lineHeight: 1.3 }}>{art.title}</p>
+            </div>
+          </Link>
+        ))}
       </section>
 
-      <div className="h-16" />
-    </>
-  )
-}
+      {/* INSTAGRAM */}
+      <section style={{ padding: '0 20px 60px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+          <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, color: 'var(--espresso)' }}>@lucienne.spa</h2>
+          <a href="#" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)', textDecoration: 'none' }}>Síguenos →</a>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 5 }}>
+          {instaImgs.map((p, i) => (
+            <div key={i} style={{ aspectRatio: '1/1', borderRadius: 9, overflow: 'hidden', background: '#EDE6D9' }}>
+              <img src={p.img} alt={p.alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+          ))}
+        </div>
+      </section>
 
-function startOfToday() {
-  const d = new Date()
-  d.setHours(0, 0, 0, 0)
-  return d
+      {/* FOOTER */}
+      <footer style={{ background: 'var(--espresso)', color: '#FEFCF8', padding: '48px 28px 40px' }}>
+        <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 26, color: 'rgba(232,213,168,0.82)', marginBottom: 6 }}>Tu momento.</p>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(254,252,248,0.45)', marginBottom: 28, lineHeight: 1.7 }}>
+          Paseos del Pedregal, CDMX<br/>Lun–Vie 9:00–20:00 · Sáb 9:00–18:00 · Dom 10:00–16:00
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 22px', marginBottom: 28 }}>
+          {[['Inicio', '/home'], ['Experiencias', '/experiencias'], ['Membresías', '/membresia'], ['Gift Cards', '/gift-cards'], ['Conócenos', '/conocenos'], ['Journal', '/journal'], ['FAQ', '/faq'], ['Contacto', '/contacto']].map(([label, href]) => (
+            <a key={href} href={href} style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(254,252,248,0.5)', textDecoration: 'none', letterSpacing: '0.05em' }}>{label}</a>
+          ))}
+        </div>
+        <div style={{ borderTop: '1px solid rgba(201,169,107,0.14)', paddingTop: 22, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(254,252,248,0.3)' }}>© 2026 Lucienne Beauty Spa</p>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(201,169,107,0.45)', letterSpacing: '0.1em' }}>CDMX</p>
+        </div>
+      </footer>
+    </div>
+  )
 }

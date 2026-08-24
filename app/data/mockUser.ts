@@ -1,21 +1,35 @@
-import type { User } from '../lib/types'
-
-export const guestUser: User = {
-  id: 'guest',
-  name: 'Invitada',
-  email: 'guest@lucienne.spa',
-  member: false,
-  joinedAt: Date.now()
+export const mockUser = {
+  id: 'u-mariana-001',
+  name: 'Mariana Reyes',
+  firstName: 'Mariana',
+  email: 'mariana.reyes@email.com',
+  phone: '+52 55 4891 2370',
+  membershipLevel: 'Signature' as const,
+  membershipSince: '2025-03-01',
+  membershipExpires: '2026-09-01',
+  joinedAt: new Date('2025-03-01').getTime(),
+  giftCards: [
+    {
+      id: 'gc-001',
+      code: 'LUC-2026-XKQM',
+      experience: 'Ritual Facial Signature',
+      value: 2400,
+      purchasedBy: 'Andrea Torres',
+      message: '¡Para que te mimes un poco. Te lo mereces!',
+      expiresAt: '2026-12-31',
+      status: 'active' as const,
+    },
+    {
+      id: 'gc-002',
+      code: 'LUC-2025-BRTW',
+      experience: 'Masaje Relajante',
+      value: 1500,
+      purchasedBy: 'Sofía Mendoza',
+      message: 'Feliz cumpleaños, amiga.',
+      expiresAt: '2025-06-30',
+      status: 'used' as const,
+    },
+  ],
 }
 
-export const seedUser: User = {
-  id: 'user-fernanda',
-  name: 'Fernanda López',
-  email: 'fernanda@email.com',
-  phone: '+52 55 4321 8765',
-  avatar:
-    'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=85',
-  member: true,
-  preferences: 'Aromaterapia suave · presión media · cabina privada',
-  joinedAt: Date.now() - 1000 * 60 * 60 * 24 * 90
-}
+export type MockUser = typeof mockUser

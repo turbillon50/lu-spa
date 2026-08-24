@@ -1,126 +1,134 @@
 'use client'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { CreditCard, Wallet, ShieldCheck, Apple } from 'lucide-react'
-import { TopBar } from '../../components/TopBar'
-import { useStore } from '../../lib/providers'
-import { treatmentById } from '../../data/treatments'
-import { formatPrice, cn } from '../../lib/cn'
+import { Suspense, useState } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { treatments } from '../../data/treatments'
+import { membershipTiers } from '../../data/membership'
 
-type Method = 'card' | 'paypal' | 'apple'
-
-export default function CheckoutPage() {
+function CheckoutContent() {
+  const params = useSearchParams()
   const router = useRouter()
-  const { cart, bookFromCart } = useStore()
-  const items = cart.map((c) => treatmentById(c.treatmentId)).filter(Boolean)
-  const subtotal = items.reduce((acc, t) => acc + (t?.price ?? 0), 0)
-  const discount = items.length > 1 ? Math.round(subtotal * 0.1) : 0
-  const total = subtotal - discount
+  const [step, setStep] = useState<'review' | 'payment' | 'done'>('review')
+  const [cardNumber, setCardNumber] = useState('')
+  const [cardName, setCardName] = useState('')
+  const [expiry, setExpiry] = useState('')
+  const [cvv, setCvv] = useState('')
 
-  const [method, setMethod] = useState<Method>('card')
-  const [card, setCard] = useState({ number: '4242 4242 4242 4242', exp: '12/27', cvv: '123', name: '' })
+  const treatmentId = params.get('t')
+  const membershipId = params.get('membership')
+  const billing = params.get('billing') || 'monthly'
 
-  const pay = () => {
-    if (!cart.length) {
-      router.push('/services')
-      return
+  let itemName = ''
+  let itemPrice = 0
+  let itemSub = ''
+
+  if (treatmentId) {
+    const t = treatments.find((tr) => tr.id === treatmentId)
+    if (t) { itemName = t.name; itemPrice = t.price; itemSub = `${t.duration} min · Una sesión` }
+  } else if (membershipId) {
+    const m = membershipTiers.find((mt) => mt.id === membershipId)
+    if (m) {
+      itemName = `Membresía ${m.name}`
+      itemPrice = billing === 'annual' ? m.priceAnnual : m.priceMonthly
+      itemSub = billing === 'annual' ? 'Anual — 2 meses gratis' : 'Mensual · renovación automática'
     }
-    bookFromCart()
-    router.push('/checkout/confirm')
+  } else {
+    const name = params.get('name') || 'Experiencia Lucienne'
+    const price = params.get('price') || '0'
+    itemName = name
+    itemPrice = parseInt(price)
+    itemSub = 'Experiencia Lucienne'
+  }
+
+  const iva = Math.round(itemPrice * 0.16)
+  const total = itemPrice + iva
+
+  if (step === 'done') {
+    return (
+      <div style={{ background: 'var(--ivory)', minHeight: '90dvh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 24px', textAlign: 'center' }}>
+        <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(201,169,107,0.1)', border: '2px solid rgba(201,169,107,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A96B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+        </div>
+        <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 30, color: 'var(--espresso)', marginBottom: 8 }}>Pago confirmado</h2>
+        <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 22, color: 'var(--taupe)', marginBottom: 20 }}>Gracias por confiar en Lucienne.</p>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--taupe)', lineHeight: 1.7, marginBottom: 32, maxWidth: 300 }}>
+          Recibirás un correo de confirmación. Te esperamos pronto.
+        </p>
+        <button onClick={() => router.push('/home')} style={{ background: 'var(--espresso)', color: '#FEFCF8', padding: '14px 32px', borderRadius: 22, border: 'none', cursor: 'pointer', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>
+          Volver al inicio
+        </button>
+      </div>
+    )
   }
 
   return (
-    <>
-      <TopBar title="Pago" />
+    <div style={{ background: 'var(--ivory)', minHeight: '100dvh' }}>
+      <div style={{ padding: '32px 22px 24px' }}>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 500, marginBottom: 8 }}>
+          {step === 'review' ? 'Paso 1 — Resumen' : 'Paso 2 — Pago'}
+        </p>
+        <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 30, color: 'var(--espresso)', fontWeight: 300 }}>Confirmar pedido</h1>
+      </div>
 
-      <section className="px-5 pt-3">
-        <article className="card-soft">
-          <p className="eyebrow">Resumen de tu compra</p>
-          <p className="mt-2 text-[14px] text-ink-700">
-            {items.length} tratamiento{items.length !== 1 ? 's' : ''}
-          </p>
-          <p className="mt-1 price">{formatPrice(total)}</p>
-        </article>
-      </section>
-
-      <section className="px-5 pt-6">
-        <h3 className="section-title mb-3">Método de pago</h3>
-        <div className="grid gap-2">
-          <Option active={method === 'card'} onClick={() => setMethod('card')} icon={<CreditCard size={18} />} label="Tarjeta de crédito/débito" />
-          <Option active={method === 'paypal'} onClick={() => setMethod('paypal')} icon={<Wallet size={18} />} label="PayPal" />
-          <Option active={method === 'apple'} onClick={() => setMethod('apple')} icon={<Apple size={18} />} label="Apple Pay" />
+      <div style={{ margin: '0 22px 24px', background: 'rgba(237,230,217,0.45)', border: '1px solid rgba(201,169,107,0.15)', borderRadius: 18, padding: '20px' }}>
+        <h3 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, color: 'var(--espresso)', marginBottom: 4 }}>{itemName}</h3>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--taupe)', marginBottom: 16 }}>{itemSub}</p>
+        <div style={{ borderTop: '1px solid rgba(201,169,107,0.12)', paddingTop: 12, display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {[['Subtotal', `$${itemPrice.toLocaleString('es-MX')}`], ['IVA 16%', `$${iva.toLocaleString('es-MX')}`], ['Total', `$${total.toLocaleString('es-MX')}`]].map(([label, value], i) => (
+            <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: i === 2 ? 13 : 12, color: i === 2 ? 'var(--espresso)' : 'var(--taupe)', fontWeight: i === 2 ? 600 : 400 }}>{label}</span>
+              <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: i === 2 ? 22 : 16, color: i === 2 ? 'var(--espresso)' : 'var(--taupe)', fontVariantNumeric: 'tabular-nums', fontWeight: i === 2 ? 600 : 400 }}>{value}</span>
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
 
-      {method === 'card' && (
-        <section className="px-5 pt-6">
-          <label className="block">
-            <span className="eyebrow mb-1 block">Número de tarjeta</span>
-            <input
-              className="field"
-              value={card.number}
-              onChange={(e) => setCard({ ...card, number: e.target.value })}
-              inputMode="numeric"
-            />
-          </label>
-          <div className="mt-3 grid grid-cols-2 gap-3">
-            <label className="block">
-              <span className="eyebrow mb-1 block">MM/AA</span>
-              <input className="field" value={card.exp} onChange={(e) => setCard({ ...card, exp: e.target.value })} />
-            </label>
-            <label className="block">
-              <span className="eyebrow mb-1 block">CVV</span>
-              <input className="field" value={card.cvv} onChange={(e) => setCard({ ...card, cvv: e.target.value })} />
-            </label>
+      {step === 'payment' && (
+        <div style={{ padding: '0 22px 24px' }}>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginBottom: 16 }}>Tarjeta de crédito o débito</p>
+          {[
+            { label: 'Número de tarjeta', value: cardNumber, onChange: setCardNumber, placeholder: '1234 5678 9012 3456' },
+            { label: 'Nombre en la tarjeta', value: cardName, onChange: setCardName, placeholder: 'Como aparece en la tarjeta' },
+          ].map((field) => (
+            <div key={field.label} style={{ marginBottom: 14 }}>
+              <label style={{ display: 'block', fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)', letterSpacing: '0.06em', marginBottom: 6 }}>{field.label}</label>
+              <input value={field.value} onChange={(e) => field.onChange(e.target.value)} placeholder={field.placeholder}
+                style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid rgba(201,169,107,0.2)', background: 'rgba(237,230,217,0.35)', fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--espresso)', outline: 'none', boxSizing: 'border-box' }} />
+            </div>
+          ))}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
+            {[{ label: 'Vencimiento', value: expiry, onChange: setExpiry, placeholder: 'MM/AA' }, { label: 'CVV', value: cvv, onChange: setCvv, placeholder: '123' }].map((field) => (
+              <div key={field.label}>
+                <label style={{ display: 'block', fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)', letterSpacing: '0.06em', marginBottom: 6 }}>{field.label}</label>
+                <input value={field.value} onChange={(e) => field.onChange(e.target.value)} placeholder={field.placeholder}
+                  style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid rgba(201,169,107,0.2)', background: 'rgba(237,230,217,0.35)', fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--espresso)', outline: 'none', boxSizing: 'border-box' }} />
+              </div>
+            ))}
           </div>
-          <label className="mt-3 block">
-            <span className="eyebrow mb-1 block">Nombre en la tarjeta</span>
-            <input className="field" value={card.name} onChange={(e) => setCard({ ...card, name: e.target.value })} placeholder="Mariana López" />
-          </label>
-        </section>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'var(--sand)', lineHeight: 1.5 }}>
+            * Demo — no se procesa ningún pago real.
+          </p>
+        </div>
       )}
 
-      <div className="safe-bottom sticky bottom-0 z-30 mt-8 border-t border-rose-100/70 bg-white/85 px-5 py-4 backdrop-blur-xl">
-        <p className="mb-2 flex items-center justify-center gap-1 text-[12px] text-ink-500">
-          <ShieldCheck size={14} className="text-rose-600" /> Pago 100% seguro
-        </p>
-        <button onClick={pay} className="btn-primary">
-          Pagar {formatPrice(total)}
+      <div style={{ padding: '0 22px 60px' }}>
+        <button onClick={() => step === 'review' ? setStep('payment') : setStep('done')}
+          style={{ width: '100%', background: 'var(--espresso)', color: '#FEFCF8', padding: '15px', borderRadius: 22, border: 'none', cursor: 'pointer', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700 }}>
+          {step === 'review' ? 'Continuar al pago' : 'Confirmar pago'}
         </button>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'var(--sand)', textAlign: 'center', marginTop: 12 }}>
+          Pago seguro · SSL · Datos protegidos
+        </p>
       </div>
-    </>
+    </div>
   )
 }
 
-function Option({
-  active,
-  onClick,
-  icon,
-  label
-}: {
-  active: boolean
-  onClick: () => void
-  icon: React.ReactNode
-  label: string
-}) {
+export default function CheckoutPage() {
   return (
-    <button
-      onClick={onClick}
-      className={cn(
-        'flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left text-[14px] transition',
-        active ? 'border-rose-300 bg-rose-50 text-ink-900 shadow-soft' : 'border-rose-100 bg-white/80 text-ink-700'
-      )}
-    >
-      <span
-        className={cn(
-          'grid h-9 w-9 place-items-center rounded-full',
-          active ? 'bg-rose-300 text-white' : 'bg-rose-50 text-rose-600'
-        )}
-      >
-        {icon}
-      </span>
-      <span className="flex-1 font-medium">{label}</span>
-      <span className={cn('h-4 w-4 rounded-full border-2', active ? 'border-rose-500 bg-rose-500' : 'border-rose-200')} />
-    </button>
+    <Suspense fallback={<div style={{ background: 'var(--ivory)', minHeight: '100dvh' }} />}>
+      <CheckoutContent />
+    </Suspense>
   )
 }
