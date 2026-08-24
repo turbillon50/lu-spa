@@ -32,7 +32,7 @@ export default function JournalPage() {
       <div style={{ margin: '0 22px 28px', height: 1, background: 'rgba(201,169,107,0.15)' }} />
 
       {/* Rest */}
-      <section style={{ padding: '0 22px 60px', display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <section className="journal-grid" style={{ padding: '0 22px 60px', display: 'flex', flexDirection: 'column', gap: 24 }}>
         {rest.map((article) => (
           <Link key={article.slug} href={`/journal/${article.slug}`} style={{ textDecoration: 'none', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
             <div style={{ width: 90, height: 90, borderRadius: 14, overflow: 'hidden', flexShrink: 0, background: '#EDE6D9' }}>

@@ -37,7 +37,7 @@ export default function MembresiasPage() {
       </div>
 
       {/* Tiers */}
-      <section style={{ padding: '0 22px 60px', display: 'flex', flexDirection: 'column', gap: 18 }}>
+      <section className="membresia-tiers" style={{ padding: '0 22px 60px', display: 'flex', flexDirection: 'column', gap: 18 }}>
         {membershipTiers.map((tier) => (
           <div key={tier.id} style={{ borderRadius: 20, overflow: 'hidden', background: tier.bgColor, boxShadow: tier.id === 'signature' ? '0 8px 32px rgba(44,31,23,0.20)' : '0 4px 16px rgba(44,31,23,0.08)' }}>
             {tier.id === 'signature' && (
@@ -71,7 +71,7 @@ export default function MembresiasPage() {
                 Regalo de bienvenida: {tier.welcomeGift}
               </p>
 
-              <Link href={`/checkout?membership=${tier.id}&billing=${billing}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: tier.accentColor, color: tier.id === 'signature' ? '#2C1F17' : tier.id === 'prive' ? '#FEFCF8' : '#FEFCF8', padding: '13px', borderRadius: 22, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>
+              <Link href={`/checkout?membership=${tier.id}&billing=${billing}`} className="btn-primary" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: tier.accentColor, color: tier.id === 'signature' ? '#2C1F17' : tier.id === 'prive' ? '#FEFCF8' : '#FEFCF8', padding: '13px', borderRadius: 22, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>
                 Unirme a {tier.name}
               </Link>
             </div>

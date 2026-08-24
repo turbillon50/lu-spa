@@ -61,7 +61,9 @@ export default function GiftCardsPage() {
         </div>
       </div>
 
-      <div style={{ padding: '28px 22px 40px' }}>
+      <div className="gift-2col" style={{ padding: '28px 22px 40px' }}>
+      {/* Left: form col */}
+      <div>
 
         {/* Mode selector */}
         <div style={{ display: 'flex', gap: 8, marginBottom: 28, background: 'rgba(237,230,217,0.4)', borderRadius: 14, padding: 4 }}>
@@ -130,8 +132,8 @@ export default function GiftCardsPage() {
           ))}
         </div>
 
-        {/* Live Preview */}
-        <div style={{ marginBottom: 24 }}>
+        {/* Live Preview - only shown in single col (mobile) */}
+        <div className="gift-preview-col-mobile" style={{ marginBottom: 24 }}>
           <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--taupe)', fontWeight: 500, marginBottom: 12 }}>Vista previa en vivo</p>
           <GiftCardPreview name={name} para={form.para || 'A quien la reciba'} de={form.de || 'Con cariño'} mensaje={form.mensaje} value={value} code={code} fecha={form.fecha} />
         </div>
@@ -139,7 +141,17 @@ export default function GiftCardsPage() {
         <button onClick={() => setConfirmed(true)} style={{ width: '100%', background: 'var(--espresso)', color: '#FEFCF8', padding: '16px', borderRadius: 24, border: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
           Confirmar y generar gift card
         </button>
+      </div>{/* end left col */}
+
+      {/* Right: live preview - desktop sticky col */}
+      <div className="gift-preview-col" style={{ display: 'none', paddingTop: 8 }}>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--taupe)', fontWeight: 500, marginBottom: 12 }}>Vista previa en vivo</p>
+        <GiftCardPreview name={name} para={form.para || 'A quien la reciba'} de={form.de || 'Con cariño'} mensaje={form.mensaje} value={value} code={code} fecha={form.fecha} />
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)', marginTop: 16, lineHeight: 1.6 }}>
+          La tarjeta puede compartirse por mensaje o imprimirse. El código es único e irrepetible.
+        </p>
       </div>
+      </div>{/* end gift-2col */}
     </div>
   )
 }
@@ -148,7 +160,7 @@ function GiftCardPreview({ name, para, de, mensaje, value, code, fecha }: {
   name: string; para: string; de: string; mensaje: string; value: number; code: string; fecha: string
 }) {
   return (
-    <div style={{
+    <div className="gift-preview" style={{
       borderRadius: 20, overflow: 'hidden',
       background: 'linear-gradient(145deg, #2C1F17 0%, #1A1209 100%)',
       border: '1px solid rgba(201,169,107,0.25)',

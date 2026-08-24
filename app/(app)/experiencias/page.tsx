@@ -29,7 +29,7 @@ export default function ExperienciasPage() {
 
       {/* Categories */}
       <section style={{ padding: '0 20px 40px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <div className="experiencias-cats" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           {categories.map((cat) => (
             <Link key={cat.href} href={cat.href} style={{ textDecoration: 'none' }}>
               <div style={{ borderRadius: 16, overflow: 'hidden', aspectRatio: '3/4', background: '#EDE6D9', position: 'relative' }}>
@@ -54,7 +54,7 @@ export default function ExperienciasPage() {
       <section style={{ padding: '0 20px 60px' }}>
         <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 500, marginBottom: 8 }}>Paquetes y rituales</p>
         <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 26, color: 'var(--espresso)', marginBottom: 20 }}>Experiencias completas</h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div className="experiencias-pkgs" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {packages.map((pkg) => (
             <Link key={pkg.id} href={`/experiencias/${pkg.id}`} style={{ textDecoration: 'none' }}>
               <div style={{ display: 'flex', gap: 14, padding: '14px', borderRadius: 14, background: 'rgba(237,230,217,0.4)', border: '1px solid rgba(201,169,107,0.12)' }}>

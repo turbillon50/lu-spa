@@ -45,7 +45,7 @@ export default function GaleriaPage() {
       </div>
 
       {/* Grid */}
-      <div style={{ padding: '0 12px 80px', columns: '2', columnGap: 8, columnFill: 'balance' }}>
+      <div className="galeria-masonry" style={{ padding: '0 12px 80px', columns: '2', columnGap: 8, columnFill: 'balance' }}>
         {filtered.map((photo, i) => (
           <div key={i} onClick={() => setLightbox(photo.src)} style={{ breakInside: 'avoid', marginBottom: 8, borderRadius: 10, overflow: 'hidden', cursor: 'pointer', background: '#1A1209', position: 'relative' }}>
             <img src={photo.src} alt={photo.label} loading="lazy"

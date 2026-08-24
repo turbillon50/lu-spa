@@ -442,12 +442,13 @@ export function TopBar({
             </Link>
             <Link
               href="/reservar"
+              className="btn-primary"
               style={{
                 background: '#2C1F17', color: '#FEFCF8',
                 padding: '9px 22px', borderRadius: 24,
                 fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase',
                 fontFamily: 'var(--font-montserrat)', fontWeight: 600,
-                textDecoration: 'none', transition: 'all 0.25s var(--spring)',
+                textDecoration: 'none',
               }}
             >
               Reserva tu espacio

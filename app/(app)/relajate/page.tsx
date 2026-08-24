@@ -31,7 +31,7 @@ export default function RelajatePage() {
       <section style={{ padding: '24px 22px 40px' }}>
         <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 500, marginBottom: 6 }}>Masajes</p>
         <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 24, color: 'var(--espresso)', marginBottom: 20 }}>Para tu descanso</h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div className="treatment-grid" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {masajes.map((t) => (
             <TreatmentCard key={t.id} treatment={t} />
           ))}
@@ -42,7 +42,7 @@ export default function RelajatePage() {
       <section style={{ padding: '0 22px 60px' }}>
         <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 500, marginBottom: 6 }}>Tratamientos corporales</p>
         <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 24, color: 'var(--espresso)', marginBottom: 20 }}>Para tu cuerpo</h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div className="treatment-grid" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {corporales.map((t) => (
             <TreatmentCard key={t.id} treatment={t} />
           ))}
@@ -69,7 +69,7 @@ export default function RelajatePage() {
 
 function TreatmentCard({ treatment: t }: { treatment: typeof treatments[0] }) {
   return (
-    <div style={{ borderRadius: 16, overflow: 'hidden', background: 'rgba(237,230,217,0.4)', border: '1px solid rgba(201,169,107,0.12)' }}>
+    <div className="card-hover" style={{ borderRadius: 16, overflow: 'hidden', background: 'rgba(237,230,217,0.4)', border: '1px solid rgba(201,169,107,0.12)' }}>
       <div style={{ height: 160, background: '#EDE6D9', position: 'relative' }}>
         <img src={t.image} alt={t.name} loading="lazy"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }} />

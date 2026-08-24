@@ -95,6 +95,7 @@ export default function HomePage() {
       }}>
         {/* Ken Burns */}
         <div className="kenburns" style={{ position: 'absolute', inset: 0 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/img/hero-home.jpg"
             alt="Lucienne Beauty Spa"
@@ -168,19 +169,20 @@ export default function HomePage() {
           <div className="fade-up" style={{ display: 'flex', gap: 10, flexWrap: 'wrap', animationDelay: '300ms' }}>
             <Link
               href="/reservar"
+              className="btn-primary"
               style={{
                 background: '#FEFCF8', color: '#2C1F17',
                 padding: '13px 26px', borderRadius: 28,
                 textDecoration: 'none',
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600,
-                transition: 'all 0.25s var(--spring)',
               }}
             >
               Reserva tu espacio
             </Link>
             <Link
               href="/experiencias"
+              className="btn-primary"
               style={{
                 background: 'rgba(254,252,248,0.1)', color: '#FEFCF8',
                 padding: '13px 26px', borderRadius: 28,
@@ -189,7 +191,6 @@ export default function HomePage() {
                 fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 500,
                 border: '1px solid rgba(254,252,248,0.28)',
                 backdropFilter: 'blur(8px)',
-                transition: 'all 0.25s var(--spring)',
               }}
             >
               Descubre Lucienne
@@ -237,13 +238,12 @@ export default function HomePage() {
           </h2>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+        <div className="pillars-grid">
           {pillars.map((p) => (
             <Link key={p.id} href={p.href} style={{ textDecoration: 'none' }}>
-              <div style={{
+              <div className="card-hover" style={{
                 position: 'relative', borderRadius: 20, overflow: 'hidden',
-                height: 290, background: '#EDE6D9',
-                transition: 'transform 0.25s var(--spring)',
+                height: 'clamp(290px, 40vw, 480px)', background: '#EDE6D9',
               }}>
                 <img
                   src={p.image} alt={p.label} loading="lazy"
@@ -352,13 +352,11 @@ export default function HomePage() {
             Experiencias destacadas
           </h2>
         </div>
-        <div style={{
-          display: 'flex', overflowX: 'auto', gap: 14,
-          padding: '0 20px 8px', scrollbarWidth: 'none',
-        }}>
+        <div className="featured-grid">
           {featured.map((t) => (
             <Link key={t.id} href={`/treatments/${t.id}`} style={{ textDecoration: 'none', flexShrink: 0, width: 220 }}>
-              <div style={{ borderRadius: 18, overflow: 'hidden', height: 165, background: '#EDE6D9' }}>
+              <div className="card-hover" style={{ borderRadius: 18, overflow: 'hidden', height: 165, background: '#EDE6D9' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={t.image} alt={t.name} loading="lazy"
                   className="photo-warm"
@@ -556,9 +554,10 @@ export default function HomePage() {
             Síguenos
           </a>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
+        <div className="insta-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
           {instaImgs.map((p, i) => (
             <div key={i} style={{ aspectRatio: '1/1', borderRadius: 10, overflow: 'hidden', background: '#EDE6D9' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={p.img} alt={p.alt} loading="lazy"
                 className="photo-warm"

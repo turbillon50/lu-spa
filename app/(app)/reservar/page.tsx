@@ -119,6 +119,10 @@ function ReservarContent() {
 
   return (
     <div style={{ background: 'var(--ivory)' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+      <div className="reservar-2col" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 40 }}>
+      {/* Left: stepper form */}
+      <div>
 
       {/* Progress */}
       <div style={{ padding: '24px 24px 0' }}>
@@ -223,6 +227,7 @@ function ReservarContent() {
               <div key={f.k}>
                 <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--taupe)', fontWeight: 500, marginBottom: 6 }}>{f.label}</p>
                 <input type={f.type} value={form[f.k]} onChange={(e) => setForm(prev => ({ ...prev, [f.k]: e.target.value }))} placeholder={f.placeholder}
+                  className="input-lucienne"
                   style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid rgba(201,169,107,0.2)', background: 'rgba(237,230,217,0.3)', fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--espresso)', outline: 'none', boxSizing: 'border-box' }} />
               </div>
             ))}
@@ -232,6 +237,65 @@ function ReservarContent() {
           </button>
         </div>
       )}
+      </div>{/* end left column */}
+
+      {/* Right: summary - only visible on desktop */}
+      <div className="reservar-summary" style={{ display: 'none', padding: '24px' }}>
+        <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(201,169,107,0.2)', background: 'rgba(237,230,217,0.35)' }}>
+          {/* Treatment image */}
+          <div style={{ height: 200, background: '#EDE6D9', position: 'relative', overflow: 'hidden' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/img/relajate-2.jpg" alt={tName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} className="photo-warm" />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,18,9,0.6) 0%, transparent 60%)' }} />
+            <div style={{ position: 'absolute', bottom: 16, left: 18, right: 18 }}>
+              <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, color: '#FEFCF8', fontWeight: 500 }}>{tName}</p>
+            </div>
+          </div>
+          <div style={{ padding: '22px 20px' }}>
+            {/* Details */}
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--taupe)' }}>Duración</span>
+                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--espresso)', fontWeight: 600 }}>{tDuration} min</span>
+              </div>
+              {selectedDate && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+                  <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--taupe)' }}>Fecha</span>
+                  <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--espresso)', fontWeight: 600 }}>{selectedDate}</span>
+                </div>
+              )}
+              {selectedTime && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+                  <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--taupe)' }}>Horario</span>
+                  <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--espresso)', fontWeight: 600 }}>{selectedTime}</span>
+                </div>
+              )}
+              <div style={{ borderTop: '1px solid rgba(201,169,107,0.15)', paddingTop: 14, marginTop: 4 }}>
+                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)', marginBottom: 6 }}>Lucienne Beauty Spa · Paseos del Pedregal, CDMX</p>
+              </div>
+            </div>
+            {/* Inclusions */}
+            <div style={{ marginBottom: 20 }}>
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginBottom: 10 }}>El servicio incluye:</p>
+              {['Consulta inicial personalizada', 'Productos de lujo certificados', 'Aftercare exclusivo Lucienne', 'Té de bienvenida'].map((item) => (
+                <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C9A96B" strokeWidth="2.5" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--espresso)' }}>{item}</span>
+                </div>
+              ))}
+            </div>
+            {/* Price */}
+            {tPrice > 0 && (
+              <div style={{ borderTop: '1px solid rgba(201,169,107,0.18)', paddingTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--taupe)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Total</span>
+                <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: 28, color: 'var(--espresso)', fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}>${tPrice.toLocaleString('es-MX')}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      </div>{/* end 2col */}
+      </div>{/* end max-width wrapper */}
     </div>
   )
 }

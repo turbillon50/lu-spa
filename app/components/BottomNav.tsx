@@ -73,6 +73,7 @@ export function BottomNav() {
 
   return (
     <nav
+      className="lg:hidden"
       style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
         display: 'flex', justifyContent: 'center',
