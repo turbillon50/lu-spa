@@ -1,8 +1,8 @@
 'use client'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useMode } from '../lib/mode'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 
 const navItems = [
   {
@@ -43,27 +43,53 @@ const navItems = [
   },
 ]
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const { mode } = useMode()
+  const searchParams = useSearchParams()
+  const { mode, setMode } = useMode() as {
+    mode: string
+    setMode?: (m: string) => void
+  }
   const router = useRouter()
   const [mounted, setMounted] = useState(false)
+  const [embedded, setEmbedded] = useState(false)
 
-  useEffect(() => { setMounted(true) }, [])
+  const embedFlag =
+    searchParams.get('embed') === '1' ||
+    searchParams.get('preview') === '1' ||
+    searchParams.get('vforge') === '1'
 
   useEffect(() => {
-    if (mounted && mode !== 'admin') {
+    setMounted(true)
+    try {
+      setEmbedded(window.self !== window.top || embedFlag)
+    } catch {
+      // cross-origin iframe → estamos embebidos
+      setEmbedded(true)
+    }
+  }, [embedFlag])
+
+  // En sala VForge / iframe: forzar modo admin para no rebotar a /home
+  useEffect(() => {
+    if (!mounted) return
+    if ((embedded || embedFlag) && mode !== 'admin' && typeof setMode === 'function') {
+      setMode('admin')
+    }
+  }, [mounted, embedded, embedFlag, mode, setMode])
+
+  useEffect(() => {
+    if (!mounted) return
+    // Solo redirigir si NO estamos embebidos en VForge
+    if (!embedded && !embedFlag && mode !== 'admin') {
       router.replace('/home')
     }
-  }, [mode, router, mounted])
+  }, [mode, router, mounted, embedded, embedFlag])
 
   if (!mounted) return <div style={{ background: '#0A0814', minHeight: '100dvh' }} />
-  if (mode !== 'admin') return null
+  if (!embedded && !embedFlag && mode !== 'admin') return null
 
   return (
     <div style={{ background: '#0A0814', minHeight: '100dvh', display: 'flex' }}>
-
-      {/* Sidebar — desktop only */}
       <aside
         className="hidden lg:flex flex-col"
         style={{
@@ -82,6 +108,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div style={{ padding: '16px 20px 24px' }}>
           <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, color: '#FEFCF8', fontWeight: 400, letterSpacing: '0.04em' }}>Lucienne</p>
           <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.6)', marginTop: 2 }}>Administración</p>
+          {(embedded || embedFlag) ? (
+            <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.4)', marginTop: 8 }}>VForge · live</p>
+          ) : null}
         </div>
         <nav style={{ flex: 1, padding: '0 12px' }}>
           {navItems.map((item) => {
@@ -89,7 +118,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                href={item.href + (embedFlag ? '?embed=1' : '')}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 10,
                   padding: '10px 12px', borderRadius: 10, marginBottom: 4,
@@ -106,14 +135,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           })}
         </nav>
         <div style={{ padding: '16px 20px', borderTop: '1px solid rgba(201,160,140,0.1)' }}>
-          <Link href="/home" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(250,245,240,0.35)', textDecoration: 'none', letterSpacing: '0.06em' }}>← Salir del admin</Link>
+          {!embedded && !embedFlag ? (
+            <Link href="/home" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(250,245,240,0.35)', textDecoration: 'none', letterSpacing: '0.06em' }}>← Salir del admin</Link>
+          ) : (
+            <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(201,160,140,0.45)' }}>Vista en VForge</span>
+          )}
         </div>
       </aside>
 
-      {/* Main */}
       <div className="lg:ml-[220px]" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-
-        {/* Mobile top nav */}
         <div
           className="lg:hidden"
           style={{
@@ -127,10 +157,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 20, color: '#FEFCF8' }}>
             Lucienne <span style={{ color: 'rgba(201,160,140,0.6)', fontSize: 14, fontFamily: 'var(--font-montserrat)', fontWeight: 400 }}>Admin</span>
           </p>
-          <Link href="/home" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(201,160,140,0.6)', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Salir</Link>
+          {!embedded && !embedFlag ? (
+            <Link href="/home" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(201,160,140,0.6)', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Salir</Link>
+          ) : null}
         </div>
 
-        {/* Desktop header */}
         <div
           className="hidden lg:flex"
           style={{
@@ -144,12 +175,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 18, color: '#FEFCF8' }}>
             Panel de administración
           </p>
-          <Link href="/home" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(201,160,140,0.6)', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            Salir del admin →
-          </Link>
+          {!embedded && !embedFlag ? (
+            <Link href="/home" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(201,160,140,0.6)', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              Salir del admin →
+            </Link>
+          ) : (
+            <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(201,160,140,0.5)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>VForge live</span>
+          )}
         </div>
 
-        {/* Mobile bottom nav */}
         <nav
           className="lg:hidden"
           style={{
@@ -166,7 +200,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                href={item.href + (embedFlag ? '?embed=1' : '')}
                 style={{
                   display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
                   textDecoration: 'none',
@@ -186,5 +220,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </main>
       </div>
     </div>
+  )
+}
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <Suspense fallback={<div style={{ background: '#0A0814', minHeight: '100dvh' }} />}>
+      <AdminShell>{children}</AdminShell>
+    </Suspense>
   )
 }
