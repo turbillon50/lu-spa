@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql, getOrCreateClienteId } from '../../lib/db'
 
+export const dynamic = 'force-dynamic'
+
 async function getOrCreateConversacion(clienteId: number): Promise<number> {
   const existing = await sql`SELECT id FROM conversaciones WHERE cliente_id = ${clienteId}`
   if (existing.length > 0) return existing[0].id as number

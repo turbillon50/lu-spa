@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { sql } from '../../../lib/db'
 
+export const dynamic = 'force-dynamic'
+
 // Mismo nivel de apertura que el resto de /api/admin (sin Clerk, a peticion
 // de Luis). Si algun dia se blinda el admin, esta ruta se protege junto con
 // las demas.

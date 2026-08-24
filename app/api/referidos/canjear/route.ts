@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql, getOrCreateClienteId } from '../../../lib/db'
 
+export const dynamic = 'force-dynamic'
+
 const PUNTOS_REFERIDOR = 100
 const PUNTOS_BIENVENIDA = 50
 

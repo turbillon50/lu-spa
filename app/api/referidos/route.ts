@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { currentUser } from '@clerk/nextjs/server'
 import { sql, getOrCreateClienteId, ensureReferralCode } from '../../lib/db'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const clienteId = await getOrCreateClienteId()
