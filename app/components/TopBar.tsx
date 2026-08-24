@@ -5,6 +5,9 @@ import { useState, useEffect } from 'react'
 import { Logo } from './Logo'
 import { ModeSelector } from './ModeSelector'
 import { useMode } from '../lib/mode'
+import { useUser } from '@clerk/nextjs'
+
+const CLERK_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
 const menuSections = [
   {
@@ -181,23 +184,59 @@ function FullScreenMenu({ open, onClose }: { open: boolean; onClose: () => void 
 }
 
 function AvatarButton({ onClick, mode }: { onClick: () => void; mode: string }) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const clerkUser = CLERK_KEY ? useUser() : null
+  const realUser = clerkUser?.isSignedIn ? clerkUser.user : null
+
+  if (realUser) {
+    const initials = (
+      (realUser.firstName?.[0] || realUser.primaryEmailAddress?.emailAddress?.[0] || '?') +
+      (realUser.lastName?.[0] || '')
+    ).toUpperCase()
+
+    return (
+      <button
+        onClick={onClick}
+        style={{
+          width: 34, height: 34, borderRadius: '50%',
+          border: '1px solid rgba(201,160,140,0.4)',
+          cursor: 'pointer', overflow: 'hidden', padding: 0,
+          background: '#2C1F17',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flexShrink: 0,
+        }}
+        aria-label="Mi cuenta"
+      >
+        {realUser.imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={realUser.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        ) : (
+          <span style={{ fontSize: 12, fontFamily: 'var(--font-montserrat)', fontWeight: 700, color: '#FEFCF8' }}>
+            {initials}
+          </span>
+        )}
+      </button>
+    )
+  }
+
   return (
     <button
       onClick={onClick}
       style={{
         width: 34, height: 34, borderRadius: '50%',
-        background: mode === 'client' ? '#2C1F17' : mode === 'admin' ? '#C9A08C' : '#EFE1D9',
-        border: 'none', cursor: 'pointer',
+        background: mode === 'client' ? '#2C1F17' : mode === 'admin' ? '#C9A08C' : 'rgba(201,160,140,0.14)',
+        border: mode === 'client' || mode === 'admin' ? 'none' : '1px solid rgba(201,160,140,0.35)',
+        cursor: 'pointer',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: 12, fontFamily: 'var(--font-montserrat)', fontWeight: 700,
-        color: mode === 'client' ? '#FEFCF8' : mode === 'admin' ? '#1A1209' : '#8C7A6B',
+        color: mode === 'client' ? '#FEFCF8' : mode === 'admin' ? '#1A1209' : 'var(--gold-deep)',
         transition: 'all 0.25s var(--spring)',
         flexShrink: 0,
       }}
       aria-label="Cambiar modo de demo"
     >
       {mode === 'client' ? 'MR' : mode === 'admin' ? 'A' : (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
           <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
         </svg>
       )}
