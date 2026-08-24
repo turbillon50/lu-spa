@@ -7,6 +7,12 @@ const SIZES = {
   xl: 168,
 }
 
+// Tamanos chicos (header/avatar) usan el glifo "Lc" recortado en cerrado del
+// MISMO archivo oficial -- el lockup completo (anillo + LUCIENNE BEAUTY SPA)
+// se vuelve ilegible por debajo de ~100px. Nada inventado, solo un crop mas
+// cerrado de la pieza real para que se lea a tamano chico.
+const TIGHT_SIZES: Array<keyof typeof SIZES> = ['sm', 'md']
+
 export function Logo({
   size = 'md',
   className,
@@ -16,12 +22,15 @@ export function Logo({
   className?: string
 }) {
   const dim = SIZES[size]
+  const src = TIGHT_SIZES.includes(size)
+    ? '/img/brand/logo-mark.png'
+    : '/img/brand/logo-oficial.jpg'
 
   return (
     <div className={cn('inline-flex flex-col items-center', className)}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/img/brand/logo-oficial.jpg"
+        src={src}
         alt="Lucienne Beauty Spa"
         width={dim}
         height={dim}
