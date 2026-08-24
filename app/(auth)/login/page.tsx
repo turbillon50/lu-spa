@@ -64,17 +64,14 @@ function ClerkForm({ onDemoMode }: { onDemoMode: () => void }) {
 
 function DemoForm() {
   const router = useRouter()
-  const login = (role: 'user' | 'admin') => {
-    try { localStorage.setItem('lucienne::mode', role) } catch {}
-    router.replace(role === 'admin' ? '/admin' : '/home')
+  const login = () => {
+    try { localStorage.setItem('lucienne::mode', 'user') } catch {}
+    router.replace('/home')
   }
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <button onClick={() => login('user')} className="btn-primary" style={primaryBtnStyle(false)}>
+      <button onClick={login} className="btn-primary" style={primaryBtnStyle(false)}>
         Entrar como Mariana Reyes
-      </button>
-      <button onClick={() => login('admin')} style={ghostBtnStyle}>
-        Entrar como Administración
       </button>
     </div>
   )
