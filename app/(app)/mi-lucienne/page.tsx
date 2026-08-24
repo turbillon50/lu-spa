@@ -4,6 +4,10 @@ import { useMode } from '../../lib/mode'
 import { useStore } from '../../lib/providers'
 import { mockUser } from '../../data/mockUser'
 import { membershipTiers } from '../../data/membership'
+import { useUser } from '@clerk/nextjs'
+import { RealAccountView } from '../../components/RealAccountView'
+
+const CLERK_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
 function fmt(dateStr: string) {
   const d = new Date(dateStr)
@@ -13,6 +17,14 @@ function fmt(dateStr: string) {
 export default function MiLuciennePage() {
   const { mode } = useMode()
   const { appointments, cancelAppointment } = useStore()
+  const { isSignedIn } = useUser()
+
+  // Sesion real de Clerk (no el selector de modo demo) -> cuenta real,
+  // con seguridad/passkey real. El resto de la pagina sigue siendo la
+  // experiencia demo con datos de muestra.
+  if (CLERK_KEY && isSignedIn) {
+    return <RealAccountView />
+  }
 
   if (mode !== 'client') {
     return (

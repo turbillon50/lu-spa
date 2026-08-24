@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useSignIn } from '@clerk/nextjs'
+import { GoogleButton, OrDivider, PasskeyButton } from '../../components/GoogleButton'
 
 const CLERK_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
@@ -13,6 +14,46 @@ function ClerkForm({ onDemoMode }: { onDemoMode: () => void }) {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [googleLoading, setGoogleLoading] = useState(false)
+
+  const handleGoogle = async () => {
+    if (!signIn) return
+    setGoogleLoading(true)
+    try {
+      await signIn.sso({
+        strategy: 'oauth_google',
+        redirectUrl: '/home',
+        redirectCallbackUrl: '/sso-callback',
+      })
+    } catch {
+      setGoogleLoading(false)
+    }
+  }
+
+  const [passkeyLoading, setPasskeyLoading] = useState(false)
+
+  const handlePasskey = async () => {
+    if (!signIn) return
+    setError('')
+    setPasskeyLoading(true)
+    try {
+      const { error: passkeyError } = await signIn.passkey({ flow: 'discoverable' })
+      if (passkeyError) {
+        setError('No se pudo verificar el passkey. Intenta de nuevo.')
+        setPasskeyLoading(false)
+        return
+      }
+      if (signIn.status === 'complete') {
+        await signIn.finalize()
+        router.replace('/home')
+      } else {
+        setPasskeyLoading(false)
+      }
+    } catch {
+      setError('No se pudo verificar el passkey. Intenta de nuevo.')
+      setPasskeyLoading(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -34,31 +75,51 @@ function ClerkForm({ onDemoMode }: { onDemoMode: () => void }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-      <div style={{ marginBottom: 16 }}>
-        <label style={labelStyle}>Correo electrónico</label>
-        <input
-          type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-          required autoComplete="email" className="input-lucienne" style={inputStyle}
-          placeholder="tu@correo.com"
-        />
-      </div>
-      <div style={{ marginBottom: 24 }}>
-        <label style={labelStyle}>Contraseña</label>
-        <input
-          type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-          required autoComplete="current-password" className="input-lucienne" style={inputStyle}
-          placeholder="••••••••"
-        />
-      </div>
-      {error && <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: '#C04040', marginBottom: 16 }}>{error}</p>}
-      <button type="submit" disabled={loading} className="btn-primary" style={primaryBtnStyle(loading)}>
-        {loading ? 'Ingresando...' : 'Iniciar sesión'}
-      </button>
-      <button type="button" onClick={onDemoMode} style={ghostBtnStyle}>
+    <div style={{ width: '100%' }}>
+      {/* Google y Passkey van primero: son mas rapidos y le dan mas confianza
+          a una clienta que regresa que llenar un formulario de contrasena. */}
+      <GoogleButton onClick={handleGoogle} loading={googleLoading} />
+      <div style={{ height: 10 }} />
+      <PasskeyButton onClick={handlePasskey} loading={passkeyLoading} />
+
+      <OrDivider label="o con tu correo" />
+
+      <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+        <div style={{ marginBottom: 16 }}>
+          <label style={labelStyle}>Correo electrónico</label>
+          <input
+            type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+            required autoComplete="email" className="input-lucienne" style={inputStyle}
+            placeholder="tu@correo.com"
+          />
+        </div>
+        <div style={{ marginBottom: 24 }}>
+          <label style={labelStyle}>Contraseña</label>
+          <input
+            type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+            required autoComplete="current-password" className="input-lucienne" style={inputStyle}
+            placeholder="••••••••"
+          />
+        </div>
+        {error && <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: '#C04040', marginBottom: 16 }}>{error}</p>}
+        <button type="submit" disabled={loading} className="btn-primary" style={primaryBtnStyle(loading)}>
+          {loading ? 'Ingresando...' : 'Iniciar sesión'}
+        </button>
+      </form>
+
+      <button
+        type="button"
+        onClick={onDemoMode}
+        style={{
+          width: '100%', marginTop: 18, background: 'none', border: 'none',
+          cursor: 'pointer', fontFamily: 'var(--font-montserrat)', fontSize: 11,
+          letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--taupe)',
+          opacity: 0.7, textAlign: 'center',
+        }}
+      >
         Entrar en modo demo
       </button>
-    </form>
+    </div>
   )
 }
 

@@ -1,7 +1,8 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 function IconHome({ active }: { active: boolean }) {
   return (
@@ -15,9 +16,9 @@ function IconHome({ active }: { active: boolean }) {
 
 function IconSparkle({ active }: { active: boolean }) {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      strokeWidth={active ? 2 : 1.5} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill={active ? 'currentColor' : 'none'} stroke="currentColor"
+      strokeWidth={active ? 0 : 1.5} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3c.6 3.2 1.2 4.6 2.4 5.9 1.2 1.3 2.7 2 5.6 2.6-2.9.6-4.4 1.3-5.6 2.6-1.2 1.3-1.8 2.7-2.4 5.9-.6-3.2-1.2-4.6-2.4-5.9-1.2-1.3-2.7-2-5.6-2.6 2.9-.6 4.4-1.3 5.6-2.6C10.8 7.6 11.4 6.2 12 3z"/>
     </svg>
   )
 }
@@ -66,10 +67,51 @@ const tabs: {
   { href: '/mi-lucienne', label: 'Mi Lucienne', Icon: IconUser },
 ]
 
+function TabTransitionOverlay() {
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 200,
+      background: '#0A0603',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      animation: 'tabFadeIn 0.15s ease forwards',
+    }}>
+      <div style={{
+        position: 'absolute', width: 220, height: 220, borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(224,117,96,0.22) 0%, rgba(201,160,140,0.10) 45%, transparent 70%)',
+      }} />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/img/brand/logo-mark.png" alt=""
+        style={{
+          width: 64, height: 64, borderRadius: '50%', objectFit: 'cover',
+          boxShadow: '0 0 32px rgba(201,160,140,0.28)',
+          animation: 'tabLogoPulse 0.5s ease-in-out infinite',
+        }}
+      />
+      <style>{`
+        @keyframes tabFadeIn { from { opacity: 0 } to { opacity: 1 } }
+        @keyframes tabLogoPulse { 0%, 100% { transform: scale(1) } 50% { transform: scale(1.08) } }
+      `}</style>
+    </div>
+  )
+}
+
 export function BottomNav() {
   const pathname = usePathname()
+  const router = useRouter()
+  const [transitioning, setTransitioning] = useState(false)
 
   if (pathname.startsWith('/admin') || pathname === '/splash') return null
+
+  const navigate = (href: string) => (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (pathname === href || pathname.startsWith(href + '/')) return
+    setTransitioning(true)
+    window.setTimeout(() => {
+      router.push(href)
+      window.setTimeout(() => setTransitioning(false), 220)
+    }, 200)
+  }
 
   return (
     <nav
@@ -108,6 +150,7 @@ export function BottomNav() {
               <Link
                 key={tab.href}
                 href={tab.href}
+                onClick={navigate(tab.href)}
                 style={{
                   display: 'flex', flexDirection: 'column',
                   alignItems: 'center', gap: 4,
@@ -145,6 +188,7 @@ export function BottomNav() {
             <Link
               key={tab.href}
               href={tab.href}
+              onClick={navigate(tab.href)}
               style={{
                 display: 'flex', flexDirection: 'column', alignItems: 'center',
                 gap: 4, padding: '6px 4px 4px', borderRadius: 12,
@@ -176,6 +220,7 @@ export function BottomNav() {
           )
         })}
       </div>
+      {transitioning && <TabTransitionOverlay />}
     </nav>
   )
 }

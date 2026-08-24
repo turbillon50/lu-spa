@@ -1,6 +1,16 @@
 'use client'
 import Link from 'next/link'
-import { adminKPIs, reservasHoy, topTratamientos, clientasRecientes } from '../data/admin'
+import { useState, useEffect } from 'react'
+
+type Stats = {
+  reservasHoy: number
+  clientesActivos: number
+  ingresosMes: number
+  membresiasActivas: number
+  topTratamientos: { nombre: string; sesiones: number }[]
+  reservasDeHoy: { id: number; hora: string; estado: string; tratamiento: string; cliente_nombre: string; cliente_apellido: string }[]
+  clientesRecientes: { nombre: string; apellido: string; membresia: string | null; visitas: number; ultima_visita: string | null }[]
+}
 
 function KPI({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) {
   return (
@@ -18,7 +28,20 @@ export default function AdminDashboard() {
   const saludo = horas < 12 ? 'Buenos días' : horas < 18 ? 'Buenas tardes' : 'Buenas noches'
 
   const days = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']
-  const occupancy = [72, 85, 68, 91, 88, 95, 45]
+  const occupancy = [72, 85, 68, 91, 88, 95, 45] // ilustrativo -- no hay metrica de capacidad definida aun
+
+  const [stats, setStats] = useState<Stats | null>(null)
+
+  useEffect(() => {
+    fetch('/api/admin/stats')
+      .then((r) => r.json())
+      .then(setStats)
+      .catch(() => setStats(null))
+  }, [])
+
+  const topTratamientos = stats?.topTratamientos ?? []
+  const reservasHoy = stats?.reservasDeHoy ?? []
+  const clientasRecientes = stats?.clientesRecientes ?? []
 
   return (
     <div style={{ background: '#0A0814', minHeight: '100dvh', color: '#FEFCF8' }}>
@@ -32,10 +55,10 @@ export default function AdminDashboard() {
         <div>
           {/* KPIs */}
           <section style={{ padding: '0 22px 8px' }}>
-            <KPI label="Reservas hoy" value={String(adminKPIs.reservasHoy)} sub="4 matutinas · 4 vespertinas" />
-            <KPI label="Ingresos este mes" value={`$${adminKPIs.ingresosMes.toLocaleString('es-MX')}`} sub="MXN · +12% vs mes anterior" color="#C9A08C" />
-            <KPI label="Clientas activas" value={String(adminKPIs.clientasActivas)} sub="Últ. 30 días" />
-            <KPI label="Membresías activas" value={String(adminKPIs.membresiasActivas)} sub="Essentielle 12 · Signature 16 · Privé 6" color="#C9A08C" />
+            <KPI label="Reservas hoy" value={stats ? String(stats.reservasHoy) : '—'} />
+            <KPI label="Ingresos este mes" value={stats ? `$${stats.ingresosMes.toLocaleString('es-MX')}` : '—'} sub="MXN" color="#C9A08C" />
+            <KPI label="Clientas activas" value={stats ? String(stats.clientesActivos) : '—'} sub="Últ. 30 días" />
+            <KPI label="Membresías activas" value={stats ? String(stats.membresiasActivas) : '—'} color="#C9A08C" />
           </section>
 
           {/* Top tratamientos */}
@@ -50,7 +73,7 @@ export default function AdminDashboard() {
                     <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(250,245,240,0.4)', fontVariantNumeric: 'tabular-nums' }}>{t.sesiones} ses.</span>
                   </div>
                   <div style={{ height: 3, background: 'rgba(201,160,140,0.1)', borderRadius: 2, overflow: 'hidden' }}>
-                    <div style={{ height: '100%', background: '#C9A08C', borderRadius: 2, width: `${(t.sesiones / topTratamientos[0].sesiones) * 100}%`, opacity: 0.6 + (i === 0 ? 0.4 : 0) }} />
+                    <div style={{ height: '100%', background: '#C9A08C', borderRadius: 2, width: `${(t.sesiones / (topTratamientos[0]?.sesiones || 1)) * 100}%`, opacity: 0.6 + (i === 0 ? 0.4 : 0) }} />
                   </div>
                 </div>
               </div>
@@ -81,11 +104,14 @@ export default function AdminDashboard() {
               <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.55)', fontWeight: 500 }}>Reservas de hoy</p>
               <Link href="/admin/reservas" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: '#C9A08C', textDecoration: 'none', letterSpacing: '0.06em' }}>Ver todas →</Link>
             </div>
+            {reservasHoy.length === 0 && stats && (
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(250,245,240,0.4)' }}>Sin reservas para hoy.</p>
+            )}
             {reservasHoy.slice(0, 4).map((r) => (
               <div key={r.id} style={{ borderBottom: '1px solid rgba(201,160,140,0.06)', padding: '12px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 17, color: '#FEFCF8', marginBottom: 2 }}>{r.clienta}</p>
-                  <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(250,245,240,0.4)' }}>{r.tratamiento} · {r.hora}</p>
+                  <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 17, color: '#FEFCF8', marginBottom: 2 }}>{r.cliente_nombre} {r.cliente_apellido}</p>
+                  <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(250,245,240,0.4)' }}>{r.tratamiento} · {r.hora?.slice(0, 5)}</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: r.estado === 'confirmada' ? '#C9A08C' : r.estado === 'completada' ? 'rgba(250,245,240,0.35)' : 'rgba(250,245,240,0.5)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 500 }}>{r.estado}</span>
@@ -100,18 +126,21 @@ export default function AdminDashboard() {
               <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.55)', fontWeight: 500 }}>Clientas recientes</p>
               <Link href="/admin/clientas" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: '#C9A08C', textDecoration: 'none' }}>Ver todas →</Link>
             </div>
-            {clientasRecientes.map((c) => (
-              <div key={c.nombre} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(201,160,140,0.06)', padding: '10px 0' }}>
+            {clientasRecientes.length === 0 && stats && (
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(250,245,240,0.4)' }}>Todavia no hay clientas registradas.</p>
+            )}
+            {clientasRecientes.map((c, i) => (
+              <div key={`${c.nombre}-${i}`} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(201,160,140,0.06)', padding: '10px 0' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(201,160,140,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: 14, color: '#C9A08C' }}>{c.nombre[0]}</span>
+                    <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: 14, color: '#C9A08C' }}>{(c.nombre || '?')[0]}</span>
                   </div>
                   <div>
-                    <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: '#FEFCF8', fontWeight: 500 }}>{c.nombre}</p>
+                    <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: '#FEFCF8', fontWeight: 500 }}>{c.nombre} {c.apellido}</p>
                     <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(250,245,240,0.35)' }}>{c.visitas} visitas · {c.membresia || 'Sin membresía'}</p>
                   </div>
                 </div>
-                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(250,245,240,0.3)', fontVariantNumeric: 'tabular-nums' }}>{c.ultimaVisita}</p>
+                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(250,245,240,0.3)', fontVariantNumeric: 'tabular-nums' }}>{c.ultima_visita ? new Date(c.ultima_visita).toLocaleDateString('es-MX', { day: 'numeric', month: 'short' }) : '—'}</p>
               </div>
             ))}
           </section>
