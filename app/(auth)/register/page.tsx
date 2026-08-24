@@ -101,32 +101,36 @@ function ClerkRegisterForm() {
   }
 
   return (
-    <form onSubmit={handleRegister} style={{ width: '100%' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
-        <div>
-          <label style={labelStyle}>Nombre</label>
-          <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required className="input-lucienne" style={inputStyle} placeholder="Mariana" />
-        </div>
-        <div>
-          <label style={labelStyle}>Apellido</label>
-          <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required className="input-lucienne" style={inputStyle} placeholder="Reyes" />
-        </div>
-      </div>
-      <div style={{ marginBottom: 16 }}>
-        <label style={labelStyle}>Correo electrónico</label>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" className="input-lucienne" style={inputStyle} placeholder="tu@correo.com" />
-      </div>
-      <div style={{ marginBottom: 24 }}>
-        <label style={labelStyle}>Contraseña</label>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="new-password" className="input-lucienne" style={inputStyle} placeholder="Mínimo 8 caracteres" />
-      </div>
-      {error && <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: '#C04040', marginBottom: 16 }}>{error}</p>}
-      <button type="submit" disabled={loading} className="btn-primary" style={primaryBtnStyle(loading)}>
-        {loading ? 'Creando cuenta...' : 'Crear mi cuenta'}
-      </button>
-      <OrDivider />
+    <div style={{ width: '100%' }}>
       <GoogleButton onClick={handleGoogle} loading={googleLoading} label="Crear cuenta con Google" />
-    </form>
+
+      <OrDivider label="o con tu correo" />
+
+      <form onSubmit={handleRegister} style={{ width: '100%' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
+          <div>
+            <label style={labelStyle}>Nombre</label>
+            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required className="input-lucienne" style={inputStyle} placeholder="Mariana" />
+          </div>
+          <div>
+            <label style={labelStyle}>Apellido</label>
+            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required className="input-lucienne" style={inputStyle} placeholder="Reyes" />
+          </div>
+        </div>
+        <div style={{ marginBottom: 16 }}>
+          <label style={labelStyle}>Correo electrónico</label>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" className="input-lucienne" style={inputStyle} placeholder="tu@correo.com" />
+        </div>
+        <div style={{ marginBottom: 24 }}>
+          <label style={labelStyle}>Contraseña</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="new-password" className="input-lucienne" style={inputStyle} placeholder="Mínimo 8 caracteres" />
+        </div>
+        {error && <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: '#C04040', marginBottom: 16 }}>{error}</p>}
+        <button type="submit" disabled={loading} className="btn-primary" style={primaryBtnStyle(loading)}>
+          {loading ? 'Creando cuenta...' : 'Crear mi cuenta'}
+        </button>
+      </form>
+    </div>
   )
 }
 
