@@ -17,7 +17,7 @@ export default function JournalPage() {
       {/* Featured */}
       <section style={{ padding: '0 22px 32px' }}>
         <Link href={`/journal/${featured.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
-          <div style={{ borderRadius: 20, overflow: 'hidden', background: '#EDE6D9', marginBottom: 16 }}>
+          <div style={{ borderRadius: 20, overflow: 'hidden', background: '#EFE1D9', marginBottom: 16 }}>
             <img src={featured.image} alt={featured.title} loading="eager"
               style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', display: 'block' }} />
           </div>
@@ -29,13 +29,13 @@ export default function JournalPage() {
       </section>
 
       {/* Divider */}
-      <div style={{ margin: '0 22px 28px', height: 1, background: 'rgba(201,169,107,0.15)' }} />
+      <div style={{ margin: '0 22px 28px', height: 1, background: 'rgba(201,160,140,0.15)' }} />
 
       {/* Rest */}
       <section className="journal-grid" style={{ padding: '0 22px 60px', display: 'flex', flexDirection: 'column', gap: 24 }}>
         {rest.map((article) => (
           <Link key={article.slug} href={`/journal/${article.slug}`} style={{ textDecoration: 'none', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-            <div style={{ width: 90, height: 90, borderRadius: 14, overflow: 'hidden', flexShrink: 0, background: '#EDE6D9' }}>
+            <div style={{ width: 90, height: 90, borderRadius: 14, overflow: 'hidden', flexShrink: 0, background: '#EFE1D9' }}>
               <img src={article.image} alt={article.title} loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>

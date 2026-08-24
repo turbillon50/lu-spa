@@ -96,7 +96,7 @@ function FullScreenMenu({ open, onClose }: { open: boolean; onClose: () => void 
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '16px 24px',
-        borderBottom: '1px solid rgba(201,169,107,0.1)',
+        borderBottom: '1px solid rgba(201,160,140,0.1)',
       }}>
         <Link href="/home" onClick={onClose} style={{ textDecoration: 'none' }}>
           <Logo size="sm" tone="dark" />
@@ -137,7 +137,7 @@ function FullScreenMenu({ open, onClose }: { open: boolean; onClose: () => void 
                     color: active ? 'var(--espresso)' : si === 0 ? 'var(--cocoa)' : 'var(--taupe)',
                     textDecoration: 'none',
                     paddingBottom: si === 0 ? '14px' : '10px',
-                    borderBottom: `1px solid rgba(201,169,107,${si === 0 ? '0.1' : '0.07'})`,
+                    borderBottom: `1px solid rgba(201,160,140,${si === 0 ? '0.1' : '0.07'})`,
                     marginBottom: si === 0 ? '0' : '0',
                     animation: `menuItemIn 0.35s cubic-bezier(.22,1,.36,1) ${delay}ms both`,
                     opacity: 0,
@@ -166,7 +166,7 @@ function FullScreenMenu({ open, onClose }: { open: boolean; onClose: () => void 
           onClick={onClose}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            background: 'var(--espresso)', color: '#FEFCF8',
+            background: '#E07560', color: '#FEFCF8',
             padding: '14px', borderRadius: 22, textDecoration: 'none',
             fontFamily: 'var(--font-montserrat)', fontSize: 11,
             letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600,
@@ -186,7 +186,7 @@ function AvatarButton({ onClick, mode }: { onClick: () => void; mode: string }) 
       onClick={onClick}
       style={{
         width: 34, height: 34, borderRadius: '50%',
-        background: mode === 'client' ? '#2C1F17' : mode === 'admin' ? '#C9A96B' : '#EDE6D9',
+        background: mode === 'client' ? '#2C1F17' : mode === 'admin' ? '#C9A08C' : '#EFE1D9',
         border: 'none', cursor: 'pointer',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: 12, fontFamily: 'var(--font-montserrat)', fontWeight: 700,
@@ -237,10 +237,10 @@ export function TopBar({
       <>
         <header style={{
           position: 'sticky', top: 0, zIndex: 40,
-          background: 'rgba(254,252,248,0.94)',
+          background: 'rgba(250,245,240,0.94)',
           backdropFilter: 'blur(20px) saturate(150%)',
           WebkitBackdropFilter: 'blur(20px) saturate(150%)',
-          borderBottom: '1px solid rgba(201,169,107,0.12)',
+          borderBottom: '1px solid rgba(201,160,140,0.12)',
           paddingTop: 'env(safe-area-inset-top)',
         }}>
           <div style={{
@@ -288,10 +288,10 @@ export function TopBar({
         className="lg:hidden"
         style={{
           position: 'sticky', top: 0, zIndex: 40,
-          background: 'rgba(254,252,248,0.92)',
+          background: 'rgba(250,245,240,0.92)',
           backdropFilter: 'blur(20px) saturate(150%)',
           WebkitBackdropFilter: 'blur(20px) saturate(150%)',
-          borderBottom: '1px solid rgba(201,169,107,0.13)',
+          borderBottom: '1px solid rgba(201,160,140,0.13)',
           paddingTop: 'env(safe-area-inset-top)',
         }}
       >
@@ -307,9 +307,9 @@ export function TopBar({
             {modeLabel && (
               <span style={{
                 fontSize: 9, letterSpacing: '0.15em', fontFamily: 'var(--font-montserrat)',
-                fontWeight: 700, color: '#C9A96B',
-                background: 'rgba(201,169,107,0.1)', padding: '3px 8px', borderRadius: 20,
-                border: '1px solid rgba(201,169,107,0.3)',
+                fontWeight: 700, color: '#C9A08C',
+                background: 'rgba(201,160,140,0.1)', padding: '3px 8px', borderRadius: 20,
+                border: '1px solid rgba(201,160,140,0.3)',
               }}>
                 {modeLabel}
               </span>
@@ -342,10 +342,10 @@ export function TopBar({
         className="hidden lg:flex"
         style={{
           position: 'sticky', top: 0, zIndex: 40,
-          background: 'rgba(254,252,248,0.96)',
+          background: 'rgba(250,245,240,0.96)',
           backdropFilter: 'blur(20px) saturate(150%)',
           WebkitBackdropFilter: 'blur(20px) saturate(150%)',
-          borderBottom: '1px solid rgba(201,169,107,0.13)',
+          borderBottom: '1px solid rgba(201,160,140,0.13)',
           flexDirection: 'column',
         }}
       >
@@ -369,7 +369,7 @@ export function TopBar({
                     textTransform: 'uppercase', fontFamily: 'var(--font-montserrat)',
                     fontWeight: active ? 600 : 400,
                     color: active ? '#2C1F17' : '#6B5B4E',
-                    borderBottom: active ? '1px solid #C9A96B' : '1px solid transparent',
+                    borderBottom: active ? '1px solid #C9A08C' : '1px solid transparent',
                     paddingBottom: 2, transition: 'all 0.2s',
                   }}
                 >
@@ -400,7 +400,7 @@ export function TopBar({
                 <div style={{
                   position: 'absolute', top: 'calc(100% + 12px)', right: 0,
                   background: '#FEFCF8', borderRadius: 14,
-                  border: '1px solid rgba(201,169,107,0.15)',
+                  border: '1px solid rgba(201,160,140,0.15)',
                   boxShadow: '0 8px 40px rgba(44,31,23,0.1)',
                   minWidth: 180, padding: '8px 0',
                   zIndex: 60, animation: 'menuFadeIn 0.15s ease both',
@@ -429,8 +429,8 @@ export function TopBar({
             {modeLabel && (
               <span style={{
                 fontSize: 9, letterSpacing: '0.15em', fontFamily: 'var(--font-montserrat)',
-                fontWeight: 700, color: '#C9A96B',
-                border: '1px solid rgba(201,169,107,0.4)', padding: '3px 10px', borderRadius: 20,
+                fontWeight: 700, color: '#C9A08C',
+                border: '1px solid rgba(201,160,140,0.4)', padding: '3px 10px', borderRadius: 20,
               }}>
                 {modeLabel}
               </span>
@@ -444,7 +444,7 @@ export function TopBar({
               href="/reservar"
               className="btn-primary"
               style={{
-                background: '#2C1F17', color: '#FEFCF8',
+                background: '#E07560', color: '#FEFCF8',
                 padding: '9px 22px', borderRadius: 24,
                 fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase',
                 fontFamily: 'var(--font-montserrat)', fontWeight: 600,

@@ -45,8 +45,8 @@ function CheckoutContent() {
   if (step === 'done') {
     return (
       <div style={{ background: 'var(--ivory)', minHeight: '90dvh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 24px', textAlign: 'center' }}>
-        <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(201,169,107,0.1)', border: '2px solid rgba(201,169,107,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A96B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(201,160,140,0.1)', border: '2px solid rgba(201,160,140,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A08C" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M20 6L9 17l-5-5"/>
           </svg>
         </div>
@@ -55,7 +55,7 @@ function CheckoutContent() {
         <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--taupe)', lineHeight: 1.7, marginBottom: 32, maxWidth: 300 }}>
           Recibirás un correo de confirmación. Te esperamos pronto.
         </p>
-        <button onClick={() => router.push('/home')} style={{ background: 'var(--espresso)', color: '#FEFCF8', padding: '14px 32px', borderRadius: 22, border: 'none', cursor: 'pointer', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>
+        <button onClick={() => router.push('/home')} style={{ background: '#E07560', color: '#FEFCF8', padding: '14px 32px', borderRadius: 22, border: 'none', cursor: 'pointer', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>
           Volver al inicio
         </button>
       </div>
@@ -71,10 +71,10 @@ function CheckoutContent() {
         <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 30, color: 'var(--espresso)', fontWeight: 300 }}>Confirmar pedido</h1>
       </div>
 
-      <div style={{ margin: '0 22px 24px', background: 'rgba(237,230,217,0.45)', border: '1px solid rgba(201,169,107,0.15)', borderRadius: 18, padding: '20px' }}>
+      <div style={{ margin: '0 22px 24px', background: 'rgba(237,230,217,0.45)', border: '1px solid rgba(201,160,140,0.15)', borderRadius: 18, padding: '20px' }}>
         <h3 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, color: 'var(--espresso)', marginBottom: 4 }}>{itemName}</h3>
         <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--taupe)', marginBottom: 16 }}>{itemSub}</p>
-        <div style={{ borderTop: '1px solid rgba(201,169,107,0.12)', paddingTop: 12, display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <div style={{ borderTop: '1px solid rgba(201,160,140,0.12)', paddingTop: 12, display: 'flex', flexDirection: 'column', gap: 6 }}>
           {[['Subtotal', `$${itemPrice.toLocaleString('es-MX')}`], ['IVA 16%', `$${iva.toLocaleString('es-MX')}`], ['Total', `$${total.toLocaleString('es-MX')}`]].map(([label, value], i) => (
             <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: i === 2 ? 13 : 12, color: i === 2 ? 'var(--espresso)' : 'var(--taupe)', fontWeight: i === 2 ? 600 : 400 }}>{label}</span>
@@ -94,7 +94,7 @@ function CheckoutContent() {
             <div key={field.label} style={{ marginBottom: 14 }}>
               <label style={{ display: 'block', fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)', letterSpacing: '0.06em', marginBottom: 6 }}>{field.label}</label>
               <input value={field.value} onChange={(e) => field.onChange(e.target.value)} placeholder={field.placeholder}
-                style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid rgba(201,169,107,0.2)', background: 'rgba(237,230,217,0.35)', fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--espresso)', outline: 'none', boxSizing: 'border-box' }} />
+                style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid rgba(201,160,140,0.2)', background: 'rgba(237,230,217,0.35)', fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--espresso)', outline: 'none', boxSizing: 'border-box' }} />
             </div>
           ))}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
@@ -102,7 +102,7 @@ function CheckoutContent() {
               <div key={field.label}>
                 <label style={{ display: 'block', fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)', letterSpacing: '0.06em', marginBottom: 6 }}>{field.label}</label>
                 <input value={field.value} onChange={(e) => field.onChange(e.target.value)} placeholder={field.placeholder}
-                  style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid rgba(201,169,107,0.2)', background: 'rgba(237,230,217,0.35)', fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--espresso)', outline: 'none', boxSizing: 'border-box' }} />
+                  style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid rgba(201,160,140,0.2)', background: 'rgba(237,230,217,0.35)', fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--espresso)', outline: 'none', boxSizing: 'border-box' }} />
               </div>
             ))}
           </div>
@@ -114,7 +114,7 @@ function CheckoutContent() {
 
       <div style={{ padding: '0 22px 60px' }}>
         <button onClick={() => step === 'review' ? setStep('payment') : setStep('done')}
-          style={{ width: '100%', background: 'var(--espresso)', color: '#FEFCF8', padding: '15px', borderRadius: 22, border: 'none', cursor: 'pointer', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700 }}>
+          style={{ width: '100%', background: '#E07560', color: '#FEFCF8', padding: '15px', borderRadius: 22, border: 'none', cursor: 'pointer', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700 }}>
           {step === 'review' ? 'Continuar al pago' : 'Confirmar pago'}
         </button>
         <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'var(--sand)', textAlign: 'center', marginTop: 12 }}>

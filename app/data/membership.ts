@@ -22,7 +22,7 @@ export const membershipTiers: MembershipTier[] = [
     tagline: 'Tu primer paso al bienestar.',
     priceMonthly: 1490,
     priceAnnual: 14900,
-    bgColor: '#EDE6D9',
+    bgColor: '#EFE1D9',
     textColor: '#2C1F17',
     accentColor: '#8C7A6B',
     features: [
@@ -45,7 +45,7 @@ export const membershipTiers: MembershipTier[] = [
     priceAnnual: 24900,
     bgColor: '#2C1F17',
     textColor: '#FEFCF8',
-    accentColor: '#C9A96B',
+    accentColor: '#C9A08C',
     features: [
       '2 sesiones de 60 min al mes',
       '15% de descuento en todos los servicios',
@@ -65,7 +65,7 @@ export const membershipTiers: MembershipTier[] = [
     tagline: 'El acceso más exclusivo.',
     priceMonthly: 4490,
     priceAnnual: 44900,
-    bgColor: '#C9A96B',
+    bgColor: '#C9A08C',
     textColor: '#1A1209',
     accentColor: '#1A1209',
     features: [

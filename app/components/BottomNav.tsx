@@ -82,14 +82,14 @@ export function BottomNav() {
     >
       <div
         style={{
-          background: 'rgba(254,252,248,0.88)',
+          background: 'rgba(250,245,240,0.88)',
           backdropFilter: 'blur(24px) saturate(160%)',
           WebkitBackdropFilter: 'blur(24px) saturate(160%)',
           /* Specular highlight (top 1px), gold hairline below it, ambient shadow */
           borderTop: 'none',
           boxShadow:
             'inset 0 1px 0 rgba(255,255,255,0.70), ' +
-            '0 -1px 0 rgba(201,169,107,0.14), ' +
+            '0 -1px 0 rgba(201,160,140,0.14), ' +
             '0 -8px 32px rgba(44,31,23,0.07)',
           width: '100%',
           maxWidth: '600px',
@@ -117,12 +117,12 @@ export function BottomNav() {
               >
                 <div
                   style={{
-                    background: '#2C1F17',
+                    background: '#E07560',
                     borderRadius: '50%',
                     width: 54, height: 54,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     color: '#FEFCF8',
-                    border: '2px solid rgba(201,169,107,0.35)',
+                    border: '2px solid rgba(201,160,140,0.35)',
                     animation: active ? 'none' : 'pulseGlow 3.5s ease-in-out infinite',
                     transition: 'transform 0.15s var(--spring)',
                   }}

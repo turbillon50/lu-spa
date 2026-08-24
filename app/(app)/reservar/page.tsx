@@ -63,13 +63,13 @@ function ReservarContent() {
           <circle
             cx="40" cy="40" r="34"
             fill="none"
-            stroke="rgba(201,169,107,0.15)"
+            stroke="rgba(201,160,140,0.15)"
             strokeWidth="1.5"
           />
           <circle
             cx="40" cy="40" r="34"
             fill="none"
-            stroke="#C9A96B"
+            stroke="#C9A08C"
             strokeWidth="1.5"
             pathLength="1"
             strokeDasharray="1"
@@ -84,7 +84,7 @@ function ReservarContent() {
           <path
             d="M25 41 L35 51 L55 31"
             fill="none"
-            stroke="#C9A96B"
+            stroke="#C9A08C"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -96,7 +96,7 @@ function ReservarContent() {
         </svg>
         <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 32, color: 'var(--taupe)', marginBottom: 8 }}>Tu momento está reservado.</p>
         <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 26, color: 'var(--espresso)', marginBottom: 20, fontWeight: 300, lineHeight: 1.1 }}>Tu experiencia Lucienne<br/>está confirmada.</h2>
-        <div style={{ background: 'rgba(237,230,217,0.5)', border: '1px solid rgba(201,169,107,0.18)', borderRadius: 18, padding: '22px 26px', marginBottom: 28, width: '100%', maxWidth: 340, textAlign: 'left' }}>
+        <div style={{ background: 'rgba(237,230,217,0.5)', border: '1px solid rgba(201,160,140,0.18)', borderRadius: 18, padding: '22px 26px', marginBottom: 28, width: '100%', maxWidth: 340, textAlign: 'left' }}>
           <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, color: 'var(--espresso)', marginBottom: 8, fontWeight: 500 }}>{tName}</p>
           <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)', marginBottom: 4 }}>{selectedDate} · {selectedTime}</p>
           <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--sand)' }}>Cabina Pétalo · Lucienne Beauty Spa</p>
@@ -104,7 +104,7 @@ function ReservarContent() {
         <button
           onClick={() => router.push('/mi-lucienne')}
           style={{
-            background: 'var(--espresso)', color: '#FEFCF8',
+            background: '#E07560', color: '#FEFCF8',
             padding: '14px 30px', borderRadius: 24, border: 'none',
             fontFamily: 'var(--font-montserrat)', fontSize: 12,
             letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer',
@@ -138,12 +138,12 @@ function ReservarContent() {
         <div style={{ padding: '0 24px 40px' }}>
           <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 500, marginBottom: 8 }}>Paso 1 · Tratamiento</p>
           <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 28, color: 'var(--espresso)', marginBottom: 24 }}>Confirma tu experiencia</h2>
-          <div style={{ background: 'rgba(237,230,217,0.5)', border: '1px solid rgba(201,169,107,0.15)', borderRadius: 16, padding: '20px' }}>
+          <div style={{ background: 'rgba(237,230,217,0.5)', border: '1px solid rgba(201,160,140,0.15)', borderRadius: 16, padding: '20px' }}>
             <h3 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 24, color: 'var(--espresso)', marginBottom: 6 }}>{tName}</h3>
             <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)', marginBottom: 12 }}>{tDuration} min · Lucienne Beauty Spa</p>
             {tPrice > 0 && <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 26, color: 'var(--espresso)', fontVariantNumeric: 'tabular-nums' }}>${tPrice.toLocaleString('es-MX')}</p>}
           </div>
-          <button onClick={() => setStep(2)} style={{ width: '100%', marginTop: 24, background: 'var(--espresso)', color: '#FEFCF8', padding: '15px', borderRadius: 22, border: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
+          <button onClick={() => setStep(2)} style={{ width: '100%', marginTop: 24, background: '#E07560', color: '#FEFCF8', padding: '15px', borderRadius: 22, border: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
             Elegir fecha →
           </button>
         </div>
@@ -201,7 +201,7 @@ function ReservarContent() {
               const occupied = (OCCUPIED[selectedDate] ?? []).includes(t)
               const selected = selectedTime === t
               return (
-                <button key={t} disabled={occupied} onClick={() => setSelectedTime(t)} style={{ padding: '14px 8px', borderRadius: 12, border: `1px solid ${selected ? 'rgba(44,31,23,0.6)' : 'rgba(201,169,107,0.18)'}`, background: selected ? 'var(--espresso)' : occupied ? 'rgba(237,230,217,0.2)' : 'rgba(237,230,217,0.35)', cursor: occupied ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-montserrat)', fontSize: 13, color: selected ? '#FEFCF8' : occupied ? 'rgba(140,122,107,0.3)' : 'var(--espresso)', fontVariantNumeric: 'tabular-nums', transition: 'all 0.15s' }}>
+                <button key={t} disabled={occupied} onClick={() => setSelectedTime(t)} style={{ padding: '14px 8px', borderRadius: 12, border: `1px solid ${selected ? 'rgba(44,31,23,0.6)' : 'rgba(201,160,140,0.18)'}`, background: selected ? 'var(--espresso)' : occupied ? 'rgba(237,230,217,0.2)' : 'rgba(237,230,217,0.35)', cursor: occupied ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-montserrat)', fontSize: 13, color: selected ? '#FEFCF8' : occupied ? 'rgba(140,122,107,0.3)' : 'var(--espresso)', fontVariantNumeric: 'tabular-nums', transition: 'all 0.15s' }}>
                   {occupied ? '—' : t}
                 </button>
               )
@@ -228,7 +228,7 @@ function ReservarContent() {
                 <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--taupe)', fontWeight: 500, marginBottom: 6 }}>{f.label}</p>
                 <input type={f.type} value={form[f.k]} onChange={(e) => setForm(prev => ({ ...prev, [f.k]: e.target.value }))} placeholder={f.placeholder}
                   className="input-lucienne"
-                  style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid rgba(201,169,107,0.2)', background: 'rgba(237,230,217,0.3)', fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--espresso)', outline: 'none', boxSizing: 'border-box' }} />
+                  style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid rgba(201,160,140,0.2)', background: 'rgba(237,230,217,0.3)', fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--espresso)', outline: 'none', boxSizing: 'border-box' }} />
               </div>
             ))}
           </div>
@@ -241,9 +241,9 @@ function ReservarContent() {
 
       {/* Right: summary - only visible on desktop */}
       <div className="reservar-summary" style={{ display: 'none', padding: '24px' }}>
-        <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(201,169,107,0.2)', background: 'rgba(237,230,217,0.35)' }}>
+        <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(201,160,140,0.2)', background: 'rgba(237,230,217,0.35)' }}>
           {/* Treatment image */}
-          <div style={{ height: 200, background: '#EDE6D9', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ height: 200, background: '#EFE1D9', position: 'relative', overflow: 'hidden' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/img/relajate-2.jpg" alt={tName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} className="photo-warm" />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,18,9,0.6) 0%, transparent 60%)' }} />
@@ -270,7 +270,7 @@ function ReservarContent() {
                   <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--espresso)', fontWeight: 600 }}>{selectedTime}</span>
                 </div>
               )}
-              <div style={{ borderTop: '1px solid rgba(201,169,107,0.15)', paddingTop: 14, marginTop: 4 }}>
+              <div style={{ borderTop: '1px solid rgba(201,160,140,0.15)', paddingTop: 14, marginTop: 4 }}>
                 <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)', marginBottom: 6 }}>Lucienne Beauty Spa · Paseos del Pedregal, CDMX</p>
               </div>
             </div>
@@ -279,14 +279,14 @@ function ReservarContent() {
               <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginBottom: 10 }}>El servicio incluye:</p>
               {['Consulta inicial personalizada', 'Productos de lujo certificados', 'Aftercare exclusivo Lucienne', 'Té de bienvenida'].map((item) => (
                 <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C9A96B" strokeWidth="2.5" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C9A08C" strokeWidth="2.5" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
                   <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--espresso)' }}>{item}</span>
                 </div>
               ))}
             </div>
             {/* Price */}
             {tPrice > 0 && (
-              <div style={{ borderTop: '1px solid rgba(201,169,107,0.18)', paddingTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ borderTop: '1px solid rgba(201,160,140,0.18)', paddingTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--taupe)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Total</span>
                 <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: 28, color: 'var(--espresso)', fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}>${tPrice.toLocaleString('es-MX')}</span>
               </div>

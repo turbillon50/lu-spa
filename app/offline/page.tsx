@@ -10,7 +10,7 @@ export default function OfflinePage() {
       {/* Hairline gold ring with wifi off */}
       <div style={{
         width: 80, height: 80, borderRadius: '50%',
-        border: '1px solid rgba(201,169,107,0.3)',
+        border: '1px solid rgba(201,160,140,0.3)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         marginBottom: 28, background: 'rgba(237,230,217,0.4)',
       }}>

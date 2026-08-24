@@ -16,12 +16,12 @@ export default function TreatmentDetail() {
   }
   return (
     <div style={{ background: 'var(--ivory)' }}>
-      <div style={{ height: 220, background: '#EDE6D9', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ height: 220, background: '#EFE1D9', position: 'relative', overflow: 'hidden' }}>
         <img src={treatment.image} alt={treatment.name} loading="eager" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(26,18,9,0.5)' }} />
         <div style={{ position: 'absolute', bottom: 20, left: 22, right: 22 }}>
           <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 30, color: '#FEFCF8', fontWeight: 400 }}>{treatment.name}</h1>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(254,252,248,0.75)' }}>{treatment.duration} min · ${treatment.price.toLocaleString('es-MX')}</p>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(250,245,240,0.75)' }}>{treatment.duration} min · ${treatment.price.toLocaleString('es-MX')}</p>
         </div>
       </div>
       <div style={{ padding: '28px 22px 60px' }}>
@@ -39,11 +39,11 @@ export default function TreatmentDetail() {
           <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--taupe)', fontWeight: 500, marginBottom: 10 }}>Beneficios</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             {treatment.benefits.map((b) => (
-              <span key={b} style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)', background: 'rgba(201,169,107,0.1)', border: '1px solid rgba(201,169,107,0.2)', borderRadius: 20, padding: '4px 12px' }}>{b}</span>
+              <span key={b} style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)', background: 'rgba(201,160,140,0.1)', border: '1px solid rgba(201,160,140,0.2)', borderRadius: 20, padding: '4px 12px' }}>{b}</span>
             ))}
           </div>
         </div>
-        <Link href={`/reservar?t=${treatment.id}&name=${encodeURIComponent(treatment.name)}&price=${treatment.price}&duration=${treatment.duration}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--espresso)', color: '#FEFCF8', padding: '15px', borderRadius: 22, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>
+        <Link href={`/reservar?t=${treatment.id}&name=${encodeURIComponent(treatment.name)}&price=${treatment.price}&duration=${treatment.duration}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#E07560', color: '#FEFCF8', padding: '15px', borderRadius: 22, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>
           Reservar
         </Link>
       </div>

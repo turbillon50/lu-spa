@@ -39,7 +39,7 @@ export default function GiftCardsPage() {
           <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--taupe)', textAlign: 'center', marginBottom: 20 }}>
             Código único generado. La tarjeta puede compartirse por mensaje o imprimirse.
           </p>
-          <button onClick={() => setConfirmed(false)} style={{ width: '100%', background: 'var(--espresso)', color: '#FEFCF8', padding: '14px', borderRadius: 22, border: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
+          <button onClick={() => setConfirmed(false)} style={{ width: '100%', background: '#E07560', color: '#FEFCF8', padding: '14px', borderRadius: 22, border: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
             Crear otra gift card
           </button>
         </div>
@@ -51,13 +51,13 @@ export default function GiftCardsPage() {
     <div style={{ background: 'var(--ivory)' }}>
 
       {/* Header */}
-      <div style={{ position: 'relative', height: 220, background: '#EDE6D9', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', height: 220, background: '#EFE1D9', overflow: 'hidden' }}>
         <img src="/img/gift.jpg" alt="Gift Cards Lucienne" loading="eager"
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(26,18,9,0.5)' }} />
         <div style={{ position: 'absolute', bottom: 22, left: 24, right: 24 }}>
-          <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 26, color: 'rgba(232,213,168,0.9)', marginBottom: 4 }}>Regala The Lucienne Experience</p>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(254,252,248,0.7)' }}>Los objetos acumulan polvo. Las experiencias, significado.</p>
+          <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 26, color: 'rgba(224,208,196,0.9)', marginBottom: 4 }}>Regala The Lucienne Experience</p>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(250,245,240,0.7)' }}>Los objetos acumulan polvo. Las experiencias, significado.</p>
         </div>
       </div>
 
@@ -80,7 +80,7 @@ export default function GiftCardsPage() {
             <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--taupe)', fontWeight: 500, marginBottom: 10 }}>¿Qué experiencia vas a regalar?</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {experiences.map((exp) => (
-                <button key={exp.id} onClick={() => setSelectedExp(exp)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: 13, border: `1px solid ${selectedExp.id === exp.id ? 'rgba(201,169,107,0.5)' : 'rgba(201,169,107,0.12)'}`, background: selectedExp.id === exp.id ? 'rgba(201,169,107,0.08)' : 'transparent', cursor: 'pointer', width: '100%', textAlign: 'left' }}>
+                <button key={exp.id} onClick={() => setSelectedExp(exp)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: 13, border: `1px solid ${selectedExp.id === exp.id ? 'rgba(201,160,140,0.5)' : 'rgba(201,160,140,0.12)'}`, background: selectedExp.id === exp.id ? 'rgba(201,160,140,0.08)' : 'transparent', cursor: 'pointer', width: '100%', textAlign: 'left' }}>
                   <div>
                     <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 17, color: 'var(--espresso)', fontWeight: 500 }}>{exp.name}</p>
                     <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)' }}>{exp.duration}</p>
@@ -95,7 +95,7 @@ export default function GiftCardsPage() {
             <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--taupe)', fontWeight: 500, marginBottom: 10 }}>¿Cuánto quieres regalar?</p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
               {amounts.map((a) => (
-                <button key={a} onClick={() => setSelectedAmount(a)} style={{ padding: '14px 8px', borderRadius: 12, border: `1px solid ${selectedAmount === a ? 'rgba(201,169,107,0.5)' : 'rgba(201,169,107,0.15)'}`, background: selectedAmount === a ? 'rgba(201,169,107,0.1)' : 'transparent', cursor: 'pointer', fontFamily: 'var(--font-cormorant)', fontSize: 18, color: 'var(--espresso)', fontVariantNumeric: 'tabular-nums', fontWeight: selectedAmount === a ? 600 : 400 }}>
+                <button key={a} onClick={() => setSelectedAmount(a)} style={{ padding: '14px 8px', borderRadius: 12, border: `1px solid ${selectedAmount === a ? 'rgba(201,160,140,0.5)' : 'rgba(201,160,140,0.15)'}`, background: selectedAmount === a ? 'rgba(201,160,140,0.1)' : 'transparent', cursor: 'pointer', fontFamily: 'var(--font-cormorant)', fontSize: 18, color: 'var(--espresso)', fontVariantNumeric: 'tabular-nums', fontWeight: selectedAmount === a ? 600 : 400 }}>
                   ${a.toLocaleString('es-MX')}
                 </button>
               ))}
@@ -118,14 +118,14 @@ export default function GiftCardsPage() {
                   onChange={(e) => update(field.key, e.target.value)}
                   placeholder={field.placeholder}
                   rows={3}
-                  style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid rgba(201,169,107,0.2)', background: 'rgba(237,230,217,0.3)', fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--espresso)', outline: 'none', resize: 'none', boxSizing: 'border-box' }}
+                  style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid rgba(201,160,140,0.2)', background: 'rgba(237,230,217,0.3)', fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--espresso)', outline: 'none', resize: 'none', boxSizing: 'border-box' }}
                 />
               ) : (
                 <input
                   value={form[field.key]}
                   onChange={(e) => update(field.key, e.target.value)}
                   placeholder={field.placeholder}
-                  style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid rgba(201,169,107,0.2)', background: 'rgba(237,230,217,0.3)', fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--espresso)', outline: 'none', boxSizing: 'border-box' }}
+                  style={{ width: '100%', padding: '12px 14px', borderRadius: 12, border: '1px solid rgba(201,160,140,0.2)', background: 'rgba(237,230,217,0.3)', fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--espresso)', outline: 'none', boxSizing: 'border-box' }}
                 />
               )}
             </div>
@@ -138,7 +138,7 @@ export default function GiftCardsPage() {
           <GiftCardPreview name={name} para={form.para || 'A quien la reciba'} de={form.de || 'Con cariño'} mensaje={form.mensaje} value={value} code={code} fecha={form.fecha} />
         </div>
 
-        <button onClick={() => setConfirmed(true)} style={{ width: '100%', background: 'var(--espresso)', color: '#FEFCF8', padding: '16px', borderRadius: 24, border: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
+        <button onClick={() => setConfirmed(true)} style={{ width: '100%', background: '#E07560', color: '#FEFCF8', padding: '16px', borderRadius: 24, border: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
           Confirmar y generar gift card
         </button>
       </div>{/* end left col */}
@@ -163,25 +163,25 @@ function GiftCardPreview({ name, para, de, mensaje, value, code, fecha }: {
     <div className="gift-preview" style={{
       borderRadius: 20, overflow: 'hidden',
       background: 'linear-gradient(145deg, #2C1F17 0%, #1A1209 100%)',
-      border: '1px solid rgba(201,169,107,0.25)',
-      boxShadow: 'inset 0 1px 0 rgba(201,169,107,0.2), 0 8px 32px rgba(44,31,23,0.25)',
+      border: '1px solid rgba(201,160,140,0.25)',
+      boxShadow: 'inset 0 1px 0 rgba(201,160,140,0.2), 0 8px 32px rgba(44,31,23,0.25)',
       padding: '28px 22px 22px',
       position: 'relative',
     }}>
-      <div style={{ position: 'absolute', top: -30, right: -30, width: 150, height: 150, borderRadius: '50%', background: 'radial-gradient(circle, rgba(201,169,107,0.08) 0%, transparent 70%)' }} />
-      <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(201,169,107,0.6)', fontWeight: 500, marginBottom: 14 }}>LUCIENNE BEAUTY SPA</p>
-      <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 24, color: 'rgba(232,213,168,0.85)', marginBottom: 6, letterSpacing: '0.01em' }}>The Lucienne Experience</p>
-      <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 16, color: 'rgba(254,252,248,0.75)', marginBottom: 16, fontStyle: 'italic' }}>{name}</p>
-      {mensaje && <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(254,252,248,0.55)', lineHeight: 1.6, marginBottom: 16, fontStyle: 'italic' }}>"{mensaje}"</p>}
+      <div style={{ position: 'absolute', top: -30, right: -30, width: 150, height: 150, borderRadius: '50%', background: 'radial-gradient(circle, rgba(201,160,140,0.08) 0%, transparent 70%)' }} />
+      <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.6)', fontWeight: 500, marginBottom: 14 }}>LUCIENNE BEAUTY SPA</p>
+      <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 24, color: 'rgba(224,208,196,0.85)', marginBottom: 6, letterSpacing: '0.01em' }}>The Lucienne Experience</p>
+      <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 16, color: 'rgba(250,245,240,0.75)', marginBottom: 16, fontStyle: 'italic' }}>{name}</p>
+      {mensaje && <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(250,245,240,0.55)', lineHeight: 1.6, marginBottom: 16, fontStyle: 'italic' }}>"{mensaje}"</p>}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 16 }}>
         <div>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, color: 'rgba(254,252,248,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 2 }}>Para · De</p>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(254,252,248,0.7)' }}>{para} · {de}</p>
-          {fecha && <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(201,169,107,0.5)', marginTop: 2 }}>{fecha}</p>}
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, color: 'rgba(250,245,240,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 2 }}>Para · De</p>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(250,245,240,0.7)' }}>{para} · {de}</p>
+          {fecha && <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(201,160,140,0.5)', marginTop: 2 }}>{fecha}</p>}
         </div>
         <div style={{ textAlign: 'right' }}>
-          <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 28, color: '#C9A96B', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>${value.toLocaleString('es-MX')}</p>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, color: 'rgba(201,169,107,0.5)', letterSpacing: '0.12em', marginTop: 4 }}>{code}</p>
+          <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 28, color: '#C9A08C', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>${value.toLocaleString('es-MX')}</p>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, color: 'rgba(201,160,140,0.5)', letterSpacing: '0.12em', marginTop: 4 }}>{code}</p>
         </div>
       </div>
     </div>

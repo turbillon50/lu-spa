@@ -13,7 +13,7 @@ export default function ConocenosPage() {
     <div className="page-enter" style={{ background: 'var(--ivory)' }}>
 
       {/* Hero */}
-      <div style={{ position: 'relative', height: 380, background: '#EDE6D9', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', height: 380, background: '#EFE1D9', overflow: 'hidden' }}>
         <div className="kenburns" style={{ position: 'absolute', inset: 0 }}>
           <img
             src="/img/conocenos.jpg" alt="Espacio Lucienne" loading="eager"
@@ -23,7 +23,7 @@ export default function ConocenosPage() {
         </div>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(26,18,9,0.05) 0%, rgba(26,18,9,0.65) 100%)' }} />
         <div style={{ position: 'absolute', bottom: 32, left: 26, right: 26 }}>
-          <p className="fade-up" style={{ fontFamily: 'var(--font-pinyon)', fontSize: 28, color: 'rgba(232,213,168,0.88)', marginBottom: 8, animationDelay: '60ms' }}>
+          <p className="fade-up" style={{ fontFamily: 'var(--font-pinyon)', fontSize: 28, color: 'rgba(224,208,196,0.88)', marginBottom: 8, animationDelay: '60ms' }}>
             Regalate tiempo.
           </p>
           <h1 className="fade-up" style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(40px, 9vw, 64px)', color: '#FEFCF8', fontWeight: 300, lineHeight: 1.0, letterSpacing: '-0.01em', animationDelay: '130ms' }}>
@@ -63,7 +63,7 @@ export default function ConocenosPage() {
         <div style={{ width: 52, height: 1, background: 'var(--gold)', opacity: 0.4, marginBottom: 28 }} />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
           {valores.map((v) => (
-            <div key={v.titulo} style={{ background: 'rgba(237,230,217,0.4)', border: '1px solid rgba(201,169,107,0.12)', borderRadius: 16, padding: '20px 18px' }}>
+            <div key={v.titulo} style={{ background: 'rgba(237,230,217,0.4)', border: '1px solid rgba(201,160,140,0.12)', borderRadius: 16, padding: '20px 18px' }}>
               <h3 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 20, color: 'var(--espresso)', marginBottom: 8, fontWeight: 500 }}>{v.titulo}</h3>
               <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--taupe)', lineHeight: 1.65 }}>{v.desc}</p>
             </div>
@@ -92,7 +92,7 @@ export default function ConocenosPage() {
 
       {/* CTA */}
       <section style={{ padding: '0 24px 80px' }}>
-        <Link href="/reservar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--espresso)', color: '#FEFCF8', padding: '15px', borderRadius: 24, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 12 }}>
+        <Link href="/reservar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#E07560', color: '#FEFCF8', padding: '15px', borderRadius: 24, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 12 }}>
           Reserva tu visita
         </Link>
         <Link href="/galeria" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', color: 'var(--taupe)', padding: '14px', borderRadius: 24, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', border: '1px solid rgba(140,122,107,0.22)' }}>

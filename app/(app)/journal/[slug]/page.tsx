@@ -14,20 +14,20 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
     <div style={{ background: 'var(--ivory)' }}>
 
       {/* Hero */}
-      <div style={{ position: 'relative', height: 280, background: '#EDE6D9', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', height: 280, background: '#EFE1D9', overflow: 'hidden' }}>
         <img src={article.image} alt={article.title} loading="eager"
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(26,18,9,0.1) 0%, rgba(26,18,9,0.7) 100%)' }} />
         <div style={{ position: 'absolute', bottom: 24, left: 22, right: 22 }}>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(201,169,107,0.85)', fontWeight: 600, marginBottom: 8 }}>{article.category}</p>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.85)', fontWeight: 600, marginBottom: 8 }}>{article.category}</p>
           <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 30, color: '#FEFCF8', fontWeight: 300, lineHeight: 1.15 }}>{article.title}</h1>
         </div>
       </div>
 
       {/* Meta */}
-      <div style={{ padding: '18px 22px 0', display: 'flex', gap: 12, alignItems: 'center', borderBottom: '1px solid rgba(201,169,107,0.1)', paddingBottom: 18 }}>
+      <div style={{ padding: '18px 22px 0', display: 'flex', gap: 12, alignItems: 'center', borderBottom: '1px solid rgba(201,160,140,0.1)', paddingBottom: 18 }}>
         <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--sand)' }}>{article.readTime} min de lectura</span>
-        <div style={{ width: 3, height: 3, borderRadius: '50%', background: 'rgba(201,169,107,0.4)' }} />
+        <div style={{ width: 3, height: 3, borderRadius: '50%', background: 'rgba(201,160,140,0.4)' }} />
         <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--sand)' }}>{article.date}</span>
       </div>
 
@@ -44,11 +44,11 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       </div>
 
       {/* More articles */}
-      <div style={{ padding: '0 22px 32px', borderTop: '1px solid rgba(201,169,107,0.12)' }}>
+      <div style={{ padding: '0 22px 32px', borderTop: '1px solid rgba(201,160,140,0.12)' }}>
         <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 500, margin: '24px 0 16px' }}>Más del journal</p>
         {articles.filter((a) => a.slug !== article.slug).slice(0, 2).map((a) => (
           <Link key={a.slug} href={`/journal/${a.slug}`} style={{ textDecoration: 'none', display: 'flex', gap: 12, marginBottom: 16, alignItems: 'flex-start' }}>
-            <div style={{ width: 68, height: 68, borderRadius: 10, overflow: 'hidden', flexShrink: 0, background: '#EDE6D9' }}>
+            <div style={{ width: 68, height: 68, borderRadius: 10, overflow: 'hidden', flexShrink: 0, background: '#EFE1D9' }}>
               <img src={a.image} alt={a.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div style={{ paddingTop: 2 }}>
@@ -61,7 +61,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
 
       {/* CTA */}
       <div style={{ padding: '0 22px 60px' }}>
-        <Link href="/reservar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--espresso)', color: '#FEFCF8', padding: '15px', borderRadius: 22, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>
+        <Link href="/reservar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#E07560', color: '#FEFCF8', padding: '15px', borderRadius: 22, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>
           Reservar experiencia
         </Link>
       </div>

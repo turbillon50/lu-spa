@@ -91,7 +91,7 @@ export default function HomePage() {
         height: 'min(100vw, 720px)',
         minHeight: 560,
         overflow: 'hidden',
-        background: '#EDE6D9',
+        background: '#EFE1D9',
       }}>
         {/* Ken Burns */}
         <div className="kenburns" style={{ position: 'absolute', inset: 0 }}>
@@ -118,7 +118,7 @@ export default function HomePage() {
             style={{
               fontFamily: 'var(--font-montserrat)',
               fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase',
-              color: 'rgba(254,252,248,0.60)', fontWeight: 500,
+              color: 'rgba(250,245,240,0.60)', fontWeight: 500,
               marginBottom: 12, animationDelay: '0ms',
             }}
           >
@@ -146,7 +146,7 @@ export default function HomePage() {
             style={{
               fontFamily: 'var(--font-pinyon)',
               fontSize: 'clamp(22px, 4vw, 30px)',
-              color: 'rgba(232,213,168,0.88)',
+              color: 'rgba(224,208,196,0.88)',
               marginBottom: 14, letterSpacing: '0.01em',
               animationDelay: '160ms',
             }}
@@ -158,7 +158,7 @@ export default function HomePage() {
             className="fade-up"
             style={{
               fontFamily: 'var(--font-montserrat)',
-              fontSize: 13, color: 'rgba(254,252,248,0.72)',
+              fontSize: 13, color: 'rgba(250,245,240,0.72)',
               fontWeight: 300, maxWidth: 320, lineHeight: 1.7,
               marginBottom: 24, animationDelay: '220ms',
             }}
@@ -171,7 +171,7 @@ export default function HomePage() {
               href="/reservar"
               className="btn-primary"
               style={{
-                background: '#FEFCF8', color: '#2C1F17',
+                background: '#E07560', color: '#FEFCF8',
                 padding: '13px 26px', borderRadius: 28,
                 textDecoration: 'none',
                 fontFamily: 'var(--font-montserrat)',
@@ -184,12 +184,12 @@ export default function HomePage() {
               href="/experiencias"
               className="btn-primary"
               style={{
-                background: 'rgba(254,252,248,0.1)', color: '#FEFCF8',
+                background: 'rgba(250,245,240,0.1)', color: '#FEFCF8',
                 padding: '13px 26px', borderRadius: 28,
                 textDecoration: 'none',
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 500,
-                border: '1px solid rgba(254,252,248,0.28)',
+                border: '1px solid rgba(250,245,240,0.28)',
                 backdropFilter: 'blur(8px)',
               }}
             >
@@ -243,7 +243,7 @@ export default function HomePage() {
             <Link key={p.id} href={p.href} style={{ textDecoration: 'none' }}>
               <div className="card-hover" style={{
                 position: 'relative', borderRadius: 20, overflow: 'hidden',
-                height: 'clamp(290px, 40vw, 480px)', background: '#EDE6D9',
+                height: 'clamp(290px, 40vw, 480px)', background: '#EFE1D9',
               }}>
                 <img
                   src={p.image} alt={p.label} loading="lazy"
@@ -257,7 +257,7 @@ export default function HomePage() {
                 <div style={{ position: 'absolute', bottom: 24, left: 24, right: 24 }}>
                   <p style={{
                     fontFamily: 'var(--font-montserrat)',
-                    fontSize: 10, letterSpacing: '0.22em', color: 'rgba(201,169,107,0.9)',
+                    fontSize: 10, letterSpacing: '0.22em', color: 'rgba(201,160,140,0.9)',
                     fontWeight: 600, marginBottom: 6, textTransform: 'uppercase',
                   }}>
                     {p.sub}
@@ -272,7 +272,7 @@ export default function HomePage() {
                   </h3>
                   <p style={{
                     fontFamily: 'var(--font-montserrat)',
-                    fontSize: 12, color: 'rgba(254,252,248,0.7)', lineHeight: 1.65,
+                    fontSize: 12, color: 'rgba(250,245,240,0.7)', lineHeight: 1.65,
                   }}>
                     {p.desc}
                   </p>
@@ -280,7 +280,7 @@ export default function HomePage() {
                     display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 12,
                     fontFamily: 'var(--font-montserrat)',
                     fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase',
-                    color: 'rgba(254,252,248,0.8)',
+                    color: 'rgba(250,245,240,0.8)',
                   }}>
                     Descubrir tratamientos
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
@@ -316,7 +316,7 @@ export default function HomePage() {
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                   padding: '16px 20px', borderRadius: 14, textDecoration: 'none',
                   background: isQuiz ? 'var(--espresso)' : 'rgba(237,230,217,0.5)',
-                  border: isQuiz ? 'none' : '1px solid rgba(201,169,107,0.13)',
+                  border: isQuiz ? 'none' : '1px solid rgba(201,160,140,0.13)',
                   transition: 'all 0.2s var(--spring)',
                 }}
               >
@@ -328,7 +328,7 @@ export default function HomePage() {
                   {path.label}
                 </span>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-                  stroke={isQuiz ? '#C9A96B' : 'var(--taupe)'}
+                  stroke={isQuiz ? '#C9A08C' : 'var(--taupe)'}
                   strokeWidth="1.5" strokeLinecap="round">
                   <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
@@ -355,7 +355,7 @@ export default function HomePage() {
         <div className="featured-grid">
           {featured.map((t) => (
             <Link key={t.id} href={`/treatments/${t.id}`} style={{ textDecoration: 'none', flexShrink: 0, width: 220 }}>
-              <div className="card-hover" style={{ borderRadius: 18, overflow: 'hidden', height: 165, background: '#EDE6D9' }}>
+              <div className="card-hover" style={{ borderRadius: 18, overflow: 'hidden', height: 165, background: '#EFE1D9' }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={t.image} alt={t.name} loading="lazy"
@@ -392,7 +392,7 @@ export default function HomePage() {
           <div style={{
             position: 'absolute', top: -60, right: -60, width: 240, height: 240,
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(201,169,107,0.12) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(201,160,140,0.12) 0%, transparent 70%)',
             pointerEvents: 'none',
           }} />
           <Eyebrow>Lucienne Membership</Eyebrow>
@@ -407,7 +407,7 @@ export default function HomePage() {
           </h2>
           <p style={{
             fontFamily: 'var(--font-montserrat)',
-            fontSize: 13, color: 'rgba(254,252,248,0.55)',
+            fontSize: 13, color: 'rgba(250,245,240,0.55)',
             lineHeight: 1.75, marginBottom: 28, maxWidth: '55ch',
           }}>
             Desde $1,490/mes. Sesiones incluidas, descuentos en todos los tratamientos, prioridad de agenda.
@@ -415,7 +415,7 @@ export default function HomePage() {
           <Link
             href="/membresia"
             style={{
-              display: 'inline-flex', background: '#C9A96B', color: '#1A1209',
+              display: 'inline-flex', background: '#E07560', color: '#FEFCF8',
               padding: '12px 24px', borderRadius: 24, textDecoration: 'none',
               fontFamily: 'var(--font-montserrat)',
               fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700,
@@ -443,7 +443,7 @@ export default function HomePage() {
               style={{
                 flexShrink: 0, width: 280,
                 background: i % 2 === 0 ? 'rgba(237,230,217,0.5)' : 'var(--espresso)',
-                border: i % 2 === 0 ? '1px solid rgba(201,169,107,0.13)' : 'none',
+                border: i % 2 === 0 ? '1px solid rgba(201,160,140,0.13)' : 'none',
                 borderRadius: 18, padding: '24px 22px',
               }}
             >
@@ -465,7 +465,7 @@ export default function HomePage() {
               <p style={{
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: 11,
-                color: i % 2 === 0 ? 'var(--taupe)' : 'rgba(201,169,107,0.75)',
+                color: i % 2 === 0 ? 'var(--taupe)' : 'rgba(201,160,140,0.75)',
                 marginTop: 2,
               }}>
                 {t.role}
@@ -508,7 +508,7 @@ export default function HomePage() {
             style={{ display: 'flex', gap: 16, textDecoration: 'none', marginBottom: 18 }}>
             <div style={{
               width: 84, height: 84, borderRadius: 14,
-              overflow: 'hidden', flexShrink: 0, background: '#EDE6D9',
+              overflow: 'hidden', flexShrink: 0, background: '#EFE1D9',
             }}>
               <img
                 src={art.img} alt={art.title} loading="lazy"
@@ -556,7 +556,7 @@ export default function HomePage() {
         </div>
         <div className="insta-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
           {instaImgs.map((p, i) => (
-            <div key={i} style={{ aspectRatio: '1/1', borderRadius: 10, overflow: 'hidden', background: '#EDE6D9' }}>
+            <div key={i} style={{ aspectRatio: '1/1', borderRadius: 10, overflow: 'hidden', background: '#EFE1D9' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={p.img} alt={p.alt} loading="lazy"
@@ -572,13 +572,13 @@ export default function HomePage() {
       <footer style={{ background: 'var(--espresso)', color: '#FEFCF8', padding: '56px 28px 48px' }}>
         <p style={{
           fontFamily: 'var(--font-pinyon)',
-          fontSize: 28, color: 'rgba(232,213,168,0.82)', marginBottom: 8,
+          fontSize: 28, color: 'rgba(224,208,196,0.82)', marginBottom: 8,
         }}>
           Tu momento.
         </p>
         <p style={{
           fontFamily: 'var(--font-montserrat)',
-          fontSize: 12, color: 'rgba(254,252,248,0.4)',
+          fontSize: 12, color: 'rgba(250,245,240,0.4)',
           marginBottom: 32, lineHeight: 1.8,
         }}>
           Paseos del Pedregal, CDMX<br/>
@@ -593,7 +593,7 @@ export default function HomePage() {
           ].map(([label, href]) => (
             <a key={href} href={href} style={{
               fontFamily: 'var(--font-montserrat)',
-              fontSize: 11, color: 'rgba(254,252,248,0.45)',
+              fontSize: 11, color: 'rgba(250,245,240,0.45)',
               textDecoration: 'none', letterSpacing: '0.06em',
             }}>
               {label}
@@ -601,16 +601,16 @@ export default function HomePage() {
           ))}
         </div>
         <div style={{
-          borderTop: '1px solid rgba(201,169,107,0.12)',
+          borderTop: '1px solid rgba(201,160,140,0.12)',
           paddingTop: 24,
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         }}>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(254,252,248,0.28)' }}>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(250,245,240,0.28)' }}>
             © 2026 Lucienne Beauty Spa
           </p>
           <p style={{
             fontFamily: 'var(--font-montserrat)',
-            fontSize: 10, color: 'rgba(201,169,107,0.4)', letterSpacing: '0.12em',
+            fontSize: 10, color: 'rgba(201,160,140,0.4)', letterSpacing: '0.12em',
           }}>
             CDMX
           </p>

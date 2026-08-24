@@ -1,5 +1,5 @@
-const CACHE = 'lucienne-v1'
-const SHELL = ['/', '/manifest.json', '/icon-192.svg', '/icon-512.svg', '/offline']
+const CACHE = 'lucienne-v4'
+const SHELL = ['/', '/manifest.json', '/icon-192.png', '/icon-512.png', '/offline']
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).catch(() => {}))

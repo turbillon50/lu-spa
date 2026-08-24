@@ -10,7 +10,7 @@ export default function ContactoPage() {
       </div>
 
       {/* Map placeholder */}
-      <div style={{ margin: '0 22px 28px', borderRadius: 18, overflow: 'hidden', background: '#EDE6D9', height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+      <div style={{ margin: '0 22px 28px', borderRadius: 18, overflow: 'hidden', background: '#EFE1D9', height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
         <div style={{ textAlign: 'center' }}>
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--taupe)" strokeWidth="1.5" style={{ marginBottom: 8 }}>
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>
@@ -26,12 +26,12 @@ export default function ContactoPage() {
       {/* Info cards */}
       <section style={{ padding: '0 22px 28px', display: 'flex', flexDirection: 'column', gap: 12 }}>
 
-        <div style={{ background: 'rgba(237,230,217,0.45)', border: '1px solid rgba(201,169,107,0.12)', borderRadius: 16, padding: '20px 20px' }}>
+        <div style={{ background: 'rgba(237,230,217,0.45)', border: '1px solid rgba(201,160,140,0.12)', borderRadius: 16, padding: '20px 20px' }}>
           <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginBottom: 10 }}>Dirección</p>
           <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 19, color: 'var(--espresso)', lineHeight: 1.35 }}>Av. Periférico Sur 3720,<br/>Paseos del Pedregal,<br/>Ciudad de México, CDMX 04500</p>
         </div>
 
-        <div style={{ background: 'rgba(237,230,217,0.45)', border: '1px solid rgba(201,169,107,0.12)', borderRadius: 16, padding: '20px 20px' }}>
+        <div style={{ background: 'rgba(237,230,217,0.45)', border: '1px solid rgba(201,160,140,0.12)', borderRadius: 16, padding: '20px 20px' }}>
           <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginBottom: 12 }}>Horarios</p>
           {[
             { dia: 'Lunes – Viernes', hrs: '9:00 – 20:00' },
@@ -45,22 +45,22 @@ export default function ContactoPage() {
           ))}
         </div>
 
-        <div style={{ background: 'rgba(237,230,217,0.45)', border: '1px solid rgba(201,169,107,0.12)', borderRadius: 16, padding: '20px 20px' }}>
+        <div style={{ background: 'rgba(237,230,217,0.45)', border: '1px solid rgba(201,160,140,0.12)', borderRadius: 16, padding: '20px 20px' }}>
           <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginBottom: 12 }}>Contacto directo</p>
           <a href="tel:+525500000000" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', marginBottom: 10 }}>
-            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(201,169,107,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(201,160,140,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.75" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .82h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
             </div>
             <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--espresso)' }}>+52 55 0000 0000</span>
           </a>
           <a href="mailto:hola@lucienne.mx" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', marginBottom: 10 }}>
-            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(201,169,107,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(201,160,140,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.75" strokeLinecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg>
             </div>
             <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--espresso)' }}>hola@lucienne.mx</span>
           </a>
           <a href="https://instagram.com/luciennemx" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(201,169,107,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(201,160,140,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.75" strokeLinecap="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
             </div>
             <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--espresso)' }}>@luciennemx</span>

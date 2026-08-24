@@ -16,7 +16,7 @@ export default function MembresiasPage() {
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.45 }} />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(26,18,9,0.6)' }} />
         <div style={{ position: 'absolute', bottom: 24, left: 24, right: 24 }}>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(201,169,107,0.65)', fontWeight: 500, marginBottom: 10 }}>Club privado</p>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.65)', fontWeight: 500, marginBottom: 10 }}>Club privado</p>
           <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(38px, 8vw, 58px)', color: '#FEFCF8', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.01em' }}>Lucienne<br/>Membership</h1>
         </div>
       </div>
@@ -41,19 +41,19 @@ export default function MembresiasPage() {
         {membershipTiers.map((tier) => (
           <div key={tier.id} style={{ borderRadius: 20, overflow: 'hidden', background: tier.bgColor, boxShadow: tier.id === 'signature' ? '0 8px 32px rgba(44,31,23,0.20)' : '0 4px 16px rgba(44,31,23,0.08)' }}>
             {tier.id === 'signature' && (
-              <div style={{ background: '#C9A96B', padding: '6px 20px', textAlign: 'center' }}>
+              <div style={{ background: '#C9A08C', padding: '6px 20px', textAlign: 'center' }}>
                 <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#1A1209', fontWeight: 700 }}>Más elegida</p>
               </div>
             )}
             <div style={{ padding: '24px 22px' }}>
               <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 30, color: tier.textColor, fontWeight: 400, marginBottom: 4 }}>{tier.name}</h2>
-              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: tier.id === 'signature' ? 'rgba(254,252,248,0.65)' : 'var(--taupe)', marginBottom: 18, fontStyle: 'italic' }}>{tier.tagline}</p>
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: tier.id === 'signature' ? 'rgba(250,245,240,0.65)' : 'var(--taupe)', marginBottom: 18, fontStyle: 'italic' }}>{tier.tagline}</p>
 
               <div style={{ marginBottom: 20 }}>
                 <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: 40, color: tier.id === 'prive' ? '#1A1209' : tier.textColor, fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>
                   ${(billing === 'monthly' ? tier.priceMonthly : Math.round(tier.priceAnnual / 12)).toLocaleString('es-MX')}
                 </span>
-                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: tier.id === 'signature' ? 'rgba(254,252,248,0.5)' : 'var(--taupe)', marginLeft: 4 }}>/mes</span>
+                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: tier.id === 'signature' ? 'rgba(250,245,240,0.5)' : 'var(--taupe)', marginLeft: 4 }}>/mes</span>
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 22 }}>
@@ -62,12 +62,12 @@ export default function MembresiasPage() {
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={tier.accentColor} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 2, flexShrink: 0 }}>
                       <path d="M20 6L9 17l-5-5"/>
                     </svg>
-                    <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: tier.id === 'signature' ? 'rgba(254,252,248,0.8)' : 'var(--espresso)', lineHeight: 1.4 }}>{f}</span>
+                    <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: tier.id === 'signature' ? 'rgba(250,245,240,0.8)' : 'var(--espresso)', lineHeight: 1.4 }}>{f}</span>
                   </div>
                 ))}
               </div>
 
-              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: tier.id === 'signature' ? 'rgba(254,252,248,0.5)' : 'var(--taupe)', marginBottom: 16 }}>
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: tier.id === 'signature' ? 'rgba(250,245,240,0.5)' : 'var(--taupe)', marginBottom: 16 }}>
                 Regalo de bienvenida: {tier.welcomeGift}
               </p>
 
@@ -88,7 +88,7 @@ export default function MembresiasPage() {
           ['¿Hay contrato de permanencia?', 'No. Puedes cancelar cuando quieras sin penalización. Solo aplica para el ciclo vigente.'],
           ['¿Incluye los tratamientos de aparatología?', 'Sí, el descuento aplica a todos nuestros servicios, incluyendo tecnología estética.'],
         ].map(([q, a]) => (
-          <div key={q as string} style={{ borderBottom: '1px solid rgba(201,169,107,0.12)', padding: '16px 0' }}>
+          <div key={q as string} style={{ borderBottom: '1px solid rgba(201,160,140,0.12)', padding: '16px 0' }}>
             <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 18, color: 'var(--espresso)', marginBottom: 8 }}>{q as string}</p>
             <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)', lineHeight: 1.65 }}>{a as string}</p>
           </div>

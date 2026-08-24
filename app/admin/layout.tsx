@@ -64,7 +64,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         style={{
           width: 220,
           background: 'rgba(15,12,10,0.95)',
-          borderRight: '1px solid rgba(201,169,107,0.1)',
+          borderRight: '1px solid rgba(201,160,140,0.1)',
           padding: '20px 0',
           flexShrink: 0,
           position: 'fixed',
@@ -76,7 +76,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       >
         <div style={{ padding: '16px 20px 24px' }}>
           <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, color: '#FEFCF8', fontWeight: 400, letterSpacing: '0.04em' }}>Lucienne</p>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(201,169,107,0.6)', marginTop: 2 }}>Administración</p>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.6)', marginTop: 2 }}>Administración</p>
         </div>
         <nav style={{ flex: 1, padding: '0 12px' }}>
           {navItems.map((item) => {
@@ -89,8 +89,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   display: 'flex', alignItems: 'center', gap: 10,
                   padding: '10px 12px', borderRadius: 10, marginBottom: 4,
                   textDecoration: 'none',
-                  background: active ? 'rgba(201,169,107,0.12)' : 'transparent',
-                  color: active ? '#C9A96B' : 'rgba(254,252,248,0.5)',
+                  background: active ? 'rgba(201,160,140,0.12)' : 'transparent',
+                  color: active ? '#C9A08C' : 'rgba(250,245,240,0.5)',
                   transition: 'all 0.2s',
                 }}
               >
@@ -100,8 +100,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             )
           })}
         </nav>
-        <div style={{ padding: '16px 20px', borderTop: '1px solid rgba(201,169,107,0.1)' }}>
-          <Link href="/home" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(254,252,248,0.35)', textDecoration: 'none', letterSpacing: '0.06em' }}>← Salir del admin</Link>
+        <div style={{ padding: '16px 20px', borderTop: '1px solid rgba(201,160,140,0.1)' }}>
+          <Link href="/home" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(250,245,240,0.35)', textDecoration: 'none', letterSpacing: '0.06em' }}>← Salir del admin</Link>
         </div>
       </aside>
 
@@ -113,16 +113,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           className="lg:hidden"
           style={{
             background: 'rgba(15,12,10,0.98)',
-            borderBottom: '1px solid rgba(201,169,107,0.1)',
+            borderBottom: '1px solid rgba(201,160,140,0.1)',
             padding: '14px 18px',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             position: 'sticky', top: 0, zIndex: 10,
           }}
         >
           <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 20, color: '#FEFCF8' }}>
-            Lucienne <span style={{ color: 'rgba(201,169,107,0.6)', fontSize: 14, fontFamily: 'var(--font-montserrat)', fontWeight: 400 }}>Admin</span>
+            Lucienne <span style={{ color: 'rgba(201,160,140,0.6)', fontSize: 14, fontFamily: 'var(--font-montserrat)', fontWeight: 400 }}>Admin</span>
           </p>
-          <Link href="/home" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(201,169,107,0.6)', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Salir</Link>
+          <Link href="/home" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(201,160,140,0.6)', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Salir</Link>
         </div>
 
         {/* Desktop header */}
@@ -130,7 +130,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           className="hidden lg:flex"
           style={{
             background: 'rgba(15,12,10,0.98)',
-            borderBottom: '1px solid rgba(201,169,107,0.1)',
+            borderBottom: '1px solid rgba(201,160,140,0.1)',
             padding: '16px 32px',
             alignItems: 'center', justifyContent: 'space-between',
             position: 'sticky', top: 0, zIndex: 10,
@@ -139,7 +139,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 18, color: '#FEFCF8' }}>
             Panel de administración
           </p>
-          <Link href="/home" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(201,169,107,0.6)', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          <Link href="/home" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(201,160,140,0.6)', textDecoration: 'none', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
             Salir del admin →
           </Link>
         </div>
@@ -150,7 +150,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           style={{
             position: 'fixed', bottom: 0, left: 0, right: 0,
             background: 'rgba(10,8,20,0.97)',
-            borderTop: '1px solid rgba(201,169,107,0.1)',
+            borderTop: '1px solid rgba(201,160,140,0.1)',
             display: 'flex', justifyContent: 'space-around',
             padding: '10px 0', paddingBottom: 'calc(10px + env(safe-area-inset-bottom))',
             zIndex: 100,
@@ -165,7 +165,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 style={{
                   display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
                   textDecoration: 'none',
-                  color: active ? '#C9A96B' : 'rgba(254,252,248,0.35)',
+                  color: active ? '#C9A08C' : 'rgba(250,245,240,0.35)',
                   minWidth: 52,
                 }}
               >

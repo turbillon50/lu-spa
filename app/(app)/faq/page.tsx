@@ -58,7 +58,7 @@ export default function FAQPage() {
             const key = `${section.titulo}-${item.q}`
             const isOpen = open === key
             return (
-              <div key={item.q} style={{ borderBottom: '1px solid rgba(201,169,107,0.12)' }}>
+              <div key={item.q} style={{ borderBottom: '1px solid rgba(201,160,140,0.12)' }}>
                 <button onClick={() => setOpen(isOpen ? null : key)} style={{ width: '100%', textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer', padding: '16px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
                   <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--espresso)', lineHeight: 1.45, fontWeight: isOpen ? 600 : 400 }}>{item.q}</span>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2, transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s' }}>

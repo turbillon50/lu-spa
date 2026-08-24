@@ -44,7 +44,7 @@ export default function QuizPage() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
             {result.packageId && (
-              <Link href={`/reservar?t=${result.packageId}&name=${encodeURIComponent(result.subtitle)}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--espresso)', color: '#FEFCF8', padding: '15px', borderRadius: 22, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>
+              <Link href={`/reservar?t=${result.packageId}&name=${encodeURIComponent(result.subtitle)}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#E07560', color: '#FEFCF8', padding: '15px', borderRadius: 22, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>
                 Reservar esta experiencia
               </Link>
             )}
@@ -82,7 +82,7 @@ export default function QuizPage() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {question.options.map((opt) => (
-            <button key={opt.id} onClick={() => handleSelect(opt.id)} style={{ display: 'flex', alignItems: 'center', padding: '18px 18px', borderRadius: 14, border: '1px solid rgba(201,169,107,0.18)', background: answers[question.id] === opt.id ? 'rgba(201,169,107,0.1)' : 'rgba(237,230,217,0.35)', cursor: 'pointer', width: '100%', textAlign: 'left', transition: 'all 0.2s cubic-bezier(.22,1,.36,1)' }}>
+            <button key={opt.id} onClick={() => handleSelect(opt.id)} style={{ display: 'flex', alignItems: 'center', padding: '18px 18px', borderRadius: 14, border: '1px solid rgba(201,160,140,0.18)', background: answers[question.id] === opt.id ? 'rgba(201,160,140,0.1)' : 'rgba(237,230,217,0.35)', cursor: 'pointer', width: '100%', textAlign: 'left', transition: 'all 0.2s cubic-bezier(.22,1,.36,1)' }}>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 15, color: 'var(--espresso)', fontWeight: 400, lineHeight: 1.4 }}>{opt.label}</span>
             </button>
           ))}

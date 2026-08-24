@@ -30,15 +30,15 @@ export default function GaleriaPage() {
 
       {/* Header */}
       <div style={{ padding: '48px 22px 24px' }}>
-        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(201,169,107,0.65)', fontWeight: 500, marginBottom: 8 }}>Espacio Lucienne</p>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.65)', fontWeight: 500, marginBottom: 8 }}>Espacio Lucienne</p>
         <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(36px, 8vw, 54px)', color: '#FEFCF8', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.01em', marginBottom: 6 }}>Galería</h1>
-        <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 24, color: 'rgba(201,169,107,0.55)' }}>Un lugar que se siente.</p>
+        <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 24, color: 'rgba(201,160,140,0.55)' }}>Un lugar que se siente.</p>
       </div>
 
       {/* Filtros */}
       <div style={{ display: 'flex', gap: 8, overflowX: 'auto', padding: '0 22px 24px', scrollbarWidth: 'none' }}>
         {categories.map((cat) => (
-          <button key={cat} onClick={() => setActive(cat)} style={{ flexShrink: 0, padding: '7px 16px', borderRadius: 20, border: `1px solid ${active === cat ? 'rgba(201,169,107,0.6)' : 'rgba(201,169,107,0.15)'}`, background: active === cat ? 'rgba(201,169,107,0.12)' : 'transparent', color: active === cat ? '#C9A96B' : 'rgba(254,252,248,0.45)', fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.08em', cursor: 'pointer', transition: 'all 0.2s' }}>
+          <button key={cat} onClick={() => setActive(cat)} style={{ flexShrink: 0, padding: '7px 16px', borderRadius: 20, border: `1px solid ${active === cat ? 'rgba(201,160,140,0.6)' : 'rgba(201,160,140,0.15)'}`, background: active === cat ? 'rgba(201,160,140,0.12)' : 'transparent', color: active === cat ? '#C9A08C' : 'rgba(250,245,240,0.45)', fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.08em', cursor: 'pointer', transition: 'all 0.2s' }}>
             {cat}
           </button>
         ))}
@@ -51,7 +51,7 @@ export default function GaleriaPage() {
             <img src={photo.src} alt={photo.label} loading="lazy"
               style={{ width: '100%', display: 'block', aspectRatio: photo.wide ? '3/2' : '3/4', objectFit: 'cover' }} />
             <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(transparent, rgba(0,0,0,0.55))', padding: '20px 10px 8px' }}>
-              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(254,252,248,0.75)', letterSpacing: '0.06em' }}>{photo.label}</p>
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(250,245,240,0.75)', letterSpacing: '0.06em' }}>{photo.label}</p>
             </div>
           </div>
         ))}
@@ -62,14 +62,14 @@ export default function GaleriaPage() {
         <div onClick={() => setLightbox(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.92)', zIndex: 9000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
           <img src={lightbox} alt="" style={{ maxWidth: '100%', maxHeight: '90dvh', borderRadius: 8, objectFit: 'contain' }} />
           <button onClick={() => setLightbox(null)} style={{ position: 'absolute', top: 20, right: 20, background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(254,252,248,0.8)" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(250,245,240,0.8)" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
         </div>
       )}
 
       {/* CTA */}
       <div style={{ padding: '0 22px 20px', position: 'fixed', bottom: 'calc(72px + env(safe-area-inset-bottom))', left: 0, right: 0, background: 'linear-gradient(transparent, rgba(15,12,10,0.95))', paddingTop: 30 }}>
-        <Link href="/reservar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#C9A96B', color: '#1A1209', padding: '14px', borderRadius: 22, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700 }}>
+        <Link href="/reservar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#E07560', color: '#FEFCF8', padding: '14px', borderRadius: 22, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700 }}>
           Reservar visita
         </Link>
       </div>

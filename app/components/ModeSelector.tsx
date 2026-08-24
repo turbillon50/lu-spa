@@ -10,7 +10,7 @@ const modes: { id: DemoMode; name: string; sub: string; initials: string; bg: st
     name: 'Invitada',
     sub: 'Experiencia pública',
     initials: '?',
-    bg: '#EDE6D9',
+    bg: '#EFE1D9',
     textColor: '#6B5B4E',
   },
   {
@@ -26,7 +26,7 @@ const modes: { id: DemoMode; name: string; sub: string; initials: string; bg: st
     name: 'Administración',
     sub: 'Gestión completa del spa',
     initials: 'A',
-    bg: '#C9A96B',
+    bg: '#C9A08C',
     textColor: '#1A1209',
   },
 ]
@@ -74,7 +74,7 @@ export function ModeSelector({ open, onClose }: { open: boolean; onClose: () => 
           width: '100%', maxWidth: 480,
           boxShadow: '0 -8px 40px rgba(44,31,23,0.18)',
           animation: 'slideUp 0.3s cubic-bezier(.22,1,.36,1)',
-          border: '1px solid rgba(201,169,107,0.15)',
+          border: '1px solid rgba(201,160,140,0.15)',
           borderBottom: 'none',
         }}
       >
@@ -101,9 +101,9 @@ export function ModeSelector({ open, onClose }: { open: boolean; onClose: () => 
                 style={{
                   display: 'flex', alignItems: 'center', gap: 14,
                   padding: '14px 16px', borderRadius: 16, border: 'none',
-                  background: active ? 'rgba(201,169,107,0.08)' : 'transparent',
+                  background: active ? 'rgba(201,160,140,0.08)' : 'transparent',
                   cursor: 'pointer', width: '100%', textAlign: 'left',
-                  outline: active ? '1px solid rgba(201,169,107,0.35)' : 'none',
+                  outline: active ? '1px solid rgba(201,160,140,0.35)' : 'none',
                   transition: 'all 0.2s cubic-bezier(.22,1,.36,1)',
                 }}
               >
@@ -137,7 +137,7 @@ export function ModeSelector({ open, onClose }: { open: boolean; onClose: () => 
                 </div>
 
                 {active && (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A96B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A08C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M20 6L9 17l-5-5" />
                   </svg>
                 )}

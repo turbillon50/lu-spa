@@ -24,7 +24,7 @@ export default function MiLuciennePage() {
       }}>
         <div style={{
           width: 72, height: 72, borderRadius: '50%',
-          border: '1px solid rgba(201,169,107,0.25)',
+          border: '1px solid rgba(201,160,140,0.25)',
           background: 'rgba(237,230,217,0.5)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24,
         }}>
@@ -57,7 +57,7 @@ export default function MiLuciennePage() {
         <p style={{
           fontFamily: 'var(--font-montserrat)',
           fontSize: 10, letterSpacing: '0.28em', textTransform: 'uppercase',
-          color: 'rgba(201,169,107,0.55)', fontWeight: 500, marginBottom: 12,
+          color: 'rgba(201,160,140,0.55)', fontWeight: 500, marginBottom: 12,
         }}>
           Mi Lucienne
         </p>
@@ -73,15 +73,15 @@ export default function MiLuciennePage() {
         {/* Membership badge */}
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: 7,
-          background: 'rgba(201,169,107,0.12)',
-          border: '1px solid rgba(201,169,107,0.28)',
+          background: 'rgba(201,160,140,0.12)',
+          border: '1px solid rgba(201,160,140,0.28)',
           borderRadius: 24, padding: '5px 14px',
         }}>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#C9A96B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#C9A08C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M2.7 10.3L12 22l9.3-11.7L17 3H7L2.7 10.3z"/>
             <path d="M7 3l5 7.3L17 3M2.7 10.3h18.6"/>
           </svg>
-          <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.14em', color: '#C9A96B', fontWeight: 700 }}>SIGNATURE</span>
+          <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.14em', color: '#C9A08C', fontWeight: 700 }}>SIGNATURE</span>
         </div>
       </div>
 
@@ -100,7 +100,7 @@ export default function MiLuciennePage() {
             gap: 8, padding: '18px 12px',
             borderRadius: 16, textDecoration: 'none',
             background: 'rgba(237,230,217,0.5)',
-            border: '1px solid rgba(201,169,107,0.13)',
+            border: '1px solid rgba(201,160,140,0.13)',
             transition: 'all 0.2s var(--spring)',
           }}>
             <div style={{ color: 'var(--taupe)' }}>{a.icon}</div>
@@ -127,7 +127,7 @@ export default function MiLuciennePage() {
           </p>
           <div style={{
             background: 'rgba(237,230,217,0.5)',
-            border: '1px solid rgba(201,169,107,0.18)',
+            border: '1px solid rgba(201,160,140,0.18)',
             borderRadius: 18, padding: '22px 22px',
           }}>
             <h3 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 24, color: 'var(--espresso)', marginBottom: 6, fontWeight: 500 }}>
@@ -139,7 +139,7 @@ export default function MiLuciennePage() {
             <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)', marginBottom: 3 }}>
               {upcoming[0].time} · {upcoming[0].cabin}
             </p>
-            <div style={{ marginTop: 18, paddingTop: 16, borderTop: '1px solid rgba(201,169,107,0.12)', display: 'flex', gap: 14 }}>
+            <div style={{ marginTop: 18, paddingTop: 16, borderTop: '1px solid rgba(201,160,140,0.12)', display: 'flex', gap: 14 }}>
               <Link href="/reservar" style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, color: 'var(--espresso)', textDecoration: 'none' }}>
                 Reservar de nuevo
               </Link>
@@ -156,22 +156,22 @@ export default function MiLuciennePage() {
         <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 500, marginBottom: 14 }}>
           Mi membresía
         </p>
-        <div style={{ background: 'var(--espresso)', borderRadius: 20, padding: '24px 22px', boxShadow: 'inset 0 1px 0 rgba(201,169,107,0.18)' }}>
+        <div style={{ background: 'var(--espresso)', borderRadius: 20, padding: '24px 22px', boxShadow: 'inset 0 1px 0 rgba(201,160,140,0.18)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
             <div>
               <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 28, color: '#FEFCF8', fontWeight: 300, marginBottom: 4 }}>Signature</p>
-              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(254,252,248,0.4)' }}>Vigente hasta sep 2026</p>
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(250,245,240,0.4)' }}>Vigente hasta sep 2026</p>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, color: 'rgba(201,169,107,0.55)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 4 }}>Sesiones este mes</p>
-              <p className="tabular" style={{ fontFamily: 'var(--font-cormorant)', fontSize: 32, color: '#C9A96B', lineHeight: 1 }}>1<span style={{ fontSize: 18, opacity: 0.5 }}>/2</span></p>
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, color: 'rgba(201,160,140,0.55)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 4 }}>Sesiones este mes</p>
+              <p className="tabular" style={{ fontFamily: 'var(--font-cormorant)', fontSize: 32, color: '#C9A08C', lineHeight: 1 }}>1<span style={{ fontSize: 18, opacity: 0.5 }}>/2</span></p>
             </div>
           </div>
-          <div style={{ borderTop: '1px solid rgba(201,169,107,0.1)', paddingTop: 14 }}>
+          <div style={{ borderTop: '1px solid rgba(201,160,140,0.1)', paddingTop: 14 }}>
             {['2 sesiones de 60 min incluidas', '15% de descuento en todos los tratamientos', 'Prioridad de agenda'].map((b) => (
               <div key={b} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-                <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#C9A96B', flexShrink: 0, opacity: 0.7 }} />
-                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(254,252,248,0.6)' }}>{b}</span>
+                <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#C9A08C', flexShrink: 0, opacity: 0.7 }} />
+                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(250,245,240,0.6)' }}>{b}</span>
               </div>
             ))}
           </div>
@@ -185,15 +185,15 @@ export default function MiLuciennePage() {
             Próximas reservas
           </p>
           {upcoming.map((a) => (
-            <div key={a.id} style={{ borderBottom: '1px solid rgba(201,169,107,0.1)', padding: '14px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div key={a.id} style={{ borderBottom: '1px solid rgba(201,160,140,0.1)', padding: '14px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 18, color: 'var(--espresso)', marginBottom: 3, fontWeight: 500 }}>{a.treatmentName}</p>
                 <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--taupe)', textTransform: 'capitalize' }}>{fmt(a.date)} · {a.time}</p>
               </div>
               <span style={{
                 fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase',
-                color: '#2C1F17', background: 'rgba(201,169,107,0.15)',
-                border: '1px solid rgba(201,169,107,0.28)', borderRadius: 20,
+                color: '#2C1F17', background: 'rgba(201,160,140,0.15)',
+                border: '1px solid rgba(201,160,140,0.28)', borderRadius: 20,
                 padding: '3px 10px', fontWeight: 700,
               }}>
                 Confirmada
@@ -210,8 +210,8 @@ export default function MiLuciennePage() {
         </p>
         {mockUser.giftCards.map((gc) => (
           <div key={gc.id} style={{
-            background: gc.status === 'active' ? 'rgba(201,169,107,0.07)' : 'rgba(237,230,217,0.3)',
-            border: `1px solid ${gc.status === 'active' ? 'rgba(201,169,107,0.22)' : 'rgba(201,169,107,0.1)'}`,
+            background: gc.status === 'active' ? 'rgba(201,160,140,0.07)' : 'rgba(237,230,217,0.3)',
+            border: `1px solid ${gc.status === 'active' ? 'rgba(201,160,140,0.22)' : 'rgba(201,160,140,0.1)'}`,
             borderRadius: 14, padding: '16px 18px', marginBottom: 10,
             display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
           }}>
@@ -222,8 +222,8 @@ export default function MiLuciennePage() {
             </div>
             <span style={{
               fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase',
-              color: gc.status === 'active' ? '#C9A96B' : 'var(--taupe)', fontWeight: 700,
-              background: gc.status === 'active' ? 'rgba(201,169,107,0.1)' : 'rgba(140,122,107,0.1)',
+              color: gc.status === 'active' ? '#C9A08C' : 'var(--taupe)', fontWeight: 700,
+              background: gc.status === 'active' ? 'rgba(201,160,140,0.1)' : 'rgba(140,122,107,0.1)',
               borderRadius: 20, padding: '3px 10px', flexShrink: 0, marginLeft: 8,
             }}>
               {gc.status === 'active' ? 'Vigente' : 'Usada'}
@@ -239,7 +239,7 @@ export default function MiLuciennePage() {
             Historial
           </p>
           {history.map((a) => (
-            <div key={a.id} style={{ borderBottom: '1px solid rgba(201,169,107,0.08)', padding: '12px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div key={a.id} style={{ borderBottom: '1px solid rgba(201,160,140,0.08)', padding: '12px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 17, color: 'var(--taupe)', marginBottom: 2 }}>{a.treatmentName}</p>
                 <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--sand)', textTransform: 'capitalize' }}>{fmt(a.date)}</p>

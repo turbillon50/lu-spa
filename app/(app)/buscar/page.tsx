@@ -23,7 +23,7 @@ export default function BuscarPage() {
     <div style={{ background: 'var(--ivory)', minHeight: '100dvh' }}>
 
       {/* Search bar */}
-      <div style={{ padding: '24px 22px 16px', background: 'var(--ivory)', position: 'sticky', top: 0, zIndex: 10, borderBottom: '1px solid rgba(201,169,107,0.1)', backdropFilter: 'blur(12px)' }}>
+      <div style={{ padding: '24px 22px 16px', background: 'var(--ivory)', position: 'sticky', top: 0, zIndex: 10, borderBottom: '1px solid rgba(201,160,140,0.1)', backdropFilter: 'blur(12px)' }}>
         <div style={{ position: 'relative' }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--taupe)" strokeWidth="1.75" strokeLinecap="round" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }}>
             <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
@@ -34,7 +34,7 @@ export default function BuscarPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             autoFocus
-            style={{ width: '100%', padding: '12px 14px 12px 40px', borderRadius: 14, border: '1px solid rgba(201,169,107,0.2)', background: 'rgba(237,230,217,0.4)', fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--espresso)', outline: 'none', boxSizing: 'border-box' }}
+            style={{ width: '100%', padding: '12px 14px 12px 40px', borderRadius: 14, border: '1px solid rgba(201,160,140,0.2)', background: 'rgba(237,230,217,0.4)', fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--espresso)', outline: 'none', boxSizing: 'border-box' }}
           />
         </div>
       </div>
@@ -42,7 +42,7 @@ export default function BuscarPage() {
       {/* Filters */}
       <div style={{ display: 'flex', gap: 8, overflowX: 'auto', padding: '14px 22px', scrollbarWidth: 'none' }}>
         {filters.map((f) => (
-          <button key={f} onClick={() => setActiveFilter(f)} style={{ flexShrink: 0, padding: '6px 15px', borderRadius: 20, border: `1px solid ${activeFilter === f ? 'rgba(44,31,23,0.5)' : 'rgba(201,169,107,0.2)'}`, background: activeFilter === f ? 'var(--espresso)' : 'transparent', color: activeFilter === f ? '#FEFCF8' : 'var(--taupe)', fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.06em', cursor: 'pointer', transition: 'all 0.2s' }}>
+          <button key={f} onClick={() => setActiveFilter(f)} style={{ flexShrink: 0, padding: '6px 15px', borderRadius: 20, border: `1px solid ${activeFilter === f ? 'rgba(44,31,23,0.5)' : 'rgba(201,160,140,0.2)'}`, background: activeFilter === f ? 'var(--espresso)' : 'transparent', color: activeFilter === f ? '#FEFCF8' : 'var(--taupe)', fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.06em', cursor: 'pointer', transition: 'all 0.2s' }}>
             {f === 'Todo' ? 'Todo' : filterLabels[f]}
           </button>
         ))}
@@ -63,8 +63,8 @@ export default function BuscarPage() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {results.map((t) => (
-            <Link key={t.id} href={`/treatments/${t.id}`} style={{ textDecoration: 'none', display: 'flex', gap: 14, background: 'rgba(237,230,217,0.3)', border: '1px solid rgba(201,169,107,0.1)', borderRadius: 16, overflow: 'hidden' }}>
-              <div style={{ width: 88, flexShrink: 0, background: '#EDE6D9' }}>
+            <Link key={t.id} href={`/treatments/${t.id}`} style={{ textDecoration: 'none', display: 'flex', gap: 14, background: 'rgba(237,230,217,0.3)', border: '1px solid rgba(201,160,140,0.1)', borderRadius: 16, overflow: 'hidden' }}>
+              <div style={{ width: 88, flexShrink: 0, background: '#EFE1D9' }}>
                 {t.image && <img src={t.image} alt={t.name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />}
               </div>
               <div style={{ padding: '16px 14px 16px 0', flex: 1 }}>
