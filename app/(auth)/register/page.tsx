@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useSignUp } from '@clerk/nextjs'
+import { GoogleButton, OrDivider } from '../../components/GoogleButton'
 
 const CLERK_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
@@ -17,6 +18,21 @@ function ClerkRegisterForm() {
   const [code, setCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [googleLoading, setGoogleLoading] = useState(false)
+
+  const handleGoogle = async () => {
+    if (!signUp) return
+    setGoogleLoading(true)
+    try {
+      await signUp.sso({
+        strategy: 'oauth_google',
+        redirectUrl: '/home',
+        redirectCallbackUrl: '/sso-callback',
+      })
+    } catch {
+      setGoogleLoading(false)
+    }
+  }
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -108,6 +124,8 @@ function ClerkRegisterForm() {
       <button type="submit" disabled={loading} className="btn-primary" style={primaryBtnStyle(loading)}>
         {loading ? 'Creando cuenta...' : 'Crear mi cuenta'}
       </button>
+      <OrDivider />
+      <GoogleButton onClick={handleGoogle} loading={googleLoading} label="Crear cuenta con Google" />
     </form>
   )
 }

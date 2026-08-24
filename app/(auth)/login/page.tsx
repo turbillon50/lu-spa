@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useSignIn } from '@clerk/nextjs'
+import { GoogleButton, OrDivider } from '../../components/GoogleButton'
 
 const CLERK_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
@@ -13,6 +14,21 @@ function ClerkForm({ onDemoMode }: { onDemoMode: () => void }) {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [googleLoading, setGoogleLoading] = useState(false)
+
+  const handleGoogle = async () => {
+    if (!signIn) return
+    setGoogleLoading(true)
+    try {
+      await signIn.sso({
+        strategy: 'oauth_google',
+        redirectUrl: '/home',
+        redirectCallbackUrl: '/sso-callback',
+      })
+    } catch {
+      setGoogleLoading(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -58,6 +74,8 @@ function ClerkForm({ onDemoMode }: { onDemoMode: () => void }) {
       <button type="button" onClick={onDemoMode} style={ghostBtnStyle}>
         Entrar en modo demo
       </button>
+      <OrDivider />
+      <GoogleButton onClick={handleGoogle} loading={googleLoading} />
     </form>
   )
 }
