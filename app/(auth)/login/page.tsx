@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useSignIn } from '@clerk/nextjs'
-import { GoogleButton, OrDivider } from '../../components/GoogleButton'
+import { GoogleButton, OrDivider, PasskeyButton } from '../../components/GoogleButton'
 
 const CLERK_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
@@ -27,6 +27,31 @@ function ClerkForm({ onDemoMode }: { onDemoMode: () => void }) {
       })
     } catch {
       setGoogleLoading(false)
+    }
+  }
+
+  const [passkeyLoading, setPasskeyLoading] = useState(false)
+
+  const handlePasskey = async () => {
+    if (!signIn) return
+    setError('')
+    setPasskeyLoading(true)
+    try {
+      const { error: passkeyError } = await signIn.passkey({ flow: 'discoverable' })
+      if (passkeyError) {
+        setError('No se pudo verificar el passkey. Intenta de nuevo.')
+        setPasskeyLoading(false)
+        return
+      }
+      if (signIn.status === 'complete') {
+        await signIn.finalize()
+        router.replace('/home')
+      } else {
+        setPasskeyLoading(false)
+      }
+    } catch {
+      setError('No se pudo verificar el passkey. Intenta de nuevo.')
+      setPasskeyLoading(false)
     }
   }
 
@@ -76,6 +101,7 @@ function ClerkForm({ onDemoMode }: { onDemoMode: () => void }) {
       </button>
       <OrDivider />
       <GoogleButton onClick={handleGoogle} loading={googleLoading} />
+      <PasskeyButton onClick={handlePasskey} loading={passkeyLoading} />
     </form>
   )
 }

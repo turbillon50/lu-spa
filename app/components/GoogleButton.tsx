@@ -62,3 +62,48 @@ export function OrDivider() {
     </div>
   )
 }
+
+
+export function PasskeyButton({
+  onClick,
+  loading,
+}: {
+  onClick: () => void
+  loading?: boolean
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={loading}
+      style={{
+        width: '100%',
+        marginTop: 10,
+        padding: '13px 16px',
+        borderRadius: 28,
+        border: '1px solid rgba(196,160,140,0.3)',
+        background: 'rgba(255,255,255,0.85)',
+        cursor: loading ? 'not-allowed' : 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 10,
+        fontFamily: 'var(--font-montserrat)',
+        fontSize: 12,
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+        fontWeight: 500,
+        color: 'var(--espresso)',
+        opacity: loading ? 0.6 : 1,
+      }}
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold-deep)" strokeWidth="1.7" aria-hidden="true">
+        <path d="M12 2a5 5 0 0 0-5 5v3a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5Z" />
+        <path d="M8 10v6a4 4 0 0 0 8 0v-6" />
+        <path d="M12 14v6" />
+        <path d="M9 20c1 .6 2 1 3 1s2-.4 3-1" />
+      </svg>
+      <span>{loading ? 'Verificando...' : 'Entrar con Passkey / Face ID'}</span>
+    </button>
+  )
+}
