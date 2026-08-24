@@ -1,21 +1,15 @@
 'use client'
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { TopBar } from '../components/TopBar'
 import { BottomNav } from '../components/BottomNav'
-import { useStore } from '../lib/providers'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter()
-  const { user, hydrated } = useStore()
-
-  useEffect(() => {
-    if (hydrated && !user) router.replace('/login')
-  }, [hydrated, user, router])
-
   return (
-    <main className="app-shell flex min-h-[100dvh] flex-col">
-      <div className="scroll-area flex-1">{children}</div>
+    <div style={{ minHeight: '100dvh', background: 'var(--ivory)' }}>
+      <TopBar />
+      <main style={{ paddingBottom: 'calc(72px + env(safe-area-inset-bottom))' }}>
+        {children}
+      </main>
       <BottomNav />
-    </main>
+    </div>
   )
 }

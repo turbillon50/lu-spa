@@ -1,122 +1,171 @@
 'use client'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Eye, EyeOff } from 'lucide-react'
-import { Logo } from '../../components/Logo'
-import { SocialIcon } from '../../components/SocialIcon'
-import { useStore } from '../../lib/providers'
+import { useRouter } from 'next/navigation'
+import { useSignIn } from '@clerk/nextjs'
 
-export default function LoginPage() {
+const CLERK_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+
+function ClerkForm({ onDemoMode }: { onDemoMode: () => void }) {
+  const { signIn } = useSignIn()
   const router = useRouter()
-  const { signIn, signInGuest } = useStore()
-  const [email, setEmail] = useState('fernanda@email.com')
-  const [password, setPassword] = useState('luciennespa')
-  const [show, setShow] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  const submit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!email) return
-    signIn(email)
-    router.push('/home')
-  }
-
-  const social = (provider: string) => {
-    signIn(`${provider}@lucienne.spa`)
-    router.push('/home')
+    if (!signIn) return
+    setError('')
+    setLoading(true)
+    try {
+      await signIn.create({ identifier: email, password })
+      if (signIn.status === 'complete') {
+        await signIn.finalize()
+        router.replace('/home')
+      }
+    } catch (err: unknown) {
+      const msg = (err as { errors?: { message: string }[] })?.errors?.[0]?.message
+      setError(msg || 'Credenciales incorrectas. Intenta de nuevo.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
-    <section className="relative flex flex-1 flex-col">
-      <div
-        className="relative flex flex-col items-center px-6 pt-16 pb-10 text-center"
-        style={{
-          backgroundImage:
-            'linear-gradient(180deg, rgba(231,176,161,0.95) 0%, rgba(217,153,134,0.95) 100%)'
-        }}
-      >
-        <Logo size="lg" tone="light" />
-        <h1 className="mt-7 font-display text-[24px] leading-tight text-white">Bienvenida</h1>
-        <p className="text-[13px] text-cream-100/90">a tu espacio de bienestar</p>
+    <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+      <div style={{ marginBottom: 16 }}>
+        <label style={labelStyle}>Correo electrónico</label>
+        <input
+          type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+          required autoComplete="email" className="input-lucienne" style={inputStyle}
+          placeholder="tu@correo.com"
+        />
+      </div>
+      <div style={{ marginBottom: 24 }}>
+        <label style={labelStyle}>Contraseña</label>
+        <input
+          type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+          required autoComplete="current-password" className="input-lucienne" style={inputStyle}
+          placeholder="••••••••"
+        />
+      </div>
+      {error && <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: '#C04040', marginBottom: 16 }}>{error}</p>}
+      <button type="submit" disabled={loading} className="btn-primary" style={primaryBtnStyle(loading)}>
+        {loading ? 'Ingresando...' : 'Iniciar sesión'}
+      </button>
+      <button type="button" onClick={onDemoMode} style={ghostBtnStyle}>
+        Entrar en modo demo
+      </button>
+    </form>
+  )
+}
+
+function DemoForm() {
+  const router = useRouter()
+  const login = (role: 'user' | 'admin') => {
+    try { localStorage.setItem('lucienne::mode', role) } catch {}
+    router.replace(role === 'admin' ? '/admin' : '/home')
+  }
+  return (
+    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <button onClick={() => login('user')} className="btn-primary" style={primaryBtnStyle(false)}>
+        Entrar como Mariana Reyes
+      </button>
+      <button onClick={() => login('admin')} style={ghostBtnStyle}>
+        Entrar como Administración
+      </button>
+    </div>
+  )
+}
+
+const labelStyle: React.CSSProperties = {
+  display: 'block', fontFamily: 'var(--font-montserrat)',
+  fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase',
+  color: 'var(--taupe)', marginBottom: 8,
+}
+const inputStyle: React.CSSProperties = {
+  width: '100%', padding: '14px 16px', borderRadius: 12,
+  border: '1px solid rgba(196,160,140,0.25)',
+  background: 'rgba(255,255,255,0.6)',
+  fontFamily: 'var(--font-montserrat)', fontSize: 14,
+  color: 'var(--espresso)', outline: 'none', boxSizing: 'border-box',
+}
+const primaryBtnStyle = (disabled: boolean): React.CSSProperties => ({
+  width: '100%', padding: '15px', borderRadius: 28,
+  border: 'none', cursor: disabled ? 'not-allowed' : 'pointer',
+  background: disabled ? 'rgba(224,117,96,0.5)' : '#E07560',
+  color: '#FEFCF8', fontFamily: 'var(--font-montserrat)',
+  fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600,
+})
+const ghostBtnStyle: React.CSSProperties = {
+  width: '100%', marginTop: 10, padding: '13px', borderRadius: 28,
+  border: '1px solid rgba(196,160,140,0.3)', background: 'transparent',
+  cursor: 'pointer', fontFamily: 'var(--font-montserrat)',
+  fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase',
+  fontWeight: 500, color: 'var(--taupe)',
+}
+
+export default function LoginPage() {
+  const [demoMode, setDemoMode] = useState(!CLERK_KEY)
+
+  return (
+    <div style={{
+      minHeight: '100dvh',
+      background: 'linear-gradient(160deg, #FAF5F0 0%, #F6EBE4 100%)',
+      display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center',
+      padding: '40px 24px',
+    }}>
+      <Link href="/splash" style={{ display: 'block', marginBottom: 32, textDecoration: 'none' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/img/brand/logo-oficial.jpg" alt="Lucienne"
+          style={{ width: 80, height: 80, borderRadius: '50%', objectFit: 'cover', display: 'block' }}
+        />
+      </Link>
+
+      <h1 style={{
+        fontFamily: 'var(--font-cormorant)', fontSize: 36, fontWeight: 300,
+        color: 'var(--espresso)', textAlign: 'center', marginBottom: 6, letterSpacing: '-0.01em',
+      }}>
+        {demoMode ? 'Selecciona tu perfil' : 'Bienvenida de regreso'}
+      </h1>
+      <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 22, color: 'var(--taupe)', textAlign: 'center', marginBottom: 36 }}>
+        {demoMode ? 'Modo demo' : 'The Lucienne Experience'}
+      </p>
+
+      <div style={{
+        width: '100%', maxWidth: 420,
+        background: 'rgba(255,255,255,0.72)', borderRadius: 20, padding: '32px 28px',
+        border: '1px solid rgba(201,160,140,0.18)',
+        backdropFilter: 'blur(12px)',
+        boxShadow: '0 8px 40px rgba(44,31,23,0.08)',
+      }}>
+        {CLERK_KEY && !demoMode
+          ? <ClerkForm onDemoMode={() => setDemoMode(true)} />
+          : <DemoForm />
+        }
       </div>
 
-      <form onSubmit={submit} className="flex flex-1 flex-col gap-4 px-6 pt-6 pb-8">
-        <label className="block">
-          <span className="eyebrow mb-1 block">Correo o teléfono</span>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="field"
-            placeholder="tu@correo.com"
-            autoComplete="email"
-          />
-        </label>
-        <label className="block">
-          <span className="eyebrow mb-1 block">Contraseña</span>
-          <div className="relative">
-            <input
-              type={show ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="field pr-12"
-              placeholder="••••••••"
-              autoComplete="current-password"
-            />
-            <button
-              type="button"
-              aria-label={show ? 'Ocultar' : 'Mostrar'}
-              onClick={() => setShow((s) => !s)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-500"
-            >
-              {show ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-          </div>
-        </label>
-
-        <button type="button" className="btn-link self-end">
-          ¿Olvidaste tu contraseña?
-        </button>
-
-        <button type="submit" className="btn-rose mt-2">
-          Iniciar sesión
-        </button>
-
-        <div className="my-2 flex items-center gap-3 text-[11px] uppercase tracking-[0.32em] text-ink-500">
-          <span className="h-px flex-1 bg-rose-100" />
-          o continúa con
-          <span className="h-px flex-1 bg-rose-100" />
-        </div>
-
-        <div className="flex justify-center gap-4">
-          <button type="button" onClick={() => social('google')} aria-label="Google">
-            <SocialIcon provider="google" />
-          </button>
-          <button type="button" onClick={() => social('apple')} aria-label="Apple">
-            <SocialIcon provider="apple" />
-          </button>
-          <button type="button" onClick={() => social('facebook')} aria-label="Facebook">
-            <SocialIcon provider="facebook" />
-          </button>
-        </div>
-
-        <p className="mt-auto pt-6 text-center text-[13px] text-ink-500">
-          ¿No tienes cuenta?{' '}
-          <Link href="/register" className="font-medium text-rose-600">
-            Regístrate
+      {!demoMode && CLERK_KEY && (
+        <p style={{ marginTop: 24, fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)', textAlign: 'center' }}>
+          ¿Primera vez?{' '}
+          <Link href="/register" style={{ color: 'var(--gold)', textDecoration: 'none', fontWeight: 600 }}>
+            Crea tu cuenta
           </Link>
         </p>
+      )}
+
+      {demoMode && CLERK_KEY && (
         <button
-          type="button"
-          onClick={() => {
-            signInGuest()
-            router.push('/home')
-          }}
-          className="text-center text-[13px] text-ink-500 underline-offset-4 hover:underline"
+          onClick={() => setDemoMode(false)}
+          style={{ marginTop: 20, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)', textDecoration: 'underline' }}
         >
-          Explorar como invitada
+          Iniciar sesión con mi cuenta
         </button>
-      </form>
-    </section>
+      )}
+    </div>
   )
 }
