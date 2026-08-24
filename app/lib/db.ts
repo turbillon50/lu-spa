@@ -2,7 +2,13 @@ import { neon } from '@neondatabase/serverless'
 
 // Cliente Neon compartido para todas las rutas API. Usa siempre el host
 // -pooler (evita timeouts en serverless).
-export const sql = neon(process.env.DATABASE_URL!)
+// fetchOptions cache:'no-store' es obligatorio -- Next.js parchea el fetch
+// global y cachea las llamadas HTTP del driver de Neon aunque la ruta tenga
+// dynamic='force-dynamic'. Sin esto, GET /api/admin/conversaciones (y
+// cualquier otra ruta que lea seguido) puede devolver datos viejos.
+export const sql = neon(process.env.DATABASE_URL!, {
+  fetchOptions: { cache: 'no-store' },
+})
 
 // --- Compartido para rutas de referidos (no toca getOrCreateCliente que ya
 // vive inline en app/api/reservas/route.ts -- mismo patron, sin duplicar el
