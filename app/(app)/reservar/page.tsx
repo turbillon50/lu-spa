@@ -2,6 +2,9 @@
 import { Suspense, useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useStore } from '../../lib/providers'
+import { useUser } from '@clerk/nextjs'
+
+const CLERK_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
 const TIMES = ['09:00', '10:00', '11:00', '12:00', '13:00', '15:00', '16:00', '17:00', '18:00', '19:00']
 const OCCUPIED: Record<string, string[]> = {
@@ -26,6 +29,8 @@ function ReservarContent() {
   const router = useRouter()
   const params = useSearchParams()
   const { setBookingItem, confirmBooking } = useStore()
+  const { isSignedIn } = CLERK_KEY ? useUser() : { isSignedIn: false }
+  const [saveError, setSaveError] = useState('')
 
   const tId = params.get('t') ?? 'masaje-relajante'
   const tName = params.get('name') ?? 'Masaje Relajante'
@@ -49,14 +54,40 @@ function ReservarContent() {
   const firstDay = getFirstDay(viewYear, viewMonth)
   const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     confirmBooking(selectedDate, selectedTime)
+
+    // Con sesion real de Clerk, ademas la escribimos en Neon de verdad.
+    // El modo demo (sin sesion) se queda solo en el store local, como antes.
+    if (isSignedIn) {
+      try {
+        const res = await fetch('/api/reservas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tratamientoSlug: tId,
+            fecha: selectedDate,
+            hora: selectedTime,
+            notas: form.notas || undefined,
+          }),
+        })
+        if (!res.ok) setSaveError('Se registro localmente, pero hubo un problema guardandola en el sistema. Contactanos para confirmar.')
+      } catch {
+        setSaveError('Se registro localmente, pero hubo un problema guardandola en el sistema. Contactanos para confirmar.')
+      }
+    }
+
     setDone(true)
   }
 
   if (done) {
     return (
       <div style={{ background: 'var(--ivory)', minHeight: '80dvh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 24px', textAlign: 'center' }}>
+        {saveError && (
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: '#C04040', marginBottom: 16, maxWidth: '32ch' }}>
+            {saveError}
+          </p>
+        )}
         {/* Golden trace checkmark — SVG draw-on animation */}
         <svg width="80" height="80" viewBox="0 0 80 80" style={{ marginBottom: 24 }}>
           {/* Outer ring — fills first */}

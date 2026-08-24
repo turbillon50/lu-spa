@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useUser } from '@clerk/nextjs'
 
@@ -11,6 +11,25 @@ export function RealAccountView() {
   const { user } = useUser()
   const [creating, setCreating] = useState(false)
   const [pkError, setPkError] = useState('')
+  const [reservas, setReservas] = useState<Array<{
+    id: number; fecha: string; hora: string; estado: string
+    tratamiento: string; precio: string; duracion_min: number
+  }> | null>(null)
+
+  useEffect(() => {
+    fetch('/api/reservas')
+      .then((r) => (r.ok ? r.json() : { reservas: [] }))
+      .then((data) => setReservas(data.reservas || []))
+      .catch(() => setReservas([]))
+  }, [])
+
+  const handleCancelar = async (id: number) => {
+    await fetch(`/api/reservas/${id}`, { method: 'DELETE' })
+    setReservas((prev) => prev?.map((r) => (r.id === id ? { ...r, estado: 'cancelada' } : r)) ?? null)
+  }
+
+  const fmtFecha = (iso: string) =>
+    new Date(iso).toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' })
 
   const passkeys = user?.passkeys ?? []
 
@@ -111,11 +130,59 @@ export function RealAccountView() {
           {creating ? 'Configurando...' : passkeys.length > 0 ? 'Agregar otro passkey' : 'Activar Passkey / Face ID'}
         </button>
 
-        <div style={{ marginTop: 40, padding: '20px 20px', background: 'rgba(237,230,217,0.4)', borderRadius: 16, border: '1px solid rgba(201,160,140,0.18)' }}>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--taupe)', lineHeight: 1.7 }}>
-            Tus reservas y membresia apareceran aqui en cuanto conectemos tu cuenta a nuestro sistema de citas.
-          </p>
-        </div>
+        <h2 style={{
+          fontFamily: 'var(--font-cormorant)', fontSize: 22, color: 'var(--espresso)',
+          fontWeight: 400, marginTop: 40, marginBottom: 12,
+        }}>
+          Tus reservas
+        </h2>
+
+        {reservas === null && (
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)' }}>Cargando...</p>
+        )}
+
+        {reservas !== null && reservas.length === 0 && (
+          <div style={{ padding: '20px 20px', background: 'rgba(237,230,217,0.4)', borderRadius: 16, border: '1px solid rgba(201,160,140,0.18)' }}>
+            <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--taupe)', lineHeight: 1.7 }}>
+              Todavia no tienes reservas. Cuando reserves un tratamiento, aqui vas a ver el historial.
+            </p>
+          </div>
+        )}
+
+        {reservas !== null && reservas.length > 0 && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {reservas.map((r) => (
+              <div key={r.id} style={{
+                background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(201,160,140,0.2)',
+                borderRadius: 14, padding: '14px 16px',
+                opacity: r.estado === 'cancelada' ? 0.5 : 1,
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                  <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: 18, color: 'var(--espresso)', fontWeight: 500 }}>
+                    {r.tratamiento}
+                  </span>
+                  <span style={{
+                    fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase',
+                    color: r.estado === 'cancelada' ? '#C04040' : '#6B8F5A', fontWeight: 700,
+                  }}>
+                    {r.estado}
+                  </span>
+                </div>
+                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--taupe)', textTransform: 'capitalize' }}>
+                  {fmtFecha(r.fecha)} · {r.hora.slice(0, 5)}
+                </p>
+                {r.estado !== 'cancelada' && (
+                  <button
+                    onClick={() => handleCancelar(r.id)}
+                    style={{ marginTop: 8, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)', textDecoration: 'underline' }}
+                  >
+                    Cancelar
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
 
         <Link href="/reservar" style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
