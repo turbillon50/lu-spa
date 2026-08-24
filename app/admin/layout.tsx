@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useMode } from '../lib/mode'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const navItems = [
   {
@@ -42,13 +42,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname()
   const { mode } = useMode()
   const router = useRouter()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
-    if (mode !== 'admin') {
+    if (mounted && mode !== 'admin') {
       router.replace('/home')
     }
-  }, [mode, router])
+  }, [mode, router, mounted])
 
+  if (!mounted) return <div style={{ background: '#0A0814', minHeight: '100dvh' }} />
   if (mode !== 'admin') return null
 
   return (
