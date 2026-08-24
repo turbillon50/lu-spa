@@ -37,3 +37,21 @@ Ya existe la app completa en este repo (branch claude/craft-lucienne). Tu unica 
 2. Build verde + runtime verificado.
 3. Capturas WebKit 390 y 1440 de las 10 pantallas clave en qa/ronda2/ — MIRALAS y corrige lo que no se vea de lujo.
 4. Commit firmado turbillon50 <turbillon50@gmail.com>, push a claude/craft-lucienne, deploy PREVIEW vercel (jamas --prod), actualiza URL.txt.
+
+## HAMBURGUESA + NAVEGACION COMPLETA (obligatorio)
+- Movil: ADEMAS de la tab bar, icono hamburguesa fino en el header -> menu FULL-SCREEN elegante (fondo marfil o espresso a eleccion, transicion suave, items en Cormorant grande con stagger 60ms): Conocenos, Galeria, Journal, Testimonios, FAQ, Encuentranos, Gift Cards, Para Dos, Buscar, y acceso a cuenta. Cierre con X fina arriba a la derecha. Debe sentirse un momento de marca, no un drawer generico.
+- Desktop: si el header se satura, lo secundario vive en un menu "Mas" o hamburguesa igual de elegante; el header JAMAS amontonado.
+- TAB BAR DE PRIMER NIVEL: glass real con canto especular, safe-area iOS (env(safe-area-inset-bottom)), labels 10-11px Montserrat, RESERVAR central elevado protagonista, estado activo con transicion suave y exactamente 1 activo, micro-scale al tap, y NUNCA encimada al contenido (padding-bottom del main correcto en TODAS las vistas). Persiste en toda la experiencia app.
+
+## PWA DE PRIMER NIVEL (checklist duro)
+- Manifest completo: name/short_name Lucienne, theme_color y background marfil, display standalone, iconos 192/512 + maskable, orientation portrait.
+- Service worker: precache del shell + imagenes clave; offline basico con pagina offline ELEGANTE de marca (no error del navegador).
+- Meta iOS: apple-mobile-web-app-capable, status bar translucent, apple-touch-icon.
+- Banner de instalacion PROPIO discreto y de marca (aparece una vez, se puede cerrar), no el prompt feo por defecto.
+- Debe pasar como instalable (manifest + SW verdes).
+
+## USUARIO PRIMERO
+- Reservar en 1 tap desde CUALQUIER tratamiento/experiencia; CTA permanente visible.
+- Mi Lucienne como hogar del cliente: proxima cita arriba con cuenta regresiva suave y accesos rapidos (reservar de nuevo, beneficios, gift, favoritos).
+- Carga con skeletons calidos de marca, jamas spinner generico.
+- Todo lo importante a maximo 2 taps desde home. Nada roto, nada a medio camino.

@@ -4,10 +4,10 @@ import { adminKPIs, reservasHoy, topTratamientos, clientasRecientes } from '../d
 
 function KPI({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) {
   return (
-    <div style={{ padding: '18px 0 14px', borderBottom: '1px solid rgba(201,169,107,0.08)' }}>
-      <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(201,169,107,0.55)', fontWeight: 500, marginBottom: 6 }}>{label}</p>
-      <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 38, color: color || '#FEFCF8', fontVariantNumeric: 'tabular-nums', lineHeight: 1, marginBottom: 2 }}>{value}</p>
-      {sub && <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(254,252,248,0.35)' }}>{sub}</p>}
+    <div style={{ padding: '20px 0 16px', borderBottom: '1px solid rgba(201,169,107,0.07)' }}>
+      <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(201,169,107,0.5)', fontWeight: 500, marginBottom: 8 }}>{label}</p>
+      <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(40px, 8vw, 52px)', color: color || '#FEFCF8', fontVariantNumeric: 'tabular-nums', lineHeight: 1, letterSpacing: '-0.01em', marginBottom: 4 }}>{value}</p>
+      {sub && <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(254,252,248,0.3)', letterSpacing: '0.02em' }}>{sub}</p>}
     </div>
   )
 }
@@ -19,9 +19,9 @@ export default function AdminDashboard() {
 
   return (
     <div style={{ background: '#0A0814', minHeight: '100dvh', color: '#FEFCF8' }}>
-      <div style={{ padding: '28px 22px 0' }}>
-        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'rgba(201,169,107,0.55)', letterSpacing: '0.08em', marginBottom: 4 }}>{saludo}</p>
-        <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 30, color: '#FEFCF8', fontWeight: 300, marginBottom: 24 }}>Dashboard</h1>
+      <div style={{ padding: '32px 22px 0' }}>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(201,169,107,0.5)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 500, marginBottom: 8 }}>{saludo} · Lucienne</p>
+        <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(32px, 6vw, 44px)', color: '#FEFCF8', fontWeight: 300, letterSpacing: '-0.01em', marginBottom: 28 }}>Dashboard</h1>
       </div>
 
       {/* KPIs */}

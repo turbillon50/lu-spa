@@ -57,19 +57,60 @@ function ReservarContent() {
   if (done) {
     return (
       <div style={{ background: 'var(--ivory)', minHeight: '80dvh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 24px', textAlign: 'center' }}>
-        <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(201,169,107,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A96B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20 6L9 17l-5-5"/>
-          </svg>
-        </div>
+        {/* Golden trace checkmark — SVG draw-on animation */}
+        <svg width="80" height="80" viewBox="0 0 80 80" style={{ marginBottom: 24 }}>
+          {/* Outer ring — fills first */}
+          <circle
+            cx="40" cy="40" r="34"
+            fill="none"
+            stroke="rgba(201,169,107,0.15)"
+            strokeWidth="1.5"
+          />
+          <circle
+            cx="40" cy="40" r="34"
+            fill="none"
+            stroke="#C9A96B"
+            strokeWidth="1.5"
+            pathLength="1"
+            strokeDasharray="1"
+            strokeDashoffset="1"
+            style={{
+              animation: 'drawCircle 0.9s cubic-bezier(.22,1,.36,1) 0.1s forwards',
+              transformOrigin: 'center',
+              transform: 'rotate(-90deg)',
+            }}
+          />
+          {/* Checkmark — draws after ring */}
+          <path
+            d="M25 41 L35 51 L55 31"
+            fill="none"
+            stroke="#C9A96B"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            pathLength="1"
+            strokeDasharray="1"
+            strokeDashoffset="1"
+            style={{ animation: 'drawPath 0.45s cubic-bezier(.22,1,.36,1) 0.85s forwards' }}
+          />
+        </svg>
         <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 32, color: 'var(--taupe)', marginBottom: 8 }}>Tu momento está reservado.</p>
-        <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 24, color: 'var(--espresso)', marginBottom: 16 }}>Tu experiencia Lucienne está confirmada.</h2>
-        <div style={{ background: 'rgba(237,230,217,0.5)', border: '1px solid rgba(201,169,107,0.18)', borderRadius: 16, padding: '20px 24px', marginBottom: 24, width: '100%', maxWidth: 340, textAlign: 'left' }}>
-          <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 20, color: 'var(--espresso)', marginBottom: 8 }}>{tName}</p>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)' }}>{selectedDate} · {selectedTime}</p>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)' }}>Cabina Pétalo · Lucienne Beauty Spa</p>
+        <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 26, color: 'var(--espresso)', marginBottom: 20, fontWeight: 300, lineHeight: 1.1 }}>Tu experiencia Lucienne<br/>está confirmada.</h2>
+        <div style={{ background: 'rgba(237,230,217,0.5)', border: '1px solid rgba(201,169,107,0.18)', borderRadius: 18, padding: '22px 26px', marginBottom: 28, width: '100%', maxWidth: 340, textAlign: 'left' }}>
+          <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, color: 'var(--espresso)', marginBottom: 8, fontWeight: 500 }}>{tName}</p>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)', marginBottom: 4 }}>{selectedDate} · {selectedTime}</p>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'var(--sand)' }}>Cabina Pétalo · Lucienne Beauty Spa</p>
         </div>
-        <button onClick={() => router.push('/mi-lucienne')} style={{ background: 'var(--espresso)', color: '#FEFCF8', padding: '14px 28px', borderRadius: 22, border: 'none', fontFamily: 'var(--font-montserrat)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
+        <button
+          onClick={() => router.push('/mi-lucienne')}
+          style={{
+            background: 'var(--espresso)', color: '#FEFCF8',
+            padding: '14px 30px', borderRadius: 24, border: 'none',
+            fontFamily: 'var(--font-montserrat)', fontSize: 12,
+            letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer',
+            transition: 'all 0.25s var(--spring)',
+          }}
+        >
           Ver mis reservas
         </button>
       </div>

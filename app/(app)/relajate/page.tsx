@@ -7,16 +7,17 @@ const corporales = treatments.filter((t) => t.category === 'corporales')
 
 export default function RelajatePage() {
   return (
-    <div style={{ background: 'var(--ivory)' }}>
+    <div className="page-enter" style={{ background: 'var(--ivory)' }}>
 
       {/* Hero */}
-      <div style={{ position: 'relative', height: 260, background: '#EDE6D9', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', height: 340, background: '#EDE6D9', overflow: 'hidden' }}>
         <img src="/img/relajate-2.jpg" alt="Masajes Lucienne" loading="eager"
+          className="photo-warm"
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 40%' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(26,18,9,0.1) 0%, rgba(26,18,9,0.65) 100%)' }} />
-        <div style={{ position: 'absolute', bottom: 24, left: 24, right: 24 }}>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(201,169,107,0.85)', fontWeight: 500, marginBottom: 6 }}>Masajes y rituales</p>
-          <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 38, color: '#FEFCF8', fontWeight: 300, lineHeight: 1.05 }}>Relajate</h1>
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(26,18,9,0.06) 0%, rgba(26,18,9,0.68) 100%)' }} />
+        <div style={{ position: 'absolute', bottom: 30, left: 26, right: 26 }}>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(201,169,107,0.85)', fontWeight: 500, marginBottom: 8 }}>Masajes y rituales</p>
+          <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(42px, 9vw, 64px)', color: '#FEFCF8', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.01em' }}>Relajate</h1>
         </div>
       </div>
 

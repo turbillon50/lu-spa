@@ -11,14 +11,15 @@ const categories = [
 
 export default function ExperienciasPage() {
   return (
-    <div style={{ background: 'var(--ivory)' }}>
+    <div className="page-enter" style={{ background: 'var(--ivory)' }}>
 
       {/* Header */}
-      <div style={{ padding: '40px 24px 32px' }}>
-        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 500, marginBottom: 10 }}>
+      <div style={{ padding: '48px 24px 36px' }}>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 500, marginBottom: 8 }}>
           Catálogo completo
         </p>
-        <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 36, color: 'var(--espresso)', fontWeight: 300, lineHeight: 1.1, marginBottom: 12 }}>
+        <div style={{ width: 52, height: 1, background: 'var(--gold)', opacity: 0.4, marginBottom: 20 }} />
+        <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(36px, 8vw, 56px)', color: 'var(--espresso)', fontWeight: 300, lineHeight: 1.05, letterSpacing: '-0.01em', marginBottom: 14 }}>
           Experiencias<br/>Lucienne
         </h1>
         <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)', lineHeight: 1.7 }}>

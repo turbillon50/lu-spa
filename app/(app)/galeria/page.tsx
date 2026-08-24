@@ -26,13 +26,13 @@ export default function GaleriaPage() {
   const filtered = active === 'Todo' ? photos : photos.filter((p) => p.cat === active)
 
   return (
-    <div style={{ background: '#0f0c0a', minHeight: '100dvh' }}>
+    <div className="page-enter" style={{ background: '#0f0c0a', minHeight: '100dvh' }}>
 
       {/* Header */}
-      <div style={{ padding: '40px 22px 20px' }}>
-        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(201,169,107,0.7)', fontWeight: 500, marginBottom: 8 }}>Espacio Lucienne</p>
-        <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 34, color: '#FEFCF8', fontWeight: 300, lineHeight: 1.1, marginBottom: 6 }}>Galería</h1>
-        <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 22, color: 'rgba(201,169,107,0.6)' }}>Un lugar que se siente.</p>
+      <div style={{ padding: '48px 22px 24px' }}>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(201,169,107,0.65)', fontWeight: 500, marginBottom: 8 }}>Espacio Lucienne</p>
+        <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(36px, 8vw, 54px)', color: '#FEFCF8', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.01em', marginBottom: 6 }}>Galería</h1>
+        <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 24, color: 'rgba(201,169,107,0.55)' }}>Un lugar que se siente.</p>
       </div>
 
       {/* Filtros */}

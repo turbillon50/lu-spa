@@ -7,16 +7,17 @@ export default function MembresiasPage() {
   const [billing, setBilling] = useState<'monthly' | 'annual'>('monthly')
 
   return (
-    <div style={{ background: 'var(--ivory)' }}>
+    <div className="page-enter" style={{ background: 'var(--ivory)' }}>
 
       {/* Hero */}
-      <div style={{ position: 'relative', height: 240, background: 'var(--espresso)', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', height: 300, background: 'var(--espresso)', overflow: 'hidden' }}>
         <img src="/img/membresia.jpg" alt="Membresías Lucienne" loading="eager"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.4 }} />
+          className="photo-warm"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.45 }} />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(26,18,9,0.6)' }} />
         <div style={{ position: 'absolute', bottom: 24, left: 24, right: 24 }}>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(201,169,107,0.7)', fontWeight: 500, marginBottom: 8 }}>Club privado</p>
-          <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 36, color: '#FEFCF8', fontWeight: 300, lineHeight: 1.1 }}>Lucienne<br/>Membership</h1>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(201,169,107,0.65)', fontWeight: 500, marginBottom: 10 }}>Club privado</p>
+          <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(38px, 8vw, 58px)', color: '#FEFCF8', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.01em' }}>Lucienne<br/>Membership</h1>
         </div>
       </div>
 
