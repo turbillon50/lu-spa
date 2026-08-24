@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useUser } from '@clerk/nextjs'
+import { ReferralCard } from './ReferralCard'
 
 // Vista de cuenta para una sesion REAL de Clerk (no demo). Hoy no hay base
 // de datos conectada a reservas/membresias por usuario -- eso se agrega
@@ -72,7 +73,9 @@ export function RealAccountView() {
         </p>
       </div>
 
-      <div style={{ padding: '28px 24px' }}>
+      <ReferralCard />
+
+      <div style={{ padding: '0 24px 28px' }}>
         <h2 style={{
           fontFamily: 'var(--font-cormorant)', fontSize: 22, color: 'var(--espresso)',
           fontWeight: 400, marginBottom: 6,

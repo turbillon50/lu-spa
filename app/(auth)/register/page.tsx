@@ -1,5 +1,6 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useSignUp } from '@clerk/nextjs'
@@ -10,7 +11,18 @@ const CLERK_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 function ClerkRegisterForm() {
   const { signUp } = useSignUp()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [step, setStep] = useState<'form' | 'verify'>('form')
+
+  // Guarda el ?ref=CODIGO del link de invitacion (si llega) para canjearlo
+  // en automatico apenas la cuenta quede activa -- sea por correo, Google o
+  // passkey, sin importar cual flujo termine usando.
+  useEffect(() => {
+    const ref = searchParams.get('ref')
+    if (ref) {
+      try { sessionStorage.setItem('lucienne::pendingRef', ref.toUpperCase()) } catch {}
+    }
+  }, [searchParams])
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')

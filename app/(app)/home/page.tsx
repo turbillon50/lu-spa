@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { treatments } from '../../data/treatments'
+import { PendingReferralRedeemer } from '../../components/PendingReferralRedeemer'
 
 const pillars = [
   {
@@ -84,6 +85,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 export default function HomePage() {
   return (
     <div className="page-enter" style={{ background: 'var(--ivory)' }}>
+      <PendingReferralRedeemer />
 
       {/* ─── HERO ─── */}
       <section style={{
