@@ -1,6 +1,9 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-const isProtectedRoute = createRouteMatcher(['/mi-lucienne(.*)', '/admin(.*)'])
+// Solo /mi-lucienne (cuenta de cliente) depende de Clerk.
+// /admin queda fuera a proposito -- Luis lo quiere separado, con su propio
+// candado, sin mezclarse con el sistema de cuentas de clientas.
+const isProtectedRoute = createRouteMatcher(['/mi-lucienne(.*)'])
 
 export default clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) {
