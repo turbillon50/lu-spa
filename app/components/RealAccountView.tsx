@@ -5,10 +5,8 @@ import { useUser } from '@clerk/nextjs'
 import { ReferralCard } from './ReferralCard'
 import { MensajesEntry } from './MensajesEntry'
 
-// Vista de cuenta para una sesion REAL de Clerk (no demo). Hoy no hay base
-// de datos conectada a reservas/membresias por usuario -- eso se agrega
-// despues -- asi que esta vista es honesta: identidad real + seguridad
-// (passkey / Face ID) real, sin inventar reservas que no existen.
+// Vista de cuenta para una sesión real de Clerk, con identidad, seguridad y
+// reservas obtenidas desde la base de datos.
 export function RealAccountView() {
   const { user } = useUser()
   const [creating, setCreating] = useState(false)

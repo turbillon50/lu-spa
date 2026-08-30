@@ -3,8 +3,6 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { Logo } from './Logo'
-import { ModeSelector } from './ModeSelector'
-import { useMode } from '../lib/mode'
 import { useUser } from '@clerk/nextjs'
 
 const CLERK_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
@@ -183,20 +181,18 @@ function FullScreenMenu({ open, onClose }: { open: boolean; onClose: () => void 
   )
 }
 
-function AvatarButton({ onClick, mode }: { onClick: () => void; mode: string }) {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const clerkUser = CLERK_KEY ? useUser() : null
-  const realUser = clerkUser?.isSignedIn ? clerkUser.user : null
+function SignedInAwareAvatarButton() {
+  const { isSignedIn, user } = useUser()
 
-  if (realUser) {
+  if (isSignedIn) {
     const initials = (
-      (realUser.firstName?.[0] || realUser.primaryEmailAddress?.emailAddress?.[0] || '?') +
-      (realUser.lastName?.[0] || '')
+      (user.firstName?.[0] || user.primaryEmailAddress?.emailAddress?.[0] || '?') +
+      (user.lastName?.[0] || '')
     ).toUpperCase()
 
     return (
-      <button
-        onClick={onClick}
+      <Link
+        href="/mi-lucienne"
         style={{
           width: 34, height: 34, borderRadius: '50%',
           border: '1px solid rgba(201,160,140,0.4)',
@@ -207,40 +203,46 @@ function AvatarButton({ onClick, mode }: { onClick: () => void; mode: string }) 
         }}
         aria-label="Mi cuenta"
       >
-        {realUser.imageUrl ? (
+        {user.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={realUser.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src={user.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
           <span style={{ fontSize: 12, fontFamily: 'var(--font-montserrat)', fontWeight: 700, color: '#FEFCF8' }}>
             {initials}
           </span>
         )}
-      </button>
+      </Link>
     )
   }
 
+  return <GuestAvatarButton />
+}
+
+function AvatarButton() {
+  return CLERK_KEY ? <SignedInAwareAvatarButton /> : <GuestAvatarButton />
+}
+
+function GuestAvatarButton() {
   return (
-    <button
-      onClick={onClick}
+    <Link
+      href="/login"
       style={{
         width: 34, height: 34, borderRadius: '50%',
-        background: mode === 'client' ? '#2C1F17' : mode === 'admin' ? '#C9A08C' : 'rgba(201,160,140,0.14)',
-        border: mode === 'client' || mode === 'admin' ? 'none' : '1px solid rgba(201,160,140,0.35)',
+        background: 'rgba(201,160,140,0.14)',
+        border: '1px solid rgba(201,160,140,0.35)',
         cursor: 'pointer',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: 12, fontFamily: 'var(--font-montserrat)', fontWeight: 700,
-        color: mode === 'client' ? '#FEFCF8' : mode === 'admin' ? '#1A1209' : 'var(--gold-deep)',
+        color: 'var(--gold-deep)', textDecoration: 'none',
         transition: 'all 0.25s var(--spring)',
         flexShrink: 0,
       }}
-      aria-label="Cambiar modo de demo"
+      aria-label="Iniciar sesión"
     >
-      {mode === 'client' ? 'MR' : mode === 'admin' ? 'A' : (
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-          <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-        </svg>
-      )}
-    </button>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+      </svg>
+    </Link>
   )
 }
 
@@ -255,14 +257,10 @@ export function TopBar({
 }) {
   const pathname = usePathname()
   const router = useRouter()
-  const { mode } = useMode()
-  const [modeOpen, setModeOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [moreOpen, setMoreOpen] = useState(false)
 
   if (pathname === '/splash') return null
-
-  const modeLabel = mode === 'client' ? 'CLIENTE' : mode === 'admin' ? 'ADMIN' : null
 
   const handleBack = () => {
     if (typeof back === 'string') router.push(back)
@@ -315,7 +313,6 @@ export function TopBar({
             {action ?? <div style={{ width: 36 }} />}
           </div>
         </header>
-        <ModeSelector open={modeOpen} onClose={() => setModeOpen(false)} />
       </>
     )
   }
@@ -343,16 +340,6 @@ export function TopBar({
           </Link>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            {modeLabel && (
-              <span style={{
-                fontSize: 9, letterSpacing: '0.15em', fontFamily: 'var(--font-montserrat)',
-                fontWeight: 700, color: '#C9A08C',
-                background: 'rgba(201,160,140,0.1)', padding: '3px 8px', borderRadius: 20,
-                border: '1px solid rgba(201,160,140,0.3)',
-              }}>
-                {modeLabel}
-              </span>
-            )}
             <Link href="/buscar" style={{ color: '#6B5B4E', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.35-4.35" />
@@ -361,7 +348,7 @@ export function TopBar({
             <Link href="/notifications" aria-label="Notificaciones" style={{ color: '#6B5B4E', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8a6 6 0 00-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
             </Link>
-            <AvatarButton onClick={() => setModeOpen(true)} mode={mode} />
+            <AvatarButton />
             {/* Hamburger */}
             <button
               onClick={() => setMenuOpen(true)}
@@ -468,15 +455,6 @@ export function TopBar({
           </nav>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            {modeLabel && (
-              <span style={{
-                fontSize: 9, letterSpacing: '0.15em', fontFamily: 'var(--font-montserrat)',
-                fontWeight: 700, color: '#C9A08C',
-                border: '1px solid rgba(201,160,140,0.4)', padding: '3px 10px', borderRadius: 20,
-              }}>
-                {modeLabel}
-              </span>
-            )}
             <Link href="/buscar" style={{ color: '#6B5B4E', textDecoration: 'none', display: 'flex' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.35-4.35" />
@@ -498,12 +476,11 @@ export function TopBar({
             >
               Reserva tu espacio
             </Link>
-            <AvatarButton onClick={() => setModeOpen(true)} mode={mode} />
+            <AvatarButton />
           </div>
         </div>
       </header>
 
-      <ModeSelector open={modeOpen} onClose={() => setModeOpen(false)} />
       <FullScreenMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
     </>
   )

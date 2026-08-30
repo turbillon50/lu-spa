@@ -57,8 +57,8 @@ function ReservarContent() {
   const handleConfirm = async () => {
     confirmBooking(selectedDate, selectedTime)
 
-    // Con sesion real de Clerk, ademas la escribimos en Neon de verdad.
-    // El modo demo (sin sesion) se queda solo en el store local, como antes.
+    // Con sesión real de Clerk, además la escribimos en Neon.
+    // Para visitantes, conservamos temporalmente el avance en este dispositivo.
     if (isSignedIn) {
       try {
         const res = await fetch('/api/reservas', {

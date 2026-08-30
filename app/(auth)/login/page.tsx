@@ -8,7 +8,7 @@ import { GoogleButton, OrDivider, PasskeyButton } from '../../components/GoogleB
 
 const CLERK_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
-function ClerkForm({ onDemoMode }: { onDemoMode: () => void }) {
+function ClerkForm() {
   const { signIn } = useSignIn()
   const router = useRouter()
   const [email, setEmail] = useState('')
@@ -108,33 +108,19 @@ function ClerkForm({ onDemoMode }: { onDemoMode: () => void }) {
         </button>
       </form>
 
-      <button
-        type="button"
-        onClick={onDemoMode}
-        style={{
-          width: '100%', marginTop: 18, background: 'none', border: 'none',
-          cursor: 'pointer', fontFamily: 'var(--font-montserrat)', fontSize: 11,
-          letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--taupe)',
-          opacity: 0.7, textAlign: 'center',
-        }}
-      >
-        Entrar en modo demo
-      </button>
     </div>
   )
 }
 
-function DemoForm() {
-  const router = useRouter()
-  const login = () => {
-    try { localStorage.setItem('lucienne::mode', 'user') } catch {}
-    router.replace('/home')
-  }
+function AuthUnavailable() {
   return (
-    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <button onClick={login} className="btn-primary" style={primaryBtnStyle(false)}>
-        Entrar como Mariana Reyes
-      </button>
+    <div style={{ width: '100%', textAlign: 'center' }}>
+      <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)', lineHeight: 1.75, marginBottom: 22 }}>
+        El acceso a cuentas no está disponible en este momento.
+      </p>
+      <Link href="/home" style={{ color: 'var(--gold)', fontFamily: 'var(--font-montserrat)', fontSize: 13 }}>
+        Volver al inicio
+      </Link>
     </div>
   )
 }
@@ -158,17 +144,7 @@ const primaryBtnStyle = (disabled: boolean): React.CSSProperties => ({
   color: '#FEFCF8', fontFamily: 'var(--font-montserrat)',
   fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600,
 })
-const ghostBtnStyle: React.CSSProperties = {
-  width: '100%', marginTop: 10, padding: '13px', borderRadius: 28,
-  border: '1px solid rgba(196,160,140,0.3)', background: 'transparent',
-  cursor: 'pointer', fontFamily: 'var(--font-montserrat)',
-  fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase',
-  fontWeight: 500, color: 'var(--taupe)',
-}
-
 export default function LoginPage() {
-  const [demoMode, setDemoMode] = useState(!CLERK_KEY)
-
   return (
     <div style={{
       minHeight: '100dvh',
@@ -185,10 +161,10 @@ export default function LoginPage() {
         fontFamily: 'var(--font-cormorant)', fontSize: 36, fontWeight: 300,
         color: 'var(--espresso)', textAlign: 'center', marginBottom: 6, letterSpacing: '-0.01em',
       }}>
-        {demoMode ? 'Selecciona tu perfil' : 'Bienvenida de regreso'}
+        Bienvenida de regreso
       </h1>
       <p style={{ fontFamily: 'var(--font-pinyon)', fontSize: 22, color: 'var(--taupe)', textAlign: 'center', marginBottom: 36 }}>
-        {demoMode ? 'Modo demo' : 'The Lucienne Experience'}
+        The Lucienne Experience
       </p>
 
       <div style={{
@@ -198,13 +174,10 @@ export default function LoginPage() {
         backdropFilter: 'blur(12px)',
         boxShadow: '0 8px 40px rgba(44,31,23,0.08)',
       }}>
-        {CLERK_KEY && !demoMode
-          ? <ClerkForm onDemoMode={() => setDemoMode(true)} />
-          : <DemoForm />
-        }
+        {CLERK_KEY ? <ClerkForm /> : <AuthUnavailable />}
       </div>
 
-      {!demoMode && CLERK_KEY && (
+      {CLERK_KEY && (
         <p style={{ marginTop: 24, fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)', textAlign: 'center' }}>
           ¿Primera vez?{' '}
           <Link href="/register" style={{ color: 'var(--gold)', textDecoration: 'none', fontWeight: 600 }}>
@@ -213,14 +186,6 @@ export default function LoginPage() {
         </p>
       )}
 
-      {demoMode && CLERK_KEY && (
-        <button
-          onClick={() => setDemoMode(false)}
-          style={{ marginTop: 20, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)', textDecoration: 'underline' }}
-        >
-          Iniciar sesión con mi cuenta
-        </button>
-      )}
     </div>
   )
 }

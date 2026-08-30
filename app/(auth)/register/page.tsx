@@ -123,11 +123,11 @@ function ClerkRegisterForm() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
           <div>
             <label style={labelStyle}>Nombre</label>
-            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required className="input-lucienne" style={inputStyle} placeholder="Mariana" />
+            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required className="input-lucienne" style={inputStyle} placeholder="Tu nombre" />
           </div>
           <div>
             <label style={labelStyle}>Apellido</label>
-            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required className="input-lucienne" style={inputStyle} placeholder="Reyes" />
+            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required className="input-lucienne" style={inputStyle} placeholder="Tu apellido" />
           </div>
         </div>
         <div style={{ marginBottom: 16 }}>
@@ -147,20 +147,15 @@ function ClerkRegisterForm() {
   )
 }
 
-function DemoForm() {
-  const router = useRouter()
+function AuthUnavailable() {
   return (
     <div style={{ textAlign: 'center' }}>
       <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: 'var(--taupe)', lineHeight: 1.75, marginBottom: 24 }}>
-        El registro requiere las llaves de Clerk. Entra en modo demo para explorar la app.
+        El registro de cuentas no está disponible en este momento.
       </p>
-      <button
-        onClick={() => { try { localStorage.setItem('lucienne::mode', 'user') } catch {} router.replace('/home') }}
-        className="btn-primary"
-        style={primaryBtnStyle(false)}
-      >
-        Explorar en modo demo
-      </button>
+      <Link href="/home" style={{ color: 'var(--gold)', fontFamily: 'var(--font-montserrat)', fontSize: 13 }}>
+        Volver al inicio
+      </Link>
     </div>
   )
 }
@@ -222,7 +217,7 @@ export default function RegisterPage() {
         backdropFilter: 'blur(12px)',
         boxShadow: '0 8px 40px rgba(44,31,23,0.08)',
       }}>
-        {CLERK_KEY ? <ClerkRegisterForm /> : <DemoForm />}
+        {CLERK_KEY ? <ClerkRegisterForm /> : <AuthUnavailable />}
       </div>
 
       {CLERK_KEY && (
