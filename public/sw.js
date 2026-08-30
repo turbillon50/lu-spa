@@ -1,4 +1,4 @@
-const CACHE = 'lucienne-v4'
+const CACHE = 'lucienne-v5'
 const SHELL = ['/', '/manifest.json', '/icon-192.png', '/icon-512.png', '/offline']
 
 self.addEventListener('install', (event) => {
@@ -18,6 +18,21 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return
   const url = new URL(req.url)
   if (url.origin !== self.location.origin && !url.hostname.includes('unsplash.com')) return
+
+  if (req.mode === 'navigate') {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          if (res && res.status === 200) {
+            const copy = res.clone()
+            caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {})
+          }
+          return res
+        })
+        .catch(() => caches.match(req).then((cached) => cached || caches.match('/offline')))
+    )
+    return
+  }
 
   event.respondWith(
     caches.match(req).then((cached) => {
