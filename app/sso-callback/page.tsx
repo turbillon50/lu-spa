@@ -1,5 +1,6 @@
 'use client'
 import { AuthenticateWithRedirectCallback } from '@clerk/nextjs'
+import { BrandEmblem } from '../components/BrandEmblem'
 
 // Clerk necesita esta ruta para cerrar el flujo de OAuth (Google, etc).
 // Mismo fondo/identidad que el loading global para que no se sienta como
@@ -11,12 +12,7 @@ export default function SSOCallbackPage() {
       background: '#0A0603',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/img/brand/logo-mark.png"
-        alt="Lucienne Beauty Spa"
-        style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover', opacity: 0.9 }}
-      />
+      <BrandEmblem size={116} priority glow="strong" />
       <AuthenticateWithRedirectCallback
         signInFallbackRedirectUrl="/home"
         signUpFallbackRedirectUrl="/home"

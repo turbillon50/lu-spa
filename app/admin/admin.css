@@ -35,7 +35,7 @@
   transition: width .35s var(--admin-ease);
 }
 .admin-brand { height: 76px; padding: 16px 18px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--admin-line); }
-.admin-brand__mark { border-radius: 50%; flex: none; }
+.admin-brand__mark { flex: none; }
 .admin-brand__copy { min-width: 0; display: grid; gap: 1px; white-space: nowrap; transition: opacity .2s ease; }
 .admin-brand__copy strong { font-family: var(--font-cormorant), Georgia, serif; font-size: 21px; font-weight: 500; letter-spacing: .02em; }
 .admin-brand__copy span { color: var(--admin-muted); font-size: 9px; letter-spacing: .17em; text-transform: uppercase; }
@@ -236,7 +236,7 @@
 .admin-access { position: relative; display: grid; place-items: center; padding: 28px; overflow: hidden; }
 .admin-access__aurora { position: absolute; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle,rgba(231,161,138,.17),rgba(84,96,139,.06) 44%,transparent 70%); filter: blur(18px); animation: admin-breathe 8s ease-in-out infinite; }
 .admin-access__card { position: relative; width: min(430px,100%); padding: 36px; border: 1px solid rgba(255,255,255,.1); border-radius: 22px; background: linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025)); box-shadow: 0 40px 120px rgba(0,0,0,.55), inset 0 1px rgba(255,255,255,.1); backdrop-filter: blur(22px) saturate(140%); }
-.admin-access__logo { margin-bottom: 24px; border-radius: 50%; }
+.admin-access__logo { margin-bottom: 26px; }
 .admin-access h1 { font-size: 36px; }
 .admin-access__intro { margin: 8px 0 24px; color: var(--admin-muted); font-size: 11px; }
 .admin-access__form { display: grid; gap: 14px; }

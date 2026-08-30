@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useUser } from '@clerk/nextjs'
+import { BrandEmblem } from '../components/BrandEmblem'
 
 const CLERK_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
@@ -83,8 +84,7 @@ export default function MensajesPage() {
         <Link href="/mi-lucienne" style={{ color: '#FEFCF8', display: 'flex' }} aria-label="Volver">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
         </Link>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/img/brand/logo-mark.png" alt="" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} />
+        <BrandEmblem size={38} decorative glow="soft" />
         <div>
           <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 17, color: '#FEFCF8', lineHeight: 1.1 }}>Lucienne Beauty Spa</p>
           <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(201,160,140,0.7)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Atención directa</p>

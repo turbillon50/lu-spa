@@ -3,6 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { BrandEmblem } from './BrandEmblem'
 
 function IconHome({ active }: { active: boolean }) {
   return (
@@ -79,18 +80,11 @@ function TabTransitionOverlay() {
         position: 'absolute', width: 220, height: 220, borderRadius: '50%',
         background: 'radial-gradient(circle, rgba(224,117,96,0.22) 0%, rgba(201,160,140,0.10) 45%, transparent 70%)',
       }} />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/img/brand/logo-mark.png" alt=""
-        style={{
-          width: 64, height: 64, borderRadius: '50%', objectFit: 'cover',
-          boxShadow: '0 0 32px rgba(201,160,140,0.28)',
-          animation: 'tabLogoPulse 0.5s ease-in-out infinite',
-        }}
-      />
+      <BrandEmblem size={94} decorative glow="strong" className="tab-transition-emblem" />
       <style>{`
         @keyframes tabFadeIn { from { opacity: 0 } to { opacity: 1 } }
         @keyframes tabLogoPulse { 0%, 100% { transform: scale(1) } 50% { transform: scale(1.08) } }
+        .tab-transition-emblem { animation: tabLogoPulse 0.7s ease-in-out infinite; }
       `}</style>
     </div>
   )

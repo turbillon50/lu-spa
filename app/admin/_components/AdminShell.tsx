@@ -1,8 +1,8 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
+import { BrandEmblem } from '../../components/BrandEmblem'
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 
 type IconName = 'today' | 'calendar' | 'clients' | 'messages' | 'team' | 'services'
@@ -58,7 +58,7 @@ function Navigation({ collapsed, embedded, pathname }: { collapsed: boolean; emb
   return (
     <>
       <div className="admin-brand">
-        <Image src="/img/brand/logo-mark.png" width={40} height={40} alt="" className="admin-brand__mark" />
+        <BrandEmblem size={46} decorative glow="soft" className="admin-brand__mark" />
         <div className="admin-brand__copy"><strong>Lucienne</strong><span>Administración</span></div>
       </div>
       <nav className="admin-nav" aria-label="Administración">

@@ -1,4 +1,5 @@
 import { cn } from '../lib/cn'
+import { BrandEmblem } from './BrandEmblem'
 
 const SIZES = {
   sm: 56,
@@ -6,12 +7,6 @@ const SIZES = {
   lg: 128,
   xl: 168,
 }
-
-// Tamanos chicos (header/avatar) usan el glifo "Lc" recortado en cerrado del
-// MISMO archivo oficial -- el lockup completo (anillo + LUCIENNE BEAUTY SPA)
-// se vuelve ilegible por debajo de ~100px. Nada inventado, solo un crop mas
-// cerrado de la pieza real para que se lea a tamano chico.
-const TIGHT_SIZES: Array<keyof typeof SIZES> = ['sm', 'md']
 
 export function Logo({
   size = 'md',
@@ -22,27 +17,10 @@ export function Logo({
   className?: string
 }) {
   const dim = SIZES[size]
-  const src = TIGHT_SIZES.includes(size)
-    ? '/img/brand/logo-mark.png'
-    : '/img/brand/logo-oficial.jpg'
 
   return (
     <div className={cn('inline-flex flex-col items-center', className)}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src}
-        alt="Lucienne Beauty Spa"
-        width={dim}
-        height={dim}
-        style={{
-          width: dim,
-          height: dim,
-          objectFit: 'cover',
-          objectPosition: 'center',
-          borderRadius: '50%',
-          display: 'block',
-        }}
-      />
+      <BrandEmblem size={dim} glow={size === 'lg' || size === 'xl' ? 'strong' : 'soft'} />
     </div>
   )
 }

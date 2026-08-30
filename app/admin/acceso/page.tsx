@@ -1,11 +1,11 @@
-import Image from 'next/image'
+import { BrandEmblem } from '../../components/BrandEmblem'
 
 export default function AdminAccessPage({ searchParams }: { searchParams?: { error?: string } }) {
   return (
     <main className="admin-access">
       <div className="admin-access__aurora" aria-hidden="true" />
       <section className="admin-access__card" aria-labelledby="admin-access-title">
-        <Image src="/img/brand/logo-mark.png" alt="Lucienne Beauty Spa" width={68} height={68} priority className="admin-access__logo" />
+        <BrandEmblem size={96} priority glow="strong" className="admin-access__logo" />
         <p className="admin-eyebrow">Portal privado</p>
         <h1 id="admin-access-title">Administración Lucienne</h1>
         <p className="admin-access__intro">Acceso exclusivo para la dirección del spa.</p>

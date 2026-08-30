@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import { BrandEmblem } from '../../components/BrandEmblem'
 import { useRouter } from 'next/navigation'
 import { useSignIn } from '@clerk/nextjs'
 import { GoogleButton, OrDivider, PasskeyButton } from '../../components/GoogleButton'
@@ -177,11 +178,7 @@ export default function LoginPage() {
       padding: '40px 24px',
     }}>
       <Link href="/splash" style={{ display: 'block', marginBottom: 32, textDecoration: 'none' }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/img/brand/logo-oficial.jpg" alt="Lucienne"
-          style={{ width: 80, height: 80, borderRadius: '50%', objectFit: 'cover', display: 'block' }}
-        />
+        <BrandEmblem size={112} priority glow="strong" />
       </Link>
 
       <h1 style={{

@@ -1,69 +1,23 @@
-// Pantalla de carga global -- se muestra automaticamente mientras Next.js
-// resuelve datos de cualquier ruta (Suspense boundary de App Router).
-// Misma identidad visual que /splash: fondo oscuro, glow calido, logo real.
+import { BrandEmblem } from './components/BrandEmblem'
+
 export default function Loading() {
   return (
-    <div
-      style={{
-        position: 'fixed', inset: 0,
-        background: '#0A0603',
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center',
-        overflow: 'hidden',
-        zIndex: 9999,
-      }}
-    >
-      <div style={{
-        position: 'absolute',
-        width: 360, height: 360,
-        borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(224,117,96,0.18) 0%, rgba(201,160,140,0.10) 40%, transparent 70%)',
-        animation: 'loadingGlow 1.6s ease-in-out infinite',
-        pointerEvents: 'none',
-      }} />
-
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/img/brand/logo-mark.png"
-        alt="Lucienne Beauty Spa"
-        style={{
-          width: 88,
-          height: 88,
-          objectFit: 'cover',
-          objectPosition: 'center',
-          borderRadius: '50%',
-          display: 'block',
-          boxShadow: '0 0 40px rgba(201,160,140,0.22)',
-          animation: 'loadingPulse 1.6s ease-in-out infinite',
-        }}
-      />
-
-      <div style={{
-        position: 'absolute', bottom: 64,
-        display: 'flex', gap: 7,
-      }}>
-        {[0, 1, 2].map((i) => (
-          <div key={i} style={{
-            width: 5, height: 5, borderRadius: '50%',
-            background: '#C9A08C',
-            animation: `loadingDot 1.2s ease ${i * 0.22}s infinite`,
-          }} />
-        ))}
+    <div className="lucienne-loader" role="status" aria-label="Cargando Lucienne">
+      <div className="lucienne-loader__mesh" aria-hidden="true" />
+      <div className="lucienne-loader__content">
+        <BrandEmblem size="clamp(146px, 38vw, 188px)" priority glow="strong" />
+        <p>The Lucienne Experience</p>
+        <div className="lucienne-loader__progress" aria-hidden="true"><span /></div>
       </div>
-
       <style>{`
-        @keyframes loadingGlow {
-          0%, 100% { transform: scale(1); opacity: 0.8; }
-          50%       { transform: scale(1.1); opacity: 0.5; }
-        }
-        @keyframes loadingPulse {
-          0%, 100% { transform: scale(1); }
-          50%       { transform: scale(1.05); }
-        }
-        @keyframes loadingDot {
-          0%, 100% { opacity: 0.3; transform: scale(1); }
-          50%       { opacity: 1; transform: scale(1.5); }
-        }
+        .lucienne-loader { position:fixed; inset:0; z-index:9999; display:grid; place-items:center; overflow:hidden; background:radial-gradient(circle at 50% 42%,#1a0d09 0,#090504 38%,#030202 78%); color:#f6e4db; }
+        .lucienne-loader__mesh { position:absolute; width:min(130vw,720px); aspect-ratio:1; border-radius:50%; background:conic-gradient(from 180deg,transparent,rgba(223,139,108,.12),transparent 32%,rgba(203,164,148,.1),transparent 68%); filter:blur(30px); animation:loaderOrbit 8s linear infinite; }
+        .lucienne-loader__content { position:relative; display:grid; justify-items:center; gap:24px; }
+        .lucienne-loader p { margin:0; font-family:var(--font-pinyon); font-size:clamp(25px,6vw,32px); color:rgba(248,228,218,.9); letter-spacing:.015em; }
+        .lucienne-loader__progress { width:118px; height:1px; overflow:hidden; background:rgba(235,190,170,.18); }
+        .lucienne-loader__progress span { display:block; width:48%; height:100%; background:linear-gradient(90deg,transparent,#f1b99f,transparent); animation:loaderProgress 1.45s ease-in-out infinite; }
+        @keyframes loaderOrbit { to { transform:rotate(360deg); } }
+        @keyframes loaderProgress { from { transform:translateX(-110%); } to { transform:translateX(220%); } }
       `}</style>
     </div>
   )
