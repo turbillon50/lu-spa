@@ -1,29 +1,31 @@
 'use client'
 import Link from 'next/link'
 import { useState } from 'react'
-import { membershipTiers } from '../../data/membership'
+import { useSiteContent } from '../../components/SiteContentProvider'
 
 export default function MembresiasPage() {
   const [billing, setBilling] = useState<'monthly' | 'annual'>('monthly')
+  const { memberships: membershipTiers, pages } = useSiteContent()
+  const hero = pages.membresia?.find((block) => block.key === 'hero')?.content
 
   return (
     <div className="page-enter" style={{ background: 'var(--ivory)' }}>
 
       {/* Hero */}
       <div style={{ position: 'relative', height: 300, background: 'var(--espresso)', overflow: 'hidden' }}>
-        <img src="/img/membresia.jpg" alt="Membresías Lucienne" loading="eager"
+        <img src={hero?.image || '/img/membresia.jpg'} alt="Membresías Lucienne" loading="eager"
           className="photo-warm"
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.45 }} />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(26,18,9,0.6)' }} />
         <div style={{ position: 'absolute', bottom: 24, left: 24, right: 24 }}>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.65)', fontWeight: 500, marginBottom: 10 }}>Club privado</p>
-          <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(38px, 8vw, 58px)', color: '#FEFCF8', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.01em' }}>Lucienne<br/>Membership</h1>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.65)', fontWeight: 500, marginBottom: 10 }}>{hero?.eyebrow || 'Club privado'}</p>
+          <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(38px, 8vw, 58px)', color: '#FEFCF8', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.01em' }}>{hero?.title || <>Lucienne<br/>Membership</>}</h1>
         </div>
       </div>
 
       <div style={{ padding: '32px 22px 16px' }}>
         <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--taupe)', lineHeight: 1.75, marginBottom: 28 }}>
-          El bienestar constante cambia todo. Únete al club privado Lucienne y transforma tu relación con el cuidado personal.
+          {hero?.body || 'El bienestar constante cambia todo. Únete al club privado Lucienne y transforma tu relación con el cuidado personal.'}
         </p>
 
         {/* Billing toggle */}

@@ -4,17 +4,18 @@ import { notFound } from 'next/navigation'
 import { ChevronRight } from 'lucide-react'
 import { TopBar } from '../../../components/TopBar'
 import { categoryBySlug, categories } from '../../../data/categories'
-import { treatmentsByCategory } from '../../../data/treatments'
+import { getSiteContent } from '../../../lib/site-content'
 import { formatPrice } from '../../../lib/cn'
 
 export function generateStaticParams() {
   return categories.map((c) => ({ slug: c.slug }))
 }
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
+export default async function CategoryPage({ params }: { params: { slug: string } }) {
   const cat = categoryBySlug(params.slug)
   if (!cat) notFound()
-  const items = treatmentsByCategory(cat.slug)
+  const { treatments } = await getSiteContent()
+  const items = treatments.filter((item) => item.category === cat.slug)
 
   return (
     <>
@@ -24,7 +25,7 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
           <Image src={cat.image} alt={cat.name} fill sizes="440px" className="object-cover" unoptimized />
           <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-ink-900/20 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 p-5 text-white">
-            <p className="eyebrow text-cream-100">{cat.count} tratamientos</p>
+            <p className="eyebrow text-cream-100">{items.length} tratamientos</p>
             <h2 className="font-display text-[28px] leading-tight">{cat.name}</h2>
             <p className="text-[13px] text-cream-100/85">{cat.blurb}</p>
           </div>

@@ -1,12 +1,13 @@
 'use client'
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { treatments } from '../../data/treatments'
+import { useSiteContent } from '../../components/SiteContentProvider'
 
 const filters = ['Todo', 'masajes', 'faciales', 'corporales', 'aparatologia', 'rituales']
 const filterLabels: Record<string, string> = { masajes: 'Masajes', faciales: 'Faciales', corporales: 'Corporales', aparatologia: 'Aparatología', rituales: 'Rituales' }
 
 export default function BuscarPage() {
+  const { treatments } = useSiteContent()
   const [query, setQuery] = useState('')
   const [activeFilter, setActiveFilter] = useState('Todo')
 
@@ -17,7 +18,7 @@ export default function BuscarPage() {
       const matchesFilter = activeFilter === 'Todo' || t.category === activeFilter
       return matchesQuery && matchesFilter
     })
-  }, [query, activeFilter])
+  }, [query, activeFilter, treatments])
 
   return (
     <div style={{ background: 'var(--ivory)', minHeight: '100dvh' }}>

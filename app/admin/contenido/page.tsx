@@ -1,0 +1,33 @@
+import Link from 'next/link'
+import { getCmsAdminData, getMemberships, getServices } from '../../lib/admin-data'
+import { saveCmsPage, updateMembershipPlan, updateService } from '../actions'
+import { Badge, Card, EmptyState, formatMXN, PageHeader } from '../_components/AdminUI'
+
+export const dynamic = 'force-dynamic'
+
+export default async function ContentPage() {
+  const [services, memberships, pages] = await Promise.all([getServices(), getMemberships(), getCmsAdminData()])
+  return <div className="admin-page">
+    <PageHeader eyebrow="Control editorial" title="Contenido y precios" description="Una sola fuente para tarifas, membresías y contenido publicado en la PWA." actions={<Link className="admin-primary-button" href="/admin/canvas">Abrir Canvas</Link>} />
+    <div className="admin-grid admin-grid--kpis">
+      <div className="admin-card admin-kpi"><span className="admin-kpi__label">Servicios</span><strong className="admin-kpi__value">{services.length}</strong><span className="admin-kpi__meta">{services.filter((item) => item.activo).length} publicados</span></div>
+      <div className="admin-card admin-kpi"><span className="admin-kpi__label">Planes</span><strong className="admin-kpi__value">{memberships.plans.length}</strong><span className="admin-kpi__meta">Precios mensuales</span></div>
+      <div className="admin-card admin-kpi"><span className="admin-kpi__label">Páginas</span><strong className="admin-kpi__value">{pages.length}</strong><span className="admin-kpi__meta">{pages.filter((page) => page.estado === 'publicada').length} publicadas</span></div>
+      <div className="admin-card admin-kpi"><span className="admin-kpi__label">Bloques</span><strong className="admin-kpi__value">{pages.reduce((sum, page) => sum + page.blocks.length, 0)}</strong><span className="admin-kpi__meta">Editables en Canvas</span></div>
+    </div>
+    <div className="admin-stack" style={{ marginTop: 14 }}>
+      <Card title="Tarifario de tratamientos" subtitle="Cambiar aquí actualiza las vistas conectadas de la PWA">
+        {services.length ? <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Servicio</th><th>Duración</th><th>Precio</th><th>Estado</th><th>Editar</th></tr></thead><tbody>{services.map((service) => <tr key={service.id}><td><strong>{service.nombre}</strong><br/><small>{service.categoria}</small></td><td>{service.duracion} min</td><td className="admin-money">{formatMXN(service.precio)}</td><td><Badge status={service.activo ? 'Activo' : 'Inactiva'}/></td><td><details className="admin-inline-details"><summary>Contenido y precio</summary><form action={updateService} className="admin-form admin-form--2"><input type="hidden" name="id" value={service.id}/><label>Nombre<input name="nombre" defaultValue={service.nombre} required/></label><label>Categoría<input name="categoria" defaultValue={service.categoria} required/></label><label>Duración<input name="duracion" type="number" min="5" step="5" defaultValue={service.duracion} required/></label><label>Precio<input name="precio" type="number" min="0" step="1" defaultValue={service.precio} required/></label><label style={{ gridColumn: '1/-1' }}>Resumen<input name="resumen" defaultValue={service.resumen}/></label><label style={{ gridColumn: '1/-1' }}>Descripción<textarea name="descripcion" defaultValue={service.descripcion}/></label><label style={{ gridColumn: '1/-1' }}>Imagen<input name="imagen" defaultValue={service.imagen} placeholder="/img/tratamientos/archivo.jpg"/></label><label style={{ gridColumn: '1/-1' }}>Beneficios<input name="beneficios" defaultValue={service.beneficios?.join(', ')} placeholder="Separa con comas"/></label><button className="admin-primary-button">Guardar y actualizar</button></form></details></td></tr>)}</tbody></table></div> : <EmptyState title="Catálogo vacío" description="No hay tratamientos disponibles en la base conectada."/>}
+      </Card>
+      <div className="admin-grid admin-grid--2">
+        <Card title="Membresías" subtitle="Precio, sesiones y beneficios">
+          {memberships.plans.length ? <div className="admin-list">{memberships.plans.map((plan) => <div className="admin-list-row" key={Number(plan.id)}><div className="admin-list-row__main"><strong>{String(plan.nombre)}</strong><span>{Number(plan.sesiones_mes || 0)} sesiones al mes</span></div><span className="admin-money">{formatMXN(Number(plan.precio_mensual))}</span><details className="admin-inline-details"><summary>Editar</summary><form action={updateMembershipPlan} className="admin-form"><input type="hidden" name="id" value={Number(plan.id)}/><label>Nombre<input name="nombre" defaultValue={String(plan.nombre)} required/></label><label>Mensualidad<input name="precio" type="number" min="0" defaultValue={Number(plan.precio_mensual)} required/></label><label>Sesiones<input name="sesiones" type="number" min="0" defaultValue={Number(plan.sesiones_mes || 0)}/></label><label>Beneficios<input name="beneficios" defaultValue={Array.isArray(plan.beneficios) ? plan.beneficios.join(', ') : ''}/></label><button className="admin-primary-button">Guardar</button></form></details></div>)}</div> : <EmptyState title="Sin planes" description="Crea primero los planes desde Membresías."/>}
+        </Card>
+        <Card title="Páginas PWA" subtitle="Estado editorial y SEO">
+          {pages.length ? <div className="admin-list">{pages.map((page) => <div className="admin-list-row" key={page.id}><div className="admin-list-row__main"><strong>{page.titulo}</strong><span>/{page.slug} · {page.blocks.length} bloques</span></div><Badge status={page.estado}/><Link className="admin-secondary-button" href={`/admin/canvas?page=${page.slug}`}>Editar</Link></div>)}</div> : <EmptyState title="Canvas listo para iniciar" description="Crea la primera página editorial; la PWA conserva su contenido actual hasta publicarla."/>}
+          <div className="admin-divider"/><details><summary className="admin-secondary-button" style={{ width: 'fit-content' }}>Crear página</summary><form action={saveCmsPage} className="admin-form" style={{ marginTop: 16 }}><label>Título<input name="titulo" required placeholder="Inicio"/></label><label>Slug<input name="slug" required pattern="[a-z0-9-]+" placeholder="home"/></label><label>Estado<select name="estado" defaultValue="borrador"><option value="borrador">Borrador</option><option value="publicada">Publicada</option></select></label><label>Título SEO<input name="seoTitle"/></label><label>Descripción SEO<textarea name="seoDescription"/></label><button className="admin-primary-button">Crear página</button></form></details>
+        </Card>
+      </div>
+    </div>
+  </div>
+}

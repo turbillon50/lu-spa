@@ -20,7 +20,7 @@ export type AgendaItem = {
 
 export type StaffItem = { id: number; nombre: string; rol: string; especialidades: string[]; telefono: string | null; email: string | null; activo: boolean }
 export type RoomItem = { id: number; nombre: string; tipo: string | null; capacidad: number; activa: boolean; notas: string | null }
-export type ServiceItem = { id: number; slug: string; nombre: string; categoria: string; duracion: number; precio: number; activo: boolean }
+export type ServiceItem = { id: number; slug: string; nombre: string; categoria: string; duracion: number; precio: number; activo: boolean; descripcion?: string; resumen?: string; imagen?: string; beneficios?: string[] }
 export type ClientItem = { id: number; nombre: string; email: string | null; telefono: string | null; membresia: string | null; visitas: number; ultimaVisita: string | null; gasto: number; notas: string | null }
 export type PaymentItem = { id: number; concepto: string; monto: number; tipo: string; metodo: string; pagadoAt: string; clienta: string | null; reservaId: number | null }
 export type InventoryItem = { id: number; nombre: string; sku: string | null; categoria: string | null; unidad: string; stock: number; minimo: number; costo: number | null; precio: number | null }
@@ -148,8 +148,9 @@ export async function getStaffAndRooms() {
 }
 
 export async function getServices(): Promise<ServiceItem[]> {
-  const rows = await sql`SELECT id, slug, nombre, categoria, duracion_min, precio, activo FROM tratamientos ORDER BY categoria, nombre`
-  return rows.map((row) => ({ id: Number(row.id), slug: String(row.slug), nombre: String(row.nombre), categoria: String(row.categoria), duracion: asNumber(row.duracion_min), precio: asNumber(row.precio), activo: Boolean(row.activo) }))
+  const rows = await optional(async () => sql`SELECT id, slug, nombre, categoria, duracion_min, precio, activo, descripcion, resumen, imagen, beneficios FROM tratamientos ORDER BY categoria, nombre`, null)
+    ?? await sql`SELECT id, slug, nombre, categoria, duracion_min, precio, activo FROM tratamientos ORDER BY categoria, nombre`
+  return rows.map((row) => ({ id: Number(row.id), slug: String(row.slug), nombre: String(row.nombre), categoria: String(row.categoria), duracion: asNumber(row.duracion_min), precio: asNumber(row.precio), activo: Boolean(row.activo), descripcion: row.descripcion ? String(row.descripcion) : '', resumen: row.resumen ? String(row.resumen) : '', imagen: row.imagen ? String(row.imagen) : '', beneficios: Array.isArray(row.beneficios) ? row.beneficios.map(String) : [] }))
 }
 
 export async function getClients(): Promise<ClientItem[]> {
@@ -236,4 +237,25 @@ export async function getAnalytics() {
 export async function getConfig() {
   const rows = await optional(async () => sql`SELECT clave, valor, updated_at FROM spa_config ORDER BY clave`, [])
   return rows
+}
+
+export type CmsAdminPage = { id: number; slug: string; titulo: string; estado: string; seoTitle: string | null; seoDescription: string | null; blocks: CmsAdminBlock[] }
+export type CmsAdminBlock = { id: number; pageId: number; key: string; type: string; content: Record<string, unknown>; order: number; visible: boolean }
+export type AdminNotification = { id: number; titulo: string; cuerpo: string; tipo: string; audiencia: string; actionUrl: string | null; estado: string; publicarAt: string; expiraAt: string | null }
+
+export async function getCmsAdminData(): Promise<CmsAdminPage[]> {
+  const [pages, blocks] = await Promise.all([
+    optional(async () => sql`SELECT id, slug, titulo, estado, seo FROM cms_pages ORDER BY titulo`, []),
+    optional(async () => sql`SELECT id, page_id, block_key, tipo, contenido, orden, visible FROM cms_blocks ORDER BY page_id, orden, id`, []),
+  ])
+  const mappedBlocks = blocks.map((row) => ({ id: Number(row.id), pageId: Number(row.page_id), key: String(row.block_key), type: String(row.tipo), content: (row.contenido && typeof row.contenido === 'object' ? row.contenido : {}) as Record<string, unknown>, order: asNumber(row.orden), visible: Boolean(row.visible) }))
+  return pages.map((row) => {
+    const seo = row.seo && typeof row.seo === 'object' ? row.seo as Record<string, unknown> : {}
+    return { id: Number(row.id), slug: String(row.slug), titulo: String(row.titulo), estado: String(row.estado), seoTitle: seo.title ? String(seo.title) : null, seoDescription: seo.description ? String(seo.description) : null, blocks: mappedBlocks.filter((block) => block.pageId === Number(row.id)) }
+  })
+}
+
+export async function getAdminNotifications(): Promise<AdminNotification[]> {
+  const rows = await optional(async () => sql`SELECT id, titulo, cuerpo, tipo, audiencia, action_url, estado, publicar_at, expira_at FROM pwa_notificaciones ORDER BY publicar_at DESC, id DESC`, [])
+  return rows.map((row) => ({ id: Number(row.id), titulo: String(row.titulo), cuerpo: String(row.cuerpo), tipo: String(row.tipo), audiencia: String(row.audiencia), actionUrl: row.action_url ? String(row.action_url) : null, estado: String(row.estado), publicarAt: row.publicar_at ? String(row.publicar_at) : '', expiraAt: row.expira_at ? String(row.expira_at) : null }))
 }

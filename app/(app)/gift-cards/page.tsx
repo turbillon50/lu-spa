@@ -1,8 +1,9 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import { useSiteContent } from '../../components/SiteContentProvider'
 
-const experiences = [
+const experienceFallbacks = [
   { id: 'masaje-relajante', name: 'Masaje Relajante', price: 1500, duration: '60 min' },
   { id: 'hydrafacial', name: 'Hydrafacial Lumière', price: 2300, duration: '60 min' },
   { id: 'ritual-relajacion', name: 'Ritual de Relajación', price: 2900, duration: '90 min' },
@@ -20,14 +21,20 @@ function generateCode() {
 }
 
 export default function GiftCardsPage() {
+  const { treatments } = useSiteContent()
+  const experiences = experienceFallbacks.map((fallback) => {
+    const treatment = treatments.find((item) => item.id === fallback.id)
+    return treatment ? { id: treatment.id, name: treatment.name, price: treatment.price, duration: `${treatment.duration} min` } : fallback
+  })
   const [mode, setMode] = useState<'experience' | 'amount'>('experience')
-  const [selectedExp, setSelectedExp] = useState(experiences[0])
+  const [selectedExpId, setSelectedExpId] = useState(experiences[0].id)
   const [selectedAmount, setSelectedAmount] = useState(2000)
   const [form, setForm] = useState({ para: '', de: '', mensaje: '', fecha: '' })
   const [confirmed, setConfirmed] = useState(false)
   const [code] = useState(generateCode)
 
   const update = (k: keyof typeof form, v: string) => setForm((f) => ({ ...f, [k]: v }))
+  const selectedExp = experiences.find((item) => item.id === selectedExpId) || experiences[0]
   const value = mode === 'experience' ? selectedExp.price : selectedAmount
   const name = mode === 'experience' ? selectedExp.name : `Gift Card $${selectedAmount.toLocaleString('es-MX')}`
 
@@ -80,7 +87,7 @@ export default function GiftCardsPage() {
             <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--taupe)', fontWeight: 500, marginBottom: 10 }}>¿Qué experiencia vas a regalar?</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {experiences.map((exp) => (
-                <button key={exp.id} onClick={() => setSelectedExp(exp)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: 13, border: `1px solid ${selectedExp.id === exp.id ? 'rgba(201,160,140,0.5)' : 'rgba(201,160,140,0.12)'}`, background: selectedExp.id === exp.id ? 'rgba(201,160,140,0.08)' : 'transparent', cursor: 'pointer', width: '100%', textAlign: 'left' }}>
+                <button key={exp.id} onClick={() => setSelectedExpId(exp.id)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: 13, border: `1px solid ${selectedExp.id === exp.id ? 'rgba(201,160,140,0.5)' : 'rgba(201,160,140,0.12)'}`, background: selectedExp.id === exp.id ? 'rgba(201,160,140,0.08)' : 'transparent', cursor: 'pointer', width: '100%', textAlign: 'left' }}>
                   <div>
                     <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 17, color: 'var(--espresso)', fontWeight: 500 }}>{exp.name}</p>
                     <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: 'var(--taupe)' }}>{exp.duration}</p>

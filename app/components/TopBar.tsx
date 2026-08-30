@@ -358,6 +358,9 @@ export function TopBar({
                 <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.35-4.35" />
               </svg>
             </Link>
+            <Link href="/notifications" aria-label="Notificaciones" style={{ color: '#6B5B4E', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8a6 6 0 00-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
+            </Link>
             <AvatarButton onClick={() => setModeOpen(true)} mode={mode} />
             {/* Hamburger */}
             <button
@@ -478,6 +481,9 @@ export function TopBar({
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.35-4.35" />
               </svg>
+            </Link>
+            <Link href="/notifications" aria-label="Notificaciones" style={{ color: '#6B5B4E', textDecoration: 'none', display: 'flex' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8a6 6 0 00-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
             </Link>
             <Link
               href="/reservar"

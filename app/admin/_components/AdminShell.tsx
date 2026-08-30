@@ -6,7 +6,7 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 
 type IconName = 'today' | 'calendar' | 'clients' | 'messages' | 'team' | 'services'
-  | 'cash' | 'inventory' | 'memberships' | 'analytics' | 'settings'
+  | 'cash' | 'inventory' | 'memberships' | 'analytics' | 'content' | 'canvas' | 'notifications' | 'settings'
 type NavItem = { href: string; label: string; icon: IconName; exact?: boolean }
 type NavGroup = { label: string; items: NavItem[] }
 
@@ -21,6 +21,9 @@ const paths: Record<IconName, ReactNode> = {
   inventory: <><path d="M4 7l8-4 8 4-8 4-8-4zM4 7v10l8 4 8-4V7M12 11v10"/></>,
   memberships: <><path d="M3 8h18v12H3zM3 12h18M12 8v12M8 8c-2 0-3-1-3-2.5S6.2 3 7.5 3C10 3 12 8 12 8M16 8c2 0 3-1 3-2.5S17.8 3 16.5 3C14 3 12 8 12 8"/></>,
   analytics: <><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></>,
+  content: <><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></>,
+  canvas: <><path d="M4 4h16v16H4zM4 9h16M10 9v11"/><circle cx="15" cy="6.5" r="1"/></>,
+  notifications: <><path d="M18 8a6 6 0 00-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></>,
   settings: <><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 00-.1-1l2-1.5-2-3.4-2.4 1A7 7 0 0015 6l-.3-2.6h-4L10.5 6A7 7 0 008.9 7L6.5 6.1l-2 3.4 2 1.5a7 7 0 000 2l-2 1.5 2 3.4 2.4-1a7 7 0 001.6 1l.2 2.6h4l.3-2.6a7 7 0 001.5-1l2.4 1 2-3.4-2-1.5a7 7 0 00.1-1z"/></>,
 }
 
@@ -44,6 +47,9 @@ const groups: NavGroup[] = [
   ] },
   { label: 'Dirección', items: [
     { href: '/admin/analytics', label: 'Analytics', icon: 'analytics' as const },
+    { href: '/admin/contenido', label: 'Contenido y precios', icon: 'content' as const },
+    { href: '/admin/canvas', label: 'Canvas PWA', icon: 'canvas' as const },
+    { href: '/admin/notificaciones', label: 'Notificaciones', icon: 'notifications' as const },
     { href: '/admin/configuracion', label: 'Configuración', icon: 'settings' as const },
   ] },
 ]
@@ -86,10 +92,14 @@ export default function AdminShell({ children }: { children: ReactNode }) {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [query, setQuery] = useState('')
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
   const searchRef = useRef<HTMLInputElement>(null)
   const embedded = searchParams.get('embed') === '1' || searchParams.get('vforge') === '1'
 
-  useEffect(() => setCollapsed(localStorage.getItem('lucienne-admin-collapsed') === '1'), [])
+  useEffect(() => {
+    setCollapsed(localStorage.getItem('lucienne-admin-collapsed') === '1')
+    setTheme(localStorage.getItem('lucienne-admin-theme') === 'light' ? 'light' : 'dark')
+  }, [])
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); setSearchOpen(true) }
@@ -110,11 +120,16 @@ export default function AdminShell({ children }: { children: ReactNode }) {
     localStorage.setItem('lucienne-admin-collapsed', value ? '0' : '1')
     return !value
   })
+  const toggleTheme = () => setTheme((current) => {
+    const next = current === 'dark' ? 'light' : 'dark'
+    localStorage.setItem('lucienne-admin-theme', next)
+    return next
+  })
 
   if (pathname === '/admin/acceso') return <>{children}</>
 
   return (
-    <div className={`lu-admin ${collapsed ? 'is-collapsed' : ''}`}>
+    <div className={`lu-admin ${collapsed ? 'is-collapsed' : ''}`} data-admin-theme={theme}>
       <aside className="admin-sidebar"><Navigation collapsed={collapsed} embedded={embedded} pathname={pathname} /></aside>
       <button type="button" className={`admin-drawer-backdrop ${drawerOpen ? 'is-open' : ''}`} onClick={() => setDrawerOpen(false)} aria-label="Cerrar menú" />
       <aside className={`admin-drawer ${drawerOpen ? 'is-open' : ''}`} aria-hidden={!drawerOpen}><Navigation collapsed={false} embedded={embedded} pathname={pathname} /></aside>
@@ -126,6 +141,10 @@ export default function AdminShell({ children }: { children: ReactNode }) {
             <div><p className="admin-topbar__title">Centro operativo</p><p className="admin-topbar__date">{new Intl.DateTimeFormat('es-MX', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'America/Mexico_City' }).format(new Date())}</p></div>
           </div>
           <div className="admin-topbar__actions">
+            <button type="button" className="admin-icon-button" onClick={toggleTheme} aria-label={theme === 'dark' ? 'Activar modo claro' : 'Activar modo oscuro'} title={theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}>
+              {theme === 'dark' ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg> : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M20.5 15.5A8 8 0 118.5 3.5a8.5 8.5 0 0012 12z"/></svg>}
+            </button>
+            <Link href="/admin/notificaciones" className="admin-icon-button" aria-label="Abrir notificaciones" title="Notificaciones"><Icon name="notifications" /></Link>
             <button type="button" className="admin-search-trigger" onClick={() => setSearchOpen(true)}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>Buscar</span><kbd>⌘K</kbd></button>
             <span className="admin-status"><i/> Operación conectada</span>
           </div>

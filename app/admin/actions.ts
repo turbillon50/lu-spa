@@ -97,9 +97,15 @@ export async function updateService(form: FormData) {
   const duration = Math.round(numeric(form, 'duracion'))
   const price = numeric(form, 'precio')
   if (!Number.isInteger(id) || name.length < 2 || duration < 5 || price < 0) throw new Error('Servicio inválido')
-  await sql`UPDATE tratamientos SET nombre=${name}, categoria=${value(form, 'categoria')}, duracion_min=${duration}, precio=${price} WHERE id=${id}`
+  if (form.has('descripcion')) {
+    await sql`UPDATE tratamientos SET nombre=${name}, categoria=${value(form, 'categoria')}, duracion_min=${duration}, precio=${price}, descripcion=${value(form, 'descripcion') || null}, resumen=${value(form, 'resumen') || null}, imagen=${value(form, 'imagen') || null}, beneficios=string_to_array(${value(form, 'beneficios')}, ','), updated_at=now() WHERE id=${id}`
+  } else {
+    await sql`UPDATE tratamientos SET nombre=${name}, categoria=${value(form, 'categoria')}, duracion_min=${duration}, precio=${price} WHERE id=${id}`
+  }
   await audit('actualizar', 'tratamiento', String(id), { name, duration, price })
   revalidatePath('/admin/servicios')
+  revalidatePath('/admin/contenido')
+  revalidatePath('/', 'layout')
 }
 
 export async function recordPayment(form: FormData) {
@@ -191,6 +197,20 @@ export async function createMembershipPlan(form: FormData) {
   revalidatePath('/admin/membresias')
 }
 
+export async function updateMembershipPlan(form: FormData) {
+  await requireAdmin()
+  const id = numeric(form, 'id')
+  const name = value(form, 'nombre')
+  const price = numeric(form, 'precio')
+  const sessions = Math.max(0, Math.round(numeric(form, 'sesiones') || 0))
+  if (!Number.isInteger(id) || name.length < 2 || price < 0) throw new Error('Plan inválido')
+  await sql`UPDATE membresia_planes SET nombre=${name}, precio_mensual=${price}, sesiones_mes=${sessions}, beneficios=string_to_array(${value(form, 'beneficios')}, ',') WHERE id=${id}`
+  await audit('actualizar', 'membresia_plan', String(id), { name, price, sessions })
+  revalidatePath('/admin/membresias')
+  revalidatePath('/admin/contenido')
+  revalidatePath('/', 'layout')
+}
+
 export async function createMembershipSubscription(form: FormData) {
   await requireAdmin()
   const clientId = nullableId(form, 'clienteId')
@@ -219,4 +239,81 @@ export async function createGiftCard(form: FormData) {
   await audit('crear', 'gift_card', String(inserted[0]?.id || ''), { amount, code })
   revalidatePath('/admin/membresias')
   revalidatePath('/admin/gift-cards')
+}
+
+const internalUrl = (raw: string) => !raw || (raw.startsWith('/') && !raw.startsWith('//'))
+const slugPattern = /^[a-z0-9-]+$/
+
+export async function saveCmsPage(form: FormData) {
+  await requireAdmin()
+  const id = numeric(form, 'id')
+  const slug = value(form, 'slug').toLowerCase()
+  const title = value(form, 'titulo')
+  const status = value(form, 'estado') || 'borrador'
+  if (!slugPattern.test(slug) || title.length < 2 || !['borrador', 'publicada', 'archivada'].includes(status)) throw new Error('Página inválida')
+  const seo = JSON.stringify({ title: value(form, 'seoTitle'), description: value(form, 'seoDescription') })
+  const rows = Number.isInteger(id) && id > 0
+    ? await sql`UPDATE cms_pages SET slug=${slug}, titulo=${title}, estado=${status}, seo=${seo}::jsonb, updated_at=now() WHERE id=${id} RETURNING id`
+    : await sql`INSERT INTO cms_pages (slug, titulo, estado, seo) VALUES (${slug}, ${title}, ${status}, ${seo}::jsonb) ON CONFLICT (slug) DO UPDATE SET titulo=excluded.titulo, estado=excluded.estado, seo=excluded.seo, updated_at=now() RETURNING id`
+  await audit('guardar', 'cms_page', String(rows[0]?.id || id), { slug, status })
+  revalidatePath('/admin/contenido')
+  revalidatePath('/admin/canvas')
+  revalidatePath('/', 'layout')
+}
+
+export async function saveCmsBlock(form: FormData) {
+  await requireAdmin()
+  const id = numeric(form, 'id')
+  const pageId = numeric(form, 'pageId')
+  const key = value(form, 'key').toLowerCase()
+  const type = value(form, 'tipo') || 'contenido'
+  const href = value(form, 'ctaHref')
+  if (!Number.isInteger(pageId) || !slugPattern.test(key) || !internalUrl(href)) throw new Error('Bloque inválido')
+  const content = JSON.stringify({ eyebrow: value(form, 'eyebrow'), title: value(form, 'title'), body: value(form, 'body'), ctaLabel: value(form, 'ctaLabel'), ctaHref: href, image: value(form, 'image') })
+  const rows = Number.isInteger(id) && id > 0
+    ? await sql`UPDATE cms_blocks SET block_key=${key}, tipo=${type}, contenido=${content}::jsonb, updated_at=now() WHERE id=${id} AND page_id=${pageId} RETURNING id`
+    : await sql`INSERT INTO cms_blocks (page_id, block_key, tipo, contenido, orden) VALUES (${pageId}, ${key}, ${type}, ${content}::jsonb, COALESCE((SELECT max(orden)+1 FROM cms_blocks WHERE page_id=${pageId}),0)) ON CONFLICT (page_id, block_key) DO UPDATE SET tipo=excluded.tipo, contenido=excluded.contenido, updated_at=now() RETURNING id`
+  await audit('guardar', 'cms_block', String(rows[0]?.id || id), { pageId, key })
+  revalidatePath('/admin/canvas')
+  revalidatePath('/', 'layout')
+}
+
+export async function setCmsBlockState(form: FormData) {
+  await requireAdmin()
+  const id = numeric(form, 'id')
+  const action = value(form, 'accion')
+  if (!Number.isInteger(id) || !['up', 'down', 'toggle'].includes(action)) throw new Error('Acción inválida')
+  if (action === 'toggle') await sql`UPDATE cms_blocks SET visible=NOT visible, updated_at=now() WHERE id=${id}`
+  else await sql`UPDATE cms_blocks SET orden=orden+${action === 'up' ? -1 : 1}, updated_at=now() WHERE id=${id}`
+  await audit(action, 'cms_block', String(id))
+  revalidatePath('/admin/canvas')
+  revalidatePath('/', 'layout')
+}
+
+export async function createNotification(form: FormData) {
+  await requireAdmin()
+  const title = value(form, 'titulo')
+  const body = value(form, 'cuerpo')
+  const type = value(form, 'tipo') || 'news'
+  const audience = value(form, 'audiencia') || 'all'
+  const status = value(form, 'estado') || 'borrador'
+  const href = value(form, 'actionUrl')
+  const publishAt = value(form, 'publicarAt')
+  const expiresAt = value(form, 'expiraAt')
+  if (title.length < 2 || body.length < 4 || !['reminder','promo','news','birthday'].includes(type) || !['all','members'].includes(audience) || !['borrador','programada','publicada'].includes(status) || !internalUrl(href)) throw new Error('Notificación inválida')
+  const rows = await sql`INSERT INTO pwa_notificaciones (titulo, cuerpo, tipo, audiencia, action_url, estado, publicar_at, expira_at) VALUES (${title}, ${body}, ${type}, ${audience}, ${href || null}, ${status}, ${publishAt || null}::timestamptz, ${expiresAt || null}::timestamptz) RETURNING id`
+  await audit('crear', 'pwa_notificacion', String(rows[0]?.id || ''), { type, audience, status })
+  revalidatePath('/admin/notificaciones')
+  revalidatePath('/', 'layout')
+}
+
+export async function updateNotificationStatus(form: FormData) {
+  await requireAdmin()
+  const id = numeric(form, 'id')
+  const status = value(form, 'estado')
+  if (!Number.isInteger(id) || !['borrador','programada','publicada','archivada'].includes(status)) throw new Error('Estado inválido')
+  await sql`UPDATE pwa_notificaciones SET estado=${status}, publicar_at=CASE WHEN ${status}='publicada' THEN COALESCE(publicar_at,now()) ELSE publicar_at END, updated_at=now() WHERE id=${id}`
+  await audit('cambiar_estado', 'pwa_notificacion', String(id), { status })
+  revalidatePath('/admin/notificaciones')
+  revalidatePath('/', 'layout')
 }

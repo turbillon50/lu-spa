@@ -1,29 +1,31 @@
 'use client'
 import Link from 'next/link'
-import { treatments } from '../../data/treatments'
-
-const masajes = treatments.filter((t) => t.category === 'masajes')
-const corporales = treatments.filter((t) => t.category === 'corporales')
+import { useSiteContent } from '../../components/SiteContentProvider'
+import type { Treatment } from '../../lib/types'
 
 export default function RelajatePage() {
+  const { treatments, pages } = useSiteContent()
+  const masajes = treatments.filter((t) => t.category === 'masajes')
+  const corporales = treatments.filter((t) => t.category === 'corporales')
+  const hero = pages.relajate?.find((block) => block.key === 'hero')?.content
   return (
     <div className="page-enter" style={{ background: 'var(--ivory)' }}>
 
       {/* Hero */}
       <div style={{ position: 'relative', height: 340, background: '#EFE1D9', overflow: 'hidden' }}>
-        <img src="/img/relajate-2.jpg" alt="Masajes Lucienne" loading="eager"
+        <img src={hero?.image || '/img/relajate-2.jpg'} alt="Masajes Lucienne" loading="eager"
           className="photo-warm"
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 40%' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(26,18,9,0.06) 0%, rgba(26,18,9,0.68) 100%)' }} />
         <div style={{ position: 'absolute', bottom: 30, left: 26, right: 26 }}>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.85)', fontWeight: 500, marginBottom: 8 }}>Masajes y rituales</p>
-          <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(42px, 9vw, 64px)', color: '#FEFCF8', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.01em' }}>Relajate</h1>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.85)', fontWeight: 500, marginBottom: 8 }}>{hero?.eyebrow || 'Masajes y rituales'}</p>
+          <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(42px, 9vw, 64px)', color: '#FEFCF8', fontWeight: 300, lineHeight: 1.02, letterSpacing: '-0.01em' }}>{hero?.title || 'Relajate'}</h1>
         </div>
       </div>
 
       <div style={{ padding: '28px 22px 8px' }}>
         <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--taupe)', lineHeight: 1.75 }}>
-          Deja ir el peso del día. Cada masaje en Lucienne está diseñado para trabajar cuerpo, mente y sistema nervioso.
+          {hero?.body || 'Deja ir el peso del día. Cada masaje en Lucienne está diseñado para trabajar cuerpo, mente y sistema nervioso.'}
         </p>
       </div>
 
@@ -67,7 +69,7 @@ export default function RelajatePage() {
   )
 }
 
-function TreatmentCard({ treatment: t }: { treatment: typeof treatments[0] }) {
+function TreatmentCard({ treatment: t }: { treatment: Treatment }) {
   return (
     <div className="card-hover" style={{ borderRadius: 16, overflow: 'hidden', background: 'rgba(237,230,217,0.4)', border: '1px solid rgba(201,160,140,0.12)' }}>
       <div style={{ height: 160, background: '#EFE1D9', position: 'relative' }}>

@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
-import { treatments } from '../../data/treatments'
 import { PendingReferralRedeemer } from '../../components/PendingReferralRedeemer'
+import { useSiteContent } from '../../components/SiteContentProvider'
 
 const pillars = [
   {
@@ -55,8 +55,6 @@ const instaImgs = [
   { img: '/img/conocenos.jpg', alt: 'Espacio Lucienne' },
 ]
 
-const featured = treatments.filter((t) => t.featured).slice(0, 3)
-
 /* Gold hairline separator */
 function Separator({ align = 'center' }: { align?: 'left' | 'center' }) {
   return (
@@ -83,6 +81,9 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 }
 
 export default function HomePage() {
+  const { treatments, memberships, pages } = useSiteContent()
+  const featured = treatments.filter((t) => t.featured).slice(0, 3)
+  const hero = pages.home?.find((block) => block.key === 'hero')?.content
   return (
     <div className="page-enter" style={{ background: 'var(--ivory)' }}>
       <PendingReferralRedeemer />
@@ -99,7 +100,7 @@ export default function HomePage() {
         <div className="kenburns" style={{ position: 'absolute', inset: 0 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/img/hero-home.jpg"
+            src={hero?.image || '/img/hero-home.jpg'}
             alt="Lucienne Beauty Spa"
             loading="eager"
             className="photo-warm"
@@ -124,7 +125,7 @@ export default function HomePage() {
               marginBottom: 12, animationDelay: '0ms',
             }}
           >
-            Paseos del Pedregal · CDMX
+            {hero?.eyebrow || 'Paseos del Pedregal · CDMX'}
           </p>
 
           <h1
@@ -140,7 +141,7 @@ export default function HomePage() {
               animationDelay: '80ms',
             }}
           >
-            Lucienne<br/>Beauty Spa
+            {(hero?.title || 'Lucienne\nBeauty Spa').split('\n').map((line, index) => <span key={`${line}-${index}`}>{line}{index === 0 ? <br/> : null}</span>)}
           </h1>
 
           <p
@@ -153,7 +154,7 @@ export default function HomePage() {
               animationDelay: '160ms',
             }}
           >
-            The Lucienne Experience
+            {hero?.body || 'The Lucienne Experience'}
           </p>
 
           <p
@@ -412,7 +413,7 @@ export default function HomePage() {
             fontSize: 13, color: 'rgba(250,245,240,0.55)',
             lineHeight: 1.75, marginBottom: 28, maxWidth: '55ch',
           }}>
-            Desde $1,490/mes. Sesiones incluidas, descuentos en todos los tratamientos, prioridad de agenda.
+            Desde ${(memberships[0]?.priceMonthly || 1490).toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 })}/mes. Sesiones incluidas, descuentos en todos los tratamientos, prioridad de agenda.
           </p>
           <Link
             href="/membresia"

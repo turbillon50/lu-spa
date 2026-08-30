@@ -1,10 +1,10 @@
 'use client'
 import { Suspense, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { treatments } from '../../data/treatments'
-import { membershipTiers } from '../../data/membership'
+import { useSiteContent } from '../../components/SiteContentProvider'
 
 function CheckoutContent() {
+  const { treatments, memberships: membershipTiers } = useSiteContent()
   const params = useSearchParams()
   const router = useRouter()
   const [step, setStep] = useState<'review' | 'payment' | 'done'>('review')

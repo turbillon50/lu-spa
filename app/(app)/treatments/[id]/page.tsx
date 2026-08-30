@@ -1,9 +1,10 @@
 'use client'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import Link from 'next/link'
-import { treatments } from '../../../data/treatments'
+import { useSiteContent } from '../../../components/SiteContentProvider'
 
 export default function TreatmentDetail() {
+  const { treatments } = useSiteContent()
   const { id } = useParams<{ id: string }>()
   const treatment = treatments.find((t) => t.id === id)
   if (!treatment) {

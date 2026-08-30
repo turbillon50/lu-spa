@@ -1,27 +1,28 @@
 'use client'
 import Link from 'next/link'
-import { treatments } from '../../data/treatments'
-
-const faciales = treatments.filter((t) => t.category === 'faciales')
+import { useSiteContent } from '../../components/SiteContentProvider'
 
 export default function RenuevePage() {
+  const { treatments, pages } = useSiteContent()
+  const faciales = treatments.filter((t) => t.category === 'faciales')
+  const hero = pages.renueva?.find((block) => block.key === 'hero')?.content
   return (
     <div style={{ background: 'var(--ivory)' }}>
 
       {/* Hero */}
       <div style={{ position: 'relative', height: 260, background: '#F0E2DA', overflow: 'hidden' }}>
-        <img src="/img/renueva-1.jpg" alt="Faciales Lucienne" loading="eager"
+        <img src={hero?.image || '/img/renueva-1.jpg'} alt="Faciales Lucienne" loading="eager"
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(26,18,9,0.08) 0%, rgba(26,18,9,0.62) 100%)' }} />
         <div style={{ position: 'absolute', bottom: 24, left: 24, right: 24 }}>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.85)', fontWeight: 500, marginBottom: 6 }}>Faciales y diagnóstico</p>
-          <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 38, color: '#FEFCF8', fontWeight: 300, lineHeight: 1.05 }}>Renueva</h1>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.85)', fontWeight: 500, marginBottom: 6 }}>{hero?.eyebrow || 'Faciales y diagnóstico'}</p>
+          <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 38, color: '#FEFCF8', fontWeight: 300, lineHeight: 1.05 }}>{hero?.title || 'Renueva'}</h1>
         </div>
       </div>
 
       <div style={{ padding: '28px 22px 8px' }}>
         <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 14, color: 'var(--taupe)', lineHeight: 1.75 }}>
-          Tu piel merece atención personalizada. Empezamos por entenderla antes de tratarla.
+          {hero?.body || 'Tu piel merece atención personalizada. Empezamos por entenderla antes de tratarla.'}
         </p>
       </div>
 
