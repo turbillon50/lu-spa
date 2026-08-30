@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server'
 import { sql } from '../../../lib/db'
 
-// Mismo nivel de apertura que la pagina /admin (sin Clerk, a peticion de
-// Luis -- ver decision del 24-ago). Si en algun momento se quiere blindar,
-// esta es la ruta a proteger.
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const hoy = new Date().toISOString().slice(0, 10)

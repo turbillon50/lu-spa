@@ -1,75 +1,23 @@
-'use client'
-import { useState } from 'react'
-import { clientasRecientes } from '../../data/admin'
+import { updateClient } from '../actions'
+import { Badge, Card, EmptyState, formatMXN, PageHeader } from '../_components/AdminUI'
+import { getClients } from '../../lib/admin-data'
 
-const membresias = ['Todas', 'Signature', 'Privé', 'Essentielle', 'Sin membresía']
+export const dynamic = 'force-dynamic'
 
-export default function ClientasPage() {
-  const [search, setSearch] = useState('')
-  const [filter, setFilter] = useState('Todas')
-
-  const filtered = clientasRecientes.filter((c) => {
-    const matchSearch = !search || c.nombre.toLowerCase().includes(search.toLowerCase())
-    const matchFilter = filter === 'Todas' || (filter === 'Sin membresía' ? !c.membresia : c.membresia === filter)
-    return matchSearch && matchFilter
-  })
-
-  return (
-    <div style={{ background: '#0A0814', minHeight: '100dvh', color: '#FEFCF8' }}>
-      <div style={{ padding: '28px 22px 20px' }}>
-        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.55)', fontWeight: 500, marginBottom: 6 }}>CRM</p>
-        <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 30, color: '#FEFCF8', fontWeight: 300, marginBottom: 18 }}>Clientas</h1>
-
-        {/* Search */}
-        <div style={{ position: 'relative', marginBottom: 14 }}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(250,245,240,0.3)" strokeWidth="1.75" strokeLinecap="round" style={{ position: 'absolute', left: 13, top: '50%', transform: 'translateY(-50%)' }}>
-            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-          </svg>
-          <input type="search" placeholder="Buscar clienta…" value={search} onChange={(e) => setSearch(e.target.value)}
-            style={{ width: '100%', padding: '11px 14px 11px 36px', borderRadius: 12, border: '1px solid rgba(201,160,140,0.12)', background: 'rgba(201,160,140,0.04)', fontFamily: 'var(--font-montserrat)', fontSize: 13, color: '#FEFCF8', outline: 'none', boxSizing: 'border-box' }} />
-        </div>
-      </div>
-
-      {/* Filtros */}
-      <div style={{ display: 'flex', gap: 8, overflowX: 'auto', padding: '0 22px 20px', scrollbarWidth: 'none' }}>
-        {membresias.map((m) => (
-          <button key={m} onClick={() => setFilter(m)} style={{ flexShrink: 0, padding: '6px 14px', borderRadius: 20, border: `1px solid ${filter === m ? '#C9A08C' : 'rgba(201,160,140,0.12)'}`, background: filter === m ? 'rgba(201,160,140,0.12)' : 'transparent', color: filter === m ? '#C9A08C' : 'rgba(250,245,240,0.4)', fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.06em', cursor: 'pointer' }}>
-            {m}
-          </button>
-        ))}
-      </div>
-
-      {/* Lista */}
-      <div style={{ padding: '0 22px 30px' }}>
-        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 10, color: 'rgba(250,245,240,0.25)', letterSpacing: '0.06em', marginBottom: 12 }}>{filtered.length} clientas</p>
-        {filtered.map((c) => (
-          <div key={c.nombre} style={{ background: 'rgba(201,160,140,0.03)', border: '1px solid rgba(201,160,140,0.07)', borderRadius: 14, padding: '16px', marginBottom: 10 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-              <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(201,160,140,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: 20, color: '#C9A08C' }}>{c.nombre[0]}</span>
-              </div>
-              <div>
-                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 14, color: '#FEFCF8', fontWeight: 600, marginBottom: 2 }}>{c.nombre}</p>
-                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 11, color: c.membresia ? '#C9A08C' : 'rgba(250,245,240,0.35)' }}>{c.membresia || 'Sin membresía'}</p>
-              </div>
-            </div>
-            <div style={{ display: 'flex', gap: 16, paddingTop: 10, borderTop: '1px solid rgba(201,160,140,0.06)' }}>
-              <div>
-                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, color: 'rgba(201,160,140,0.4)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 3 }}>Visitas</p>
-                <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 20, color: '#FEFCF8', fontVariantNumeric: 'tabular-nums' }}>{c.visitas}</p>
-              </div>
-              <div>
-                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, color: 'rgba(201,160,140,0.4)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 3 }}>Última visita</p>
-                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(250,245,240,0.5)' }}>{c.ultimaVisita}</p>
-              </div>
-              <div>
-                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, color: 'rgba(201,160,140,0.4)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 3 }}>Gasto total</p>
-                <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 18, color: '#C9A08C', fontVariantNumeric: 'tabular-nums' }}>${c.gasto.toLocaleString('es-MX')}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
+export default async function ClientsPage() {
+  const clients = await getClients()
+  return <div className="admin-page">
+    <PageHeader eyebrow="CRM y expediente" title="Clientas" description="Historial, valor, membresía y notas privadas del equipo." />
+    <Card title="Directorio" subtitle={`${clients.length} registros reales`}>
+      {clients.length ? <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Clienta</th><th>Contacto</th><th>Membresía</th><th>Visitas</th><th>Última visita</th><th>Valor</th><th>Expediente</th></tr></thead><tbody>{clients.map((client) => <tr key={client.id}>
+        <td><strong>{client.nombre}</strong></td>
+        <td>{client.email || client.telefono || 'Sin contacto'}</td>
+        <td><Badge status={client.membresia || 'Sin membresía'}/></td>
+        <td className="admin-number">{client.visitas}</td>
+        <td>{client.ultimaVisita ? new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(`${client.ultimaVisita}T12:00:00`)) : '—'}</td>
+        <td className="admin-money">{client.gasto ? formatMXN(client.gasto) : '—'}</td>
+        <td><details className="admin-inline-details"><summary>Ver / editar</summary><form action={updateClient} className="admin-form"><input type="hidden" name="id" value={client.id}/><label>Teléfono<input name="telefono" defaultValue={client.telefono || ''}/></label><label>Alergias y contraindicaciones<textarea name="alergias"/></label><label>Preferencias<textarea name="preferencias"/></label><label>Notas internas<textarea name="notas" defaultValue={client.notas || ''}/></label><button className="admin-primary-button">Guardar expediente</button></form></details></td>
+      </tr>)}</tbody></table></div> : <EmptyState title="Todavía no hay clientas" description="Las cuentas creadas con Clerk y las reservas reales alimentarán este CRM automáticamente." />}
+    </Card>
+  </div>
 }

@@ -1,62 +1,41 @@
-'use client'
-import { useState } from 'react'
-import { reservasHoy } from '../../data/admin'
+import { createReservation, updateReservation } from '../actions'
+import { Badge, Card, EmptyState, formatMXN, PageHeader } from '../_components/AdminUI'
+import { getAgenda, getClients, getServices, getStaffAndRooms } from '../../lib/admin-data'
 
-const estados = ['Todas', 'confirmada', 'en-curso', 'pendiente', 'cancelada']
-const estadoLabel: Record<string, string> = { 'confirmada': 'Confirmada', 'en-curso': 'En curso', 'pendiente': 'Pendiente', 'cancelada': 'Cancelada' }
-const estadoColor: Record<string, string> = { 'confirmada': '#C9A08C', 'en-curso': '#FEFCF8', 'pendiente': 'rgba(250,245,240,0.5)', 'cancelada': 'rgba(254,100,100,0.5)' }
+export const dynamic = 'force-dynamic'
 
-export default function ReservasPage() {
-  const [filter, setFilter] = useState('Todas')
+export default async function AgendaPage({ searchParams }: { searchParams?: { fecha?: string } }) {
+  const date = searchParams?.fecha && /^\d{4}-\d{2}-\d{2}$/.test(searchParams.fecha) ? searchParams.fecha : new Date().toLocaleDateString('en-CA', { timeZone: 'America/Mexico_City' })
+  const [agenda, clients, services, resources] = await Promise.all([getAgenda(date), getClients(), getServices(), getStaffAndRooms()])
+  return <div className="admin-page">
+    <PageHeader eyebrow="Recepción" title="Agenda" description="Citas, asignación de terapeuta y cabina en una sola línea de trabajo." actions={<form className="admin-toolbar"><input type="date" name="fecha" defaultValue={date}/><button className="admin-secondary-button">Ir a fecha</button></form>} />
 
-  const filtered = filter === 'Todas' ? reservasHoy : reservasHoy.filter((r) => r.estado === filter)
+    <Card title="Nueva cita" subtitle="Alta manual desde recepción">
+      <details>
+        <summary className="admin-primary-button" style={{ width: 'fit-content', cursor: 'pointer' }}>Crear cita</summary>
+        <form action={createReservation} className="admin-form admin-form--2" style={{ marginTop: 18 }}>
+          <label>Clienta<select name="clienteId" required defaultValue=""><option value="" disabled>Selecciona</option>{clients.map((item) => <option key={item.id} value={item.id}>{item.nombre}</option>)}</select></label>
+          <label>Servicio<select name="tratamientoId" required defaultValue=""><option value="" disabled>Selecciona</option>{services.filter((item) => item.activo).map((item) => <option key={item.id} value={item.id}>{item.nombre} · {item.duracion} min</option>)}</select></label>
+          <label>Fecha<input name="fecha" type="date" required defaultValue={date}/></label>
+          <label>Hora<input name="hora" type="time" required/></label>
+          <label>Terapeuta<select name="staffId" defaultValue=""><option value="">Sin asignar</option>{resources.staff.filter((item) => item.activo).map((item) => <option key={item.id} value={item.id}>{item.nombre}</option>)}</select></label>
+          <label>Cabina<select name="roomId" defaultValue=""><option value="">Sin asignar</option>{resources.rooms.filter((item) => item.activa).map((item) => <option key={item.id} value={item.id}>{item.nombre}</option>)}</select></label>
+          <label style={{ gridColumn: '1 / -1' }}>Notas<textarea name="notas" placeholder="Preferencias, preparación o contexto para el equipo"/></label>
+          <button className="admin-primary-button" type="submit">Guardar cita</button>
+        </form>
+      </details>
+    </Card>
 
-  return (
-    <div style={{ background: '#0A0814', minHeight: '100dvh', color: '#FEFCF8' }}>
-      <div style={{ padding: '28px 22px 20px' }}>
-        <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.55)', fontWeight: 500, marginBottom: 6 }}>Hoy — Lunes 24 ago</p>
-        <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 30, color: '#FEFCF8', fontWeight: 300 }}>Reservas</h1>
-      </div>
-
-      {/* Filtros */}
-      <div style={{ display: 'flex', gap: 8, overflowX: 'auto', padding: '0 22px 20px', scrollbarWidth: 'none' }}>
-        {estados.map((e) => (
-          <button key={e} onClick={() => setFilter(e)} style={{ flexShrink: 0, padding: '6px 14px', borderRadius: 20, border: `1px solid ${filter === e ? '#C9A08C' : 'rgba(201,160,140,0.15)'}`, background: filter === e ? 'rgba(201,160,140,0.12)' : 'transparent', color: filter === e ? '#C9A08C' : 'rgba(250,245,240,0.4)', fontFamily: 'var(--font-montserrat)', fontSize: 10, letterSpacing: '0.06em', textTransform: 'uppercase', cursor: 'pointer' }}>
-            {e === 'Todas' ? 'Todas' : estadoLabel[e]}
-          </button>
-        ))}
-      </div>
-
-      {/* Lista */}
-      <div style={{ padding: '0 22px 20px' }}>
-        {filtered.map((r) => (
-          <div key={r.id} style={{ background: 'rgba(201,160,140,0.04)', border: '1px solid rgba(201,160,140,0.08)', borderRadius: 14, padding: '16px', marginBottom: 10 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-              <div>
-                <h3 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 20, color: '#FEFCF8', marginBottom: 2 }}>{r.clienta}</h3>
-                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 12, color: 'rgba(250,245,240,0.5)' }}>{r.tratamiento}</p>
-              </div>
-              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', color: estadoColor[r.estado] || '#FEFCF8', fontWeight: 600 }}>
-                {estadoLabel[r.estado] || r.estado}
-              </span>
-            </div>
-            <div style={{ display: 'flex', gap: 16 }}>
-              <div>
-                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.4)', marginBottom: 2 }}>Hora</p>
-                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: '#FEFCF8', fontVariantNumeric: 'tabular-nums' }}>{r.hora}</p>
-              </div>
-              <div>
-                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.4)', marginBottom: 2 }}>Cabina</p>
-                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: '#FEFCF8' }}>{r.cabina}</p>
-              </div>
-              <div>
-                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(201,160,140,0.4)', marginBottom: 2 }}>Duración</p>
-                <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: 13, color: '#FEFCF8' }}>{r.duracion}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
+    <Card title={new Intl.DateTimeFormat('es-MX', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'America/Mexico_City' }).format(new Date(`${date}T12:00:00-06:00`))} subtitle={`${agenda.length} citas registradas`} className="admin-agenda-card">
+      {agenda.length ? <div className="admin-list">{agenda.map((item) => <form action={updateReservation} className="admin-list-row admin-agenda-row" key={item.id}>
+        <input type="hidden" name="id" value={item.id}/>
+        <span className="admin-list-row__time">{item.hora}</span>
+        <div className="admin-list-row__main"><strong>{item.clienta}</strong><span>{item.tratamiento} · {item.duracion} min · {formatMXN(item.precio)}</span></div>
+        <select name="staffId" defaultValue={item.staffId || ''} aria-label="Terapeuta"><option value="">Sin terapeuta</option>{resources.staff.filter((member) => member.activo).map((member) => <option key={member.id} value={member.id}>{member.nombre}</option>)}</select>
+        <select name="roomId" defaultValue={item.cabinaId || ''} aria-label="Cabina"><option value="">Sin cabina</option>{resources.rooms.filter((room) => room.activa).map((room) => <option key={room.id} value={room.id}>{room.nombre}</option>)}</select>
+        <select name="estado" defaultValue={item.estado} aria-label="Estado"><option value="pendiente">Pendiente</option><option value="confirmada">Confirmada</option><option value="en-curso">En curso</option><option value="completada">Completada</option><option value="cancelada">Cancelada</option><option value="no-show">No asistió</option></select>
+        <Badge status={item.estado}/><button className="admin-secondary-button" type="submit">Guardar</button>
+      </form>)}</div> : <EmptyState title="Sin citas para esta fecha" description="Puedes crear una cita manual o esperar una reserva desde la app de Lucienne." />}
+    </Card>
+  </div>
 }
